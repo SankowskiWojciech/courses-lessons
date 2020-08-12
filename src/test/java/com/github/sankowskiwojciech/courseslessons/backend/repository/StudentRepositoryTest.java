@@ -37,7 +37,7 @@ public class StudentRepositoryTest {
     }
 
     @Test
-    public void shouldFindStudentAndHisParentCorrectly() {
+    public void shouldFindStudentAndHisParentAndHisLessonsCorrectly() {
         //given
         String studentEmailAddressStub = STUDENT_EMAIL_ADDRESS_STUB;
         String parentEmailAddressStub = PARENT_EMAIL_ADDRESS_STUB;
@@ -52,5 +52,6 @@ public class StudentRepositoryTest {
         ParentEntity parentEntity = studentEntity.getParent();
         assertNotNull(parentEntity);
         assertEquals(parentEmailAddressStub, parentEntity.getEmailAddress());
+        assertFalse(studentEntity.getIndividualLessons().isEmpty());
     }
 }

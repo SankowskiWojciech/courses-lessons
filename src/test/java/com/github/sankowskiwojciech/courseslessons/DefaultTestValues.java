@@ -32,6 +32,6 @@ public interface DefaultTestValues {
 
     //lesson
     long INDIVIDUAL_LESSON_ID_STUB = 1;
-    String LESSON_TITLE_STUB = "Lesson title example.";
-    String LESSON_DESCRIPTION_STUB = "Lesson description example.";
+    String LESSON_TITLE_STUB = "Tytul lekcji.";
+    String LESSON_DESCRIPTION_STUB = "Opis lekcji.";
 }

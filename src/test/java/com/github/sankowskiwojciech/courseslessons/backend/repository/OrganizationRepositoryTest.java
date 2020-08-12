@@ -38,9 +38,11 @@ public class OrganizationRepositoryTest {
         String organizationAlias = ORGANIZATION_ALIAS_STUB;
 
         //when
-        Optional<OrganizationEntity> organizationEntity = testee.findByAlias(organizationAlias);
+        Optional<OrganizationEntity> organizationEntityOptional = testee.findByAlias(organizationAlias);
 
         //then
-        assertTrue(organizationEntity.isPresent());
+        assertTrue(organizationEntityOptional.isPresent());
+        OrganizationEntity organizationEntity = organizationEntityOptional.get();
+        assertFalse(organizationEntity.getIndividualLessons().isEmpty());
     }
 }

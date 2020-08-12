@@ -1,5 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.model.db.tutor;
 
+import com.github.sankowskiwojciech.courseslessons.model.db.individuallesson.IndividualLessonEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -9,7 +10,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Set;
 
 @Getter
 @AllArgsConstructor
@@ -17,7 +20,7 @@ import javax.persistence.Table;
 @Builder
 @Entity
 @Table(name = "TUTOR")
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "individualLessons")
 public class TutorEntity {
 
     @Id
@@ -38,4 +41,7 @@ public class TutorEntity {
 
     @Column(name = "PHONE_NUMBER", length = 9)
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "tutorEntity")
+    private Set<IndividualLessonEntity> individualLessons;
 }

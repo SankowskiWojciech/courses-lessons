@@ -1,5 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.model.db.student;
 
+import com.github.sankowskiwojciech.courseslessons.model.db.individuallesson.IndividualLessonEntity;
 import com.github.sankowskiwojciech.courseslessons.model.db.parent.ParentEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Set;
 
 @Getter
 @AllArgsConstructor
@@ -21,7 +24,7 @@ import javax.persistence.Table;
 @Builder
 @Entity
 @Table(name = "STUDENT")
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "individualLessons")
 public class StudentEntity {
 
     @Id
@@ -40,4 +43,7 @@ public class StudentEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_ID")
     private ParentEntity parent;
+
+    @OneToMany(mappedBy = "studentEntity")
+    private Set<IndividualLessonEntity> individualLessons;
 }

@@ -38,9 +38,11 @@ public class TutorRepositoryTest {
         String tutorAlias = TUTOR_ALIAS_STUB;
 
         //when
-        Optional<TutorEntity> tutorEntity = testee.findByAlias(tutorAlias);
+        Optional<TutorEntity> tutorEntityOptional = testee.findByAlias(tutorAlias);
 
         //then
-        assertTrue(tutorEntity.isPresent());
+        assertTrue(tutorEntityOptional.isPresent());
+        TutorEntity tutorEntity = tutorEntityOptional.get();
+        assertFalse(tutorEntity.getIndividualLessons().isEmpty());
     }
 }
