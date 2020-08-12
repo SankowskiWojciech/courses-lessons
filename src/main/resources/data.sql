@@ -36,6 +36,6 @@ insert into TOKEN(TOKEN_ID, TOKEN_VALUE, USER_EMAIL_ADDRESS, ACCOUNT_TYPE, RSA_P
 
 -- LESSONS
 insert into INDIVIDUAL_LESSON(LESSON_ID, TITLE, DATE_OF_LESSON, DESCRIPTION, ORGANIZATION_ID, TUTOR_ID, STUDENT_ID)
-values (1, 'Lekcja 1', '2021-07-18T18:21:14.144', 'Opis lekcji', 'info@zslitnr1.pl', 'sankowski.wojciech@gmail.com', 'marcin.b@gmail.com');
+values (1, 'Lekcja 1', '2021-07-18T18:21:14.144', 'Opis lekcji', 'not.spam@dancewithme.pl', 'sankowski.wojciech@gmail.com', 'marcin.b@gmail.com');
 insert into INDIVIDUAL_LESSON(LESSON_ID, TITLE, DATE_OF_LESSON, DESCRIPTION, ORGANIZATION_ID, TUTOR_ID, STUDENT_ID)
 values (2, 'Tytul 123', '2021-07-18T18:21:14.144', 'Lekcja opis itd', 'not.spam@dancewithme.pl', 'sankowski.wojciech@gmail.com', 'marcin.b@gmail.com');
