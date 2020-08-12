@@ -18,6 +18,10 @@ values ('kbac@gmail.com', 'Kamil', 'Baczewski');
 insert into STUDENT(EMAIL_ADDRESS, FIRST_NAME, LAST_NAME, PARENT_ID)
 values ('marcin.b@gmail.com', 'Marcin', 'Baczewski', 'kbac@gmail.com');
 
+-- SUBDOMAIN USER ACCESSES
+insert into SUBDOMAIN_USER_ACCESS(SUBDOMAIN_EMAIL_ADDRESS, USER_EMAIL_ADDRESS)
+values ('info@zslitnr1.pl', 'sankowski.wojciech@gmail.com');
+
 -- TOKENS
 insert into TOKEN(TOKEN_ID, TOKEN_VALUE, USER_EMAIL_ADDRESS, ACCOUNT_TYPE, RSA_PUBLIC_KEY, CREATION_DATE_TIME, EXPIRATION_DATE_TIME)
 values ('token1', 'tokenNotIssuedForProvidedClient', 'sankowski.wojciech@gmail.com', 'TUTOR', 'rsaPublicKey', '2020-07-18T18:21:14.144', '2220-07-18T18:21:14.144');

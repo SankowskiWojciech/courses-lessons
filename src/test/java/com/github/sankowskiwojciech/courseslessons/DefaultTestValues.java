@@ -2,6 +2,9 @@ package com.github.sankowskiwojciech.courseslessons;
 
 public interface DefaultTestValues {
 
+    //subdomain
+    String SUBDOMAIN_NAME_STUB = "ssit";
+
     //organization
     String ORGANIZATION_ALIAS_STUB = "ssit";
     String ORGANIZATION_NAME_STUB = "Szkoła śpiewu i tańca";
