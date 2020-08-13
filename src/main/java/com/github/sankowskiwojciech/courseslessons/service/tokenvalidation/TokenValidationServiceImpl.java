@@ -15,18 +15,20 @@ public class TokenValidationServiceImpl implements TokenValidationService {
     private final TokenRepository tokenRepository;
 
     @Override
-    public void validateToken(String tokenValue) {
+    public TokenEntity validateToken(String tokenValue) {
         TokenEntity tokenEntity = readTokenByTokenValue(tokenValue);
         validateIfTokenIsNotRevoked(tokenEntity.getRevocationDateTime());
         validateIfTokenIsNotExpired(tokenEntity.getExpirationDateTime());
+        return tokenEntity;
     }
 
     @Override
-    public void validateTokenAndUser(String tokenValue, String providedUserEmailAddress) {
+    public TokenEntity validateTokenAndUser(String tokenValue, String providedUserEmailAddress) {
         TokenEntity tokenEntity = readTokenByTokenValue(tokenValue);
         validateIfTokenIsNotRevoked(tokenEntity.getRevocationDateTime());
         validateIfTokenIsNotExpired(tokenEntity.getExpirationDateTime());
         validateIfTokenIsIssuedForProvidedUser(tokenEntity.getUserEmailAddress(), providedUserEmailAddress);
+        return tokenEntity;
     }
 
     private TokenEntity readTokenByTokenValue(String tokenValue) {

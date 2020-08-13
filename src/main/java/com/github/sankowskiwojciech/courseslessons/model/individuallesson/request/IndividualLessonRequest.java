@@ -1,4 +1,4 @@
-package com.github.sankowskiwojciech.courseslessons.model.individuallesson;
+package com.github.sankowskiwojciech.courseslessons.model.individuallesson.request;
 
 import lombok.Builder;
 import lombok.Getter;

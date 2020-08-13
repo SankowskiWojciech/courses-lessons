@@ -1,8 +1,10 @@
 package com.github.sankowskiwojciech.courseslessons.service.tokenvalidation;
 
+import com.github.sankowskiwojciech.courseslessons.model.db.token.TokenEntity;
+
 public interface TokenValidationService {
 
-    void validateToken(String tokenValue);
+    TokenEntity validateToken(String tokenValue);
 
-    void validateTokenAndUser(String tokenValue, String userEmailAddress);
+    TokenEntity validateTokenAndUser(String tokenValue, String userEmailAddress);
 }

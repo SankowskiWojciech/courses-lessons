@@ -4,7 +4,7 @@ import com.github.sankowskiwojciech.courseslessons.model.db.organization.Organiz
 import com.github.sankowskiwojciech.courseslessons.model.db.student.StudentEntity;
 import com.github.sankowskiwojciech.courseslessons.model.db.tutor.TutorEntity;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLesson;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonRequest;
+import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequest;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonRequestStub;
 import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;

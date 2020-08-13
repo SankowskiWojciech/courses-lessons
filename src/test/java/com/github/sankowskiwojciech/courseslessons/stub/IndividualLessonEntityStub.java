@@ -27,4 +27,16 @@ public class IndividualLessonEntityStub {
                 .studentEntity(studentEntity)
                 .build();
     }
+
+    public static IndividualLessonEntity create() {
+        return IndividualLessonEntity.builder()
+                .lessonId(INDIVIDUAL_LESSON_ID_STUB)
+                .title(LESSON_TITLE_STUB)
+                .dateOfLesson(LocalDateTime.now().plusMonths(1))
+                .description(LESSON_DESCRIPTION_STUB)
+                .organizationEntity(OrganizationEntityStub.create())
+                .tutorEntity(TutorEntityStub.create())
+                .studentEntity(StudentEntityStub.create())
+                .build();
+    }
 }

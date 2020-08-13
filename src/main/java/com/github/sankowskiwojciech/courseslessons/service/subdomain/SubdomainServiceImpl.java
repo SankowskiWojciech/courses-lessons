@@ -12,6 +12,7 @@ import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.service.subdomain.transformer.OrganizationEntityToSubdomain;
 import com.github.sankowskiwojciech.courseslessons.service.subdomain.transformer.TutorEntityToSubdomain;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -26,6 +27,9 @@ public class SubdomainServiceImpl implements SubdomainService {
 
     @Override
     public Subdomain readSubdomainInformationIfSubdomainExists(String subdomainName) {
+        if (StringUtils.isBlank(subdomainName)) {
+            throw new SubdomainNotFoundException();
+        }
         Optional<OrganizationEntity> organizationEntity = organizationRepository.findByAlias(subdomainName);
         if (organizationEntity.isPresent()) {
             return OrganizationEntityToSubdomain.getInstance().apply(organizationEntity.get());

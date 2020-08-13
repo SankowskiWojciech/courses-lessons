@@ -11,6 +11,7 @@ import com.github.sankowskiwojciech.courseslessons.model.exception.UserNotAllowe
 import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -26,6 +27,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 public class SubdomainServiceImplTest {
@@ -38,6 +40,22 @@ public class SubdomainServiceImplTest {
     @Before
     public void reset() {
         Mockito.reset(organizationRepositoryMock, tutorRepositoryMock, subdomainUserAccessRepositoryMock);
+    }
+
+    @Test(expected = SubdomainNotFoundException.class)
+    public void shouldThrowSubdomainNotFoundExceptionWhenSubdomainNameIsNotValid() {
+        //given
+        String subdomainName = StringUtils.EMPTY;
+
+        //when
+        try {
+            Subdomain subdomain = testee.readSubdomainInformationIfSubdomainExists(subdomainName);
+        } catch (SubdomainNotFoundException e) {
+
+            //then exception is thrown
+            verifyNoInteractions(organizationRepositoryMock, tutorRepositoryMock);
+            throw e;
+        }
     }
 
     @Test(expected = SubdomainNotFoundException.class)

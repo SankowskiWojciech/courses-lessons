@@ -11,7 +11,7 @@ import com.github.sankowskiwojciech.courseslessons.model.exception.SubdomainNotF
 import com.github.sankowskiwojciech.courseslessons.model.exception.UserNotAllowedToAccessSubdomainException;
 import com.github.sankowskiwojciech.courseslessons.model.exception.UserNotAllowedToCreateLesson;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLesson;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonRequest;
+import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequest;
 import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.model.subdomain.SubdomainType;
 import com.github.sankowskiwojciech.courseslessons.service.subdomain.SubdomainService;

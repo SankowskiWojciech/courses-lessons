@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.STUDENT_EMAIL_ADDRESS_STUB;
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.TOKEN_VALUE_STUB;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -36,7 +37,7 @@ public class TokenValidationServiceImplTest {
 
         //when
         try {
-            testee.validateToken(tokenValueStub);
+            TokenEntity tokenEntity = testee.validateToken(tokenValueStub);
         } catch (InvalidTokenException e) {
 
             //then exception is thrown
@@ -54,7 +55,7 @@ public class TokenValidationServiceImplTest {
 
         //when
         try {
-            testee.validateToken(tokenValueStub);
+            TokenEntity tokenEntity = testee.validateToken(tokenValueStub);
         } catch (InvalidTokenException e) {
 
             //then exception is thrown
@@ -91,7 +92,7 @@ public class TokenValidationServiceImplTest {
 
         //when
         try {
-            testee.validateTokenAndUser(tokenValueStub, userEmailAddressStub);
+            TokenEntity tokenEntity = testee.validateTokenAndUser(tokenValueStub, userEmailAddressStub);
         } catch (InvalidTokenException e) {
 
             //then exception is thrown
@@ -108,9 +109,10 @@ public class TokenValidationServiceImplTest {
         when(tokenRepositoryMock.findByTokenValue(eq(tokenValueStub))).thenReturn(Optional.of(tokenEntityStub));
 
         //when
-        testee.validateToken(tokenValueStub);
+        TokenEntity tokenEntity = testee.validateToken(tokenValueStub);
 
         //then nothing happens
         verify(tokenRepositoryMock).findByTokenValue(eq(tokenValueStub));
+        assertEquals(tokenEntityStub, tokenEntity);
     }
 }

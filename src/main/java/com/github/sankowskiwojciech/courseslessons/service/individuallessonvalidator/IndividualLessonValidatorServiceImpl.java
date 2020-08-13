@@ -9,7 +9,7 @@ import com.github.sankowskiwojciech.courseslessons.model.db.tutor.TutorEntity;
 import com.github.sankowskiwojciech.courseslessons.model.exception.StudentNotFoundException;
 import com.github.sankowskiwojciech.courseslessons.model.exception.UserNotAllowedToCreateLesson;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLesson;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonRequest;
+import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequest;
 import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.model.subdomain.SubdomainType;
 import com.github.sankowskiwojciech.courseslessons.service.individuallessonvalidator.transformer.IndividualLessonRequestAndExternalEntitiesToIndividualLesson;
