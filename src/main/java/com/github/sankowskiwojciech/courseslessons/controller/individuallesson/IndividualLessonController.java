@@ -46,6 +46,7 @@ public class IndividualLessonController {
         return individualLessonService.createIndividualLesson(individualLesson);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
     public List<IndividualLessonResponse> readIndividualLessons(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam(value = "subdomainName", required = false) String subdomainName, @RequestParam(value = "fromDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fromDate, @RequestParam(value = "toDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime toDate) {
         TokenEntity tokenEntity = tokenValidationService.validateToken(authorizationHeaderValue);
