@@ -54,8 +54,9 @@ public class IndividualLessonServiceImplTest {
         assertEquals(individualLessonStub.getDateOfLesson(), individualLessonResponse.getDateOfLesson());
         assertEquals(individualLessonStub.getDescription(), individualLessonResponse.getDescription());
         assertEquals(individualLessonStub.getOrganizationEntity().getAlias(), individualLessonResponse.getSubdomainName());
-        assertEquals(individualLessonStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorId());
-        assertEquals(individualLessonStub.getStudentEntity().getEmailAddress(), individualLessonResponse.getStudentId());
+        assertEquals(individualLessonStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorEmailAddress());
+        assertNotNull(individualLessonResponse.getStudentFullName());
+        assertEquals(individualLessonStub.getStudentEntity().getEmailAddress(), individualLessonResponse.getStudentEmailAddress());
     }
 
     @Test
@@ -81,7 +82,8 @@ public class IndividualLessonServiceImplTest {
         assertEquals(individualLessonEntityStub.getDateOfLesson(), individualLessonResponse.getDateOfLesson());
         assertEquals(individualLessonEntityStub.getDescription(), individualLessonResponse.getDescription());
         assertEquals(individualLessonEntityStub.getOrganizationEntity().getAlias(), individualLessonResponse.getSubdomainName());
-        assertEquals(individualLessonEntityStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorId());
-        assertEquals(individualLessonEntityStub.getStudentEntity().getEmailAddress(), individualLessonResponse.getStudentId());
+        assertEquals(individualLessonEntityStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorEmailAddress());
+        assertNotNull(individualLessonResponse.getStudentFullName());
+        assertEquals(individualLessonEntityStub.getStudentEntity().getEmailAddress(), individualLessonResponse.getStudentEmailAddress());
     }
 }

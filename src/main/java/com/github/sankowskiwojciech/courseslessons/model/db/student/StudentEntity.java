@@ -27,6 +27,8 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = "individualLessons")
 public class StudentEntity {
 
+    private static final String FIRST_NAME_LAST_NAME_DIVIDER = " ";
+
     @Id
     @Column(name = "EMAIL_ADDRESS", length = 50, unique = true, nullable = false, updatable = false)
     private String emailAddress;
@@ -46,4 +48,8 @@ public class StudentEntity {
 
     @OneToMany(mappedBy = "studentEntity")
     private Set<IndividualLessonEntity> individualLessons;
+
+    public String getStudentFullName() {
+        return firstName.concat(FIRST_NAME_LAST_NAME_DIVIDER).concat(lastName);
+    }
 }

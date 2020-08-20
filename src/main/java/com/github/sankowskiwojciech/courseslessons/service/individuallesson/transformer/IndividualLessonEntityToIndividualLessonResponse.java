@@ -19,8 +19,9 @@ public class IndividualLessonEntityToIndividualLessonResponse implements Functio
                 .dateOfLesson(individualLessonEntity.getDateOfLesson())
                 .description(individualLessonEntity.getDescription())
                 .subdomainName(getSubdomainName(individualLessonEntity))
-                .tutorId(individualLessonEntity.getTutorEntity().getEmailAddress())
-                .studentId(individualLessonEntity.getStudentEntity().getEmailAddress())
+                .tutorEmailAddress(individualLessonEntity.getTutorEntity().getEmailAddress())
+                .studentFullName(individualLessonEntity.getStudentEntity().getStudentFullName())
+                .studentEmailAddress(individualLessonEntity.getStudentEntity().getEmailAddress())
                 .build();
     }
 

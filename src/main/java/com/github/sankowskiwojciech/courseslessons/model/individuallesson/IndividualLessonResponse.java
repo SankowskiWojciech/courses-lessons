@@ -12,6 +12,7 @@ public class IndividualLessonResponse {
     private LocalDateTime dateOfLesson;
     private String description;
     private String subdomainName;
-    private String tutorId;
-    private String studentId;
+    private String tutorEmailAddress;
+    private String studentFullName;
+    private String studentEmailAddress;
 }
