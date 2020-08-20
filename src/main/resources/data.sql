@@ -17,6 +17,8 @@ values ('kbac@gmail.com', 'Kamil', 'Baczewski');
 -- STUDENTS
 insert into STUDENT(EMAIL_ADDRESS, FIRST_NAME, LAST_NAME, PARENT_ID)
 values ('marcin.b@gmail.com', 'Marcin', 'Baczewski', 'kbac@gmail.com');
+insert into STUDENT(EMAIL_ADDRESS, FIRST_NAME, LAST_NAME)
+values ('rawskaka@gmail.com', 'Karolina', 'Rawska');
 
 -- SUBDOMAIN USER ACCESSES
 insert into SUBDOMAIN_USER_ACCESS(SUBDOMAIN_EMAIL_ADDRESS, USER_EMAIL_ADDRESS)
@@ -35,7 +37,15 @@ insert into TOKEN(TOKEN_ID, TOKEN_VALUE, USER_EMAIL_ADDRESS, ACCOUNT_TYPE, RSA_P
 insert into TOKEN(TOKEN_ID, TOKEN_VALUE, USER_EMAIL_ADDRESS, ACCOUNT_TYPE, RSA_PUBLIC_KEY, CREATION_DATE_TIME, EXPIRATION_DATE_TIME) values ('ff40d81e-63b3-4012-84fb-ghvb34568321', 'tokenValueStub', 'sankowski.wojciech@gmail.com', 'TUTOR', 'MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQALwq2GPPSda8X5s6IcGvKTV8a+W/AtNBY1BI320wLFvoRg7tQC/iJhZ9aJo+sBzp2by4un4RehnRaBFg3nqqwOoIAJ0Oi4UaQYB+RpLAPLn9Wgkg+mlLlULwBWzqLb9qLEpA9OOq9ZbPQh/5narHYuuiD8/NDgIp9KuAN8o4MILqs9q0=', '2020-07-18T18:21:14.144', '2220-07-18T18:21:14.144');
 
 -- LESSONS
-insert into INDIVIDUAL_LESSON(LESSON_ID, TITLE, DATE_OF_LESSON, DESCRIPTION, ORGANIZATION_ID, TUTOR_ID, STUDENT_ID)
-values (1, 'Lekcja 1', '2021-07-18T18:21:14.144', 'Opis lekcji', 'not.spam@dancewithme.pl', 'sankowski.wojciech@gmail.com', 'marcin.b@gmail.com');
-insert into INDIVIDUAL_LESSON(LESSON_ID, TITLE, DATE_OF_LESSON, DESCRIPTION, ORGANIZATION_ID, TUTOR_ID, STUDENT_ID)
-values (2, 'Tytul 123', '2021-07-18T18:21:14.144', 'Lekcja opis itd', 'not.spam@dancewithme.pl', 'sankowski.wojciech@gmail.com', 'marcin.b@gmail.com');
+insert into INDIVIDUAL_LESSON(TITLE, DATE_OF_LESSON, DESCRIPTION, ORGANIZATION_ID, TUTOR_ID, STUDENT_ID, CREATION_DATE_TIME)
+values ('Angular lesson', '2020-07-22T18:00:00', 'Opis lekcji', 'not.spam@dancewithme.pl', 'sankowski.wojciech@gmail.com', 'marcin.b@gmail.com', '2020-07-17T18:00:00');
+insert into INDIVIDUAL_LESSON(TITLE, DATE_OF_LESSON, DESCRIPTION, ORGANIZATION_ID, TUTOR_ID, STUDENT_ID, CREATION_DATE_TIME)
+values ('Lekcja 1', '2020-07-18T18:00:00', 'Opis lekcji', 'info@zslitnr1.pl', 'sankowski.wojciech@gmail.com', 'marcin.b@gmail.com', '2020-07-17T18:00:00');
+insert into INDIVIDUAL_LESSON(TITLE, DATE_OF_LESSON, DESCRIPTION, ORGANIZATION_ID, TUTOR_ID, STUDENT_ID, CREATION_DATE_TIME)
+values ('Lekcja 2', '2020-07-20T18:00:00', 'Opis lekcji', 'info@zslitnr1.pl', 'sankowski.wojciech@gmail.com', 'marcin.b@gmail.com', '2020-07-19T18:00:00');
+insert into INDIVIDUAL_LESSON(TITLE, DATE_OF_LESSON, DESCRIPTION, TUTOR_ID, STUDENT_ID, CREATION_DATE_TIME)
+values ('Lekcja indywidualna bardzo', '2020-07-20T14:00:00', 'Opis lekcji', 'sankowski.wojciech@gmail.com', 'marcin.b@gmail.com', '2020-07-20T12:00:00');
+insert into INDIVIDUAL_LESSON(TITLE, DATE_OF_LESSON, DESCRIPTION, TUTOR_ID, STUDENT_ID, CREATION_DATE_TIME)
+values ('Lekcja indywidualna nr 2', '2020-07-21T14:00:00', 'Opis lekcji', 'sankowski.wojciech@gmail.com', 'rawskaka@gmail.com', '2020-07-21T10:00:00');
+insert into INDIVIDUAL_LESSON(TITLE, DATE_OF_LESSON, DESCRIPTION, ORGANIZATION_ID, TUTOR_ID, STUDENT_ID, CREATION_DATE_TIME)
+values ('Lekcja 3', '2020-07-21T18:00:00', 'Opis lekcji', 'not.spam@dancewithme.pl', 'kaminski.bart@dancewithme.pl', 'marcin.b@gmail.com', '2020-07-15T18:00:00');

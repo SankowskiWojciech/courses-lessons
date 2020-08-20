@@ -25,6 +25,7 @@ public class IndividualLessonEntityStub {
                 .organizationEntity(organizationEntity)
                 .tutorEntity(tutorEntity)
                 .studentEntity(studentEntity)
+                .creationDateTime(LocalDateTime.now())
                 .build();
     }
 
@@ -37,6 +38,7 @@ public class IndividualLessonEntityStub {
                 .organizationEntity(OrganizationEntityStub.create())
                 .tutorEntity(TutorEntityStub.create())
                 .studentEntity(StudentEntityStub.create())
+                .creationDateTime(LocalDateTime.now().minusHours(2))
                 .build();
     }
 }

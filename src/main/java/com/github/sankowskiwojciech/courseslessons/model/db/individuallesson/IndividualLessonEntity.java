@@ -54,4 +54,10 @@ public class IndividualLessonEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STUDENT_ID", nullable = false)
     private StudentEntity studentEntity;
+
+    @Column(name = "CREATION_DATE_TIME", nullable = false)
+    private LocalDateTime creationDateTime;
+
+    @Column(name = "MODIFICATION_DATE_TIME")
+    private LocalDateTime modificationDateTime;
 }

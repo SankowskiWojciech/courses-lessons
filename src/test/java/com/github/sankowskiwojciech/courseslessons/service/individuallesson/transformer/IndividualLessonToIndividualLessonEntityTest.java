@@ -31,5 +31,6 @@ public class IndividualLessonToIndividualLessonEntityTest {
         assertEquals(individualLessonStub.getOrganizationEntity(), individualLessonEntity.getOrganizationEntity());
         assertEquals(individualLessonStub.getTutorEntity(), individualLessonEntity.getTutorEntity());
         assertEquals(individualLessonStub.getStudentEntity(), individualLessonEntity.getStudentEntity());
+        assertNotNull(individualLessonEntity.getCreationDateTime());
     }
 }

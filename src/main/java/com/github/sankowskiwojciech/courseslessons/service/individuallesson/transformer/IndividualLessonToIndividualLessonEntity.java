@@ -5,6 +5,7 @@ import com.github.sankowskiwojciech.courseslessons.model.individuallesson.Indivi
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.function.Function;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -21,6 +22,7 @@ public class IndividualLessonToIndividualLessonEntity implements Function<Indivi
                 .organizationEntity(individualLesson.getOrganizationEntity())
                 .tutorEntity(individualLesson.getTutorEntity())
                 .studentEntity(individualLesson.getStudentEntity())
+                .creationDateTime(LocalDateTime.now())
                 .build();
     }
 
