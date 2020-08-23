@@ -18,4 +18,12 @@ public class StudentEntityStub {
                 .lastName(STUDENT_LAST_NAME_STUB)
                 .build();
     }
+
+    public static StudentEntity createWithEmailAddress(String studentEmailAddress) {
+        return StudentEntity.builder()
+                .emailAddress(studentEmailAddress)
+                .firstName(STUDENT_FIRST_NAME_STUB)
+                .lastName(STUDENT_LAST_NAME_STUB)
+                .build();
+    }
 }

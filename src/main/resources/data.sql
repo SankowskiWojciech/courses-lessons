@@ -19,10 +19,27 @@ insert into STUDENT(EMAIL_ADDRESS, FIRST_NAME, LAST_NAME, PARENT_ID)
 values ('marcin.b@gmail.com', 'Marcin', 'Baczewski', 'kbac@gmail.com');
 insert into STUDENT(EMAIL_ADDRESS, FIRST_NAME, LAST_NAME)
 values ('rawskaka@gmail.com', 'Karolina', 'Rawska');
+insert into STUDENT(EMAIL_ADDRESS, FIRST_NAME, LAST_NAME)
+values ('adamjan@wp.pl', 'Adam', 'Janczewski');
+insert into STUDENT(EMAIL_ADDRESS, FIRST_NAME, LAST_NAME)
+values ('4rturz', 'Artur', 'Zdun');
+
 
 -- SUBDOMAIN USER ACCESSES
 insert into SUBDOMAIN_USER_ACCESS(SUBDOMAIN_EMAIL_ADDRESS, USER_EMAIL_ADDRESS)
 values ('info@zslitnr1.pl', 'sankowski.wojciech@gmail.com');
+insert into SUBDOMAIN_USER_ACCESS(SUBDOMAIN_EMAIL_ADDRESS, USER_EMAIL_ADDRESS)
+values ('sankowski.wojciech@gmail.com', 'sankowski.wojciech@gmail.com');
+insert into SUBDOMAIN_USER_ACCESS(SUBDOMAIN_EMAIL_ADDRESS, USER_EMAIL_ADDRESS)
+values ('sankowski.wojciech@gmail.com', 'marcin.b@gmail.com');
+insert into SUBDOMAIN_USER_ACCESS(SUBDOMAIN_EMAIL_ADDRESS, USER_EMAIL_ADDRESS)
+values ('info@zslitnr1.pl', 'marcin.b@gmail.com');
+insert into SUBDOMAIN_USER_ACCESS(SUBDOMAIN_EMAIL_ADDRESS, USER_EMAIL_ADDRESS)
+values ('not.spam@dancewithme.pl', 'marcin.b@gmail.com');
+insert into SUBDOMAIN_USER_ACCESS(SUBDOMAIN_EMAIL_ADDRESS, USER_EMAIL_ADDRESS)
+values ('not.spam@dancewithme.pl', 'kaminski.bart@dancewithme.pl');
+insert into SUBDOMAIN_USER_ACCESS(SUBDOMAIN_EMAIL_ADDRESS, USER_EMAIL_ADDRESS)
+values ('sankowski.wojciech@gmail.com', 'rawskaka@gmail.com');
 
 -- TOKENS
 insert into TOKEN(TOKEN_ID, TOKEN_VALUE, USER_EMAIL_ADDRESS, ACCOUNT_TYPE, RSA_PUBLIC_KEY, CREATION_DATE_TIME, EXPIRATION_DATE_TIME)

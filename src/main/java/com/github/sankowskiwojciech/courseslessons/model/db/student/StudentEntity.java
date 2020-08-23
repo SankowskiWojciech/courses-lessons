@@ -49,7 +49,7 @@ public class StudentEntity {
     @OneToMany(mappedBy = "studentEntity")
     private Set<IndividualLessonEntity> individualLessons;
 
-    public String getStudentFullName() {
+    public String getFullName() {
         return firstName.concat(FIRST_NAME_LAST_NAME_DIVIDER).concat(lastName);
     }
 }

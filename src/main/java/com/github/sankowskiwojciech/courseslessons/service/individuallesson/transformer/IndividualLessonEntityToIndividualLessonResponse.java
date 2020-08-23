@@ -20,7 +20,7 @@ public class IndividualLessonEntityToIndividualLessonResponse implements Functio
                 .description(individualLessonEntity.getDescription())
                 .subdomainName(getSubdomainName(individualLessonEntity))
                 .tutorEmailAddress(individualLessonEntity.getTutorEntity().getEmailAddress())
-                .studentFullName(individualLessonEntity.getStudentEntity().getStudentFullName())
+                .studentFullName(individualLessonEntity.getStudentEntity().getFullName())
                 .studentEmailAddress(individualLessonEntity.getStudentEntity().getEmailAddress())
                 .build();
     }
