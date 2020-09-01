@@ -15,10 +15,11 @@ import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.TUTO
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class IndividualLessonRequestStub {
 
-    public static IndividualLessonRequest createWithDateOfLesson(LocalDateTime dateOfLesson) {
+    public static IndividualLessonRequest createWithDatesOfLesson(LocalDateTime startDateOfLesson, LocalDateTime endDateOfLesson) {
         return IndividualLessonRequest.builder()
                 .title(LESSON_TITLE_STUB)
-                .dateOfLesson(dateOfLesson)
+                .startDateOfLesson(startDateOfLesson)
+                .endDateOfLesson(endDateOfLesson)
                 .description(LESSON_DESCRIPTION_STUB)
                 .subdomainName(SUBDOMAIN_NAME_STUB)
                 .tutorId(TUTOR_EMAIL_ADDRESS_STUB)
@@ -27,9 +28,11 @@ public class IndividualLessonRequestStub {
     }
 
     public static IndividualLessonRequest createWithTitle(String title) {
+        final LocalDateTime currentDateTime = LocalDateTime.now();
         return IndividualLessonRequest.builder()
                 .title(title)
-                .dateOfLesson(LocalDateTime.now())
+                .startDateOfLesson(currentDateTime)
+                .endDateOfLesson(currentDateTime.plusHours(2))
                 .description(LESSON_DESCRIPTION_STUB)
                 .subdomainName(SUBDOMAIN_NAME_STUB)
                 .tutorId(TUTOR_EMAIL_ADDRESS_STUB)
@@ -38,9 +41,11 @@ public class IndividualLessonRequestStub {
     }
 
     public static IndividualLessonRequest create() {
+        final LocalDateTime currentDateTime = LocalDateTime.now();
         return IndividualLessonRequest.builder()
                 .title(LESSON_TITLE_STUB)
-                .dateOfLesson(LocalDateTime.now())
+                .startDateOfLesson(currentDateTime)
+                .endDateOfLesson(currentDateTime.plusHours(2))
                 .description(LESSON_DESCRIPTION_STUB)
                 .subdomainName(SUBDOMAIN_NAME_STUB)
                 .tutorId(TUTOR_EMAIL_ADDRESS_STUB)

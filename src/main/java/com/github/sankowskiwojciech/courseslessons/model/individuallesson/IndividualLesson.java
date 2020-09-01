@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 @Getter
 public class IndividualLesson {
     private String title;
-    private LocalDateTime dateOfLesson;
+    private LocalDateTime startDateOfLesson;
+    private LocalDateTime endDateOfLesson;
     private String description;
     private OrganizationEntity organizationEntity;
     private TutorEntity tutorEntity;

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,7 +89,29 @@ public class IndividualLessonRepositoryTest {
         assertNotNull(savedIndividualLessonEntity);
         assertEquals(individualLessonEntityStub.getLessonId(), savedIndividualLessonEntity.getLessonId());
         assertEquals(individualLessonEntityStub.getTitle(), savedIndividualLessonEntity.getTitle());
-        assertEquals(individualLessonEntityStub.getDateOfLesson(), savedIndividualLessonEntity.getDateOfLesson());
+        assertEquals(individualLessonEntityStub.getStartDateOfLesson(), savedIndividualLessonEntity.getStartDateOfLesson());
+        assertEquals(individualLessonEntityStub.getEndDateOfLesson(), savedIndividualLessonEntity.getEndDateOfLesson());
         assertEquals(individualLessonEntityStub.getDescription(), savedIndividualLessonEntity.getDescription());
+    }
+
+    @Test
+    public void shouldFindAllIndividualLessonsWhichCollideWithNewIndividualLesson() {
+        //given
+        final LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime existingIndividualLessonStartDate = currentDateTime;
+        LocalDateTime existingIndividualLessonEndDate = currentDateTime.plusHours(2);
+        IndividualLessonEntity existingIndividualLessonStub = IndividualLessonEntityStub.createWithDatesOfLesson(existingIndividualLessonStartDate, existingIndividualLessonEndDate);
+        LocalDateTime newIndividualLessonStartDate = currentDateTime.minusHours(1);
+        LocalDateTime newIndividualLessonEndDate = currentDateTime.plusHours(1);
+        String tutorEmailAddressStub = TUTOR_EMAIL_ADDRESS_STUB;
+
+        testee.save(existingIndividualLessonStub);
+
+        //when
+        List<IndividualLessonEntity> individualLessonEntities = testee.findAllIndividualLessonsWhichCanCollideWithNewIndividualLesson(newIndividualLessonStartDate, newIndividualLessonEndDate, tutorEmailAddressStub);
+
+        //then
+        assertNotNull(individualLessonEntities);
+        assertFalse(individualLessonEntities.isEmpty());
     }
 }

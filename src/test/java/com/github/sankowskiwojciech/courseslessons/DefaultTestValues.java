@@ -6,12 +6,13 @@ public interface DefaultTestValues {
     String SUBDOMAIN_NAME_STUB = "ssit";
 
     //organization
-    String ORGANIZATION_ALIAS_STUB = "ssit";
-    String ORGANIZATION_NAME_STUB = "Szkoła śpiewu i tańca";
-    String ORGANIZATION_DESCRIPTION_STUB = "Szkoła gdzie się uczy śpiewać i tańczyć";
-    String ORGANIZATION_EMAIL_ADDRESS_STUB = "not.spam@dancewithme.pl";
+    String ORGANIZATION_ALIAS_STUB = "zslitnr1";
+    String ORGANIZATION_NAME_STUB = "Zespół szkół licealnych i technicznych nr 1 w Warszawie";
+    String ORGANIZATION_DESCRIPTION_STUB = "Technikum mechatroniczno - informatyczne";
+    String ORGANIZATION_EMAIL_ADDRESS_STUB = "info@zslitnr1.pl";
     String ORGANIZATION_PHONE_NUMBER_STUB = "123456789";
-    String ORGANIZATION_WEBSITE_URL_STUB = "http://dancewithme.pl";
+    String ORGANIZATION_WEBSITE_URL_STUB = "http://zslitnr1.pl";
+    String ORGANIZATION_EMAIL_ADDRESS_STUB_2 = "not.spam@dancewithme.pl";
 
     //tutor
     String TUTOR_ALIAS_STUB = "wsankowski";

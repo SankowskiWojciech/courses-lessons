@@ -30,7 +30,8 @@ public class IndividualLessonRequestAndExternalEntitiesToIndividualLessonTest {
         //then
         assertNotNull(individualLesson);
         assertEquals(individualLessonRequestStub.getTitle(), individualLesson.getTitle());
-        assertEquals(individualLessonRequestStub.getDateOfLesson(), individualLesson.getDateOfLesson());
+        assertEquals(individualLessonRequestStub.getStartDateOfLesson(), individualLesson.getStartDateOfLesson());
+        assertEquals(individualLessonRequestStub.getEndDateOfLesson(), individualLesson.getEndDateOfLesson());
         assertEquals(individualLessonRequestStub.getDescription(), individualLesson.getDescription());
         assertEquals(organizationEntityStub, individualLesson.getOrganizationEntity());
         assertEquals(tutorEntityStub, individualLesson.getTutorEntity());

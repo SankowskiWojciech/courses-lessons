@@ -17,28 +17,32 @@ import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.LESS
 public class IndividualLessonEntityStub {
 
     public static IndividualLessonEntity createWithExternalEntities(OrganizationEntity organizationEntity, TutorEntity tutorEntity, StudentEntity studentEntity) {
+        final LocalDateTime currentDateTime = LocalDateTime.now();
         return IndividualLessonEntity.builder()
                 .lessonId(INDIVIDUAL_LESSON_ID_STUB)
                 .title(LESSON_TITLE_STUB)
-                .dateOfLesson(LocalDateTime.now().plusMonths(1))
+                .startDateOfLesson(currentDateTime.plusHours(1))
+                .endDateOfLesson(currentDateTime.plusHours(3))
                 .description(LESSON_DESCRIPTION_STUB)
                 .organizationEntity(organizationEntity)
                 .tutorEntity(tutorEntity)
                 .studentEntity(studentEntity)
-                .creationDateTime(LocalDateTime.now())
+                .creationDateTime(currentDateTime)
                 .build();
     }
 
-    public static IndividualLessonEntity create() {
+    public static IndividualLessonEntity createWithDatesOfLesson(LocalDateTime startDateOfLesson, LocalDateTime endDateOfLesson) {
+        final LocalDateTime currentDateTime = LocalDateTime.now();
         return IndividualLessonEntity.builder()
                 .lessonId(INDIVIDUAL_LESSON_ID_STUB)
                 .title(LESSON_TITLE_STUB)
-                .dateOfLesson(LocalDateTime.now().plusMonths(1))
+                .startDateOfLesson(startDateOfLesson)
+                .endDateOfLesson(endDateOfLesson)
                 .description(LESSON_DESCRIPTION_STUB)
                 .organizationEntity(OrganizationEntityStub.create())
                 .tutorEntity(TutorEntityStub.create())
                 .studentEntity(StudentEntityStub.create())
-                .creationDateTime(LocalDateTime.now().minusHours(2))
+                .creationDateTime(currentDateTime.minusMonths(2))
                 .build();
     }
 }

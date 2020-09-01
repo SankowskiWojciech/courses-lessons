@@ -46,14 +46,14 @@ public class AccountInfoAndIndividualLessonRequestParamsToBooleanExpression impl
 
     private BooleanExpression fromDateTimeQuery(QIndividualLessonEntity individualLessonEntity, LocalDateTime fromDateTime) {
         if (fromDateTime != null) {
-            return individualLessonEntity.dateOfLesson.eq(fromDateTime).or(individualLessonEntity.dateOfLesson.after(fromDateTime));
+            return individualLessonEntity.startDateOfLesson.eq(fromDateTime).or(individualLessonEntity.startDateOfLesson.after(fromDateTime));
         }
         return null;
     }
 
     private BooleanExpression toDateTimeQuery(QIndividualLessonEntity individualLessonEntity, LocalDateTime toDateTime) {
         if (toDateTime != null) {
-            return individualLessonEntity.dateOfLesson.before(toDateTime).or(individualLessonEntity.dateOfLesson.eq(toDateTime));
+            return individualLessonEntity.endDateOfLesson.before(toDateTime).or(individualLessonEntity.endDateOfLesson.eq(toDateTime));
         }
         return null;
     }

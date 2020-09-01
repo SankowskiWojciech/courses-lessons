@@ -26,7 +26,8 @@ public class IndividualLessonEntityToIndividualLessonResponseTest {
         //then
         assertNotNull(individualLessonResponse);
         assertEquals(individualLessonEntityStub.getTitle(), individualLessonResponse.getTitle());
-        assertEquals(individualLessonEntityStub.getDateOfLesson(), individualLessonResponse.getDateOfLesson());
+        assertEquals(individualLessonEntityStub.getStartDateOfLesson(), individualLessonResponse.getStartDateOfLesson());
+        assertEquals(individualLessonEntityStub.getEndDateOfLesson(), individualLessonResponse.getEndDateOfLesson());
         assertEquals(individualLessonEntityStub.getDescription(), individualLessonResponse.getDescription());
         assertEquals(individualLessonEntityStub.getOrganizationEntity().getAlias(), individualLessonResponse.getSubdomainName());
         assertEquals(individualLessonEntityStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorEmailAddress());
@@ -45,7 +46,8 @@ public class IndividualLessonEntityToIndividualLessonResponseTest {
         //then
         assertNotNull(individualLessonResponse);
         assertEquals(individualLessonEntityStub.getTitle(), individualLessonResponse.getTitle());
-        assertEquals(individualLessonEntityStub.getDateOfLesson(), individualLessonResponse.getDateOfLesson());
+        assertEquals(individualLessonEntityStub.getStartDateOfLesson(), individualLessonResponse.getStartDateOfLesson());
+        assertEquals(individualLessonEntityStub.getEndDateOfLesson(), individualLessonResponse.getEndDateOfLesson());
         assertEquals(individualLessonEntityStub.getDescription(), individualLessonResponse.getDescription());
         assertEquals(individualLessonEntityStub.getTutorEntity().getAlias(), individualLessonResponse.getSubdomainName());
         assertEquals(individualLessonEntityStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorEmailAddress());

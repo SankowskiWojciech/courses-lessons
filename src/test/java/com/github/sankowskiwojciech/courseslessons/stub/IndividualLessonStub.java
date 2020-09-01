@@ -18,7 +18,8 @@ public class IndividualLessonStub {
     public static IndividualLesson createWithExternalEntities(OrganizationEntity organizationEntity, TutorEntity tutorEntity, StudentEntity studentEntity) {
         return IndividualLesson.builder()
                 .title(LESSON_TITLE_STUB)
-                .dateOfLesson(LocalDateTime.now().plusMonths(1))
+                .startDateOfLesson(LocalDateTime.now().plusHours(1))
+                .endDateOfLesson(LocalDateTime.now().plusHours(3))
                 .description(LESSON_DESCRIPTION_STUB)
                 .organizationEntity(organizationEntity)
                 .tutorEntity(tutorEntity)

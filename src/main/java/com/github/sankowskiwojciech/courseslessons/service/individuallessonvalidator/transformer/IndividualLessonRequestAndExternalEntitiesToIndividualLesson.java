@@ -14,7 +14,8 @@ public class IndividualLessonRequestAndExternalEntitiesToIndividualLesson {
     public static IndividualLesson transform(IndividualLessonRequest individualLessonRequest, OrganizationEntity organizationEntity, TutorEntity tutorEntity, StudentEntity studentEntity) {
         return IndividualLesson.builder()
                 .title(individualLessonRequest.getTitle())
-                .dateOfLesson(individualLessonRequest.getDateOfLesson())
+                .startDateOfLesson(individualLessonRequest.getStartDateOfLesson())
+                .endDateOfLesson(individualLessonRequest.getEndDateOfLesson())
                 .description(individualLessonRequest.getDescription())
                 .organizationEntity(organizationEntity)
                 .tutorEntity(tutorEntity)

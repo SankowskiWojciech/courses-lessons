@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -51,7 +52,8 @@ public class IndividualLessonServiceImplTest {
 
         assertNotNull(individualLessonResponse);
         assertEquals(individualLessonStub.getTitle(), individualLessonResponse.getTitle());
-        assertEquals(individualLessonStub.getDateOfLesson(), individualLessonResponse.getDateOfLesson());
+        assertEquals(individualLessonStub.getStartDateOfLesson(), individualLessonResponse.getStartDateOfLesson());
+        assertEquals(individualLessonStub.getEndDateOfLesson(), individualLessonResponse.getEndDateOfLesson());
         assertEquals(individualLessonStub.getDescription(), individualLessonResponse.getDescription());
         assertEquals(individualLessonStub.getOrganizationEntity().getAlias(), individualLessonResponse.getSubdomainName());
         assertEquals(individualLessonStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorEmailAddress());
@@ -64,7 +66,7 @@ public class IndividualLessonServiceImplTest {
         //given
         AccountInfo accountInfoStub = AccountInfoStub.create();
         IndividualLessonRequestParams individualLessonRequestParamsStub = IndividualLessonRequestParamsStub.create();
-        IndividualLessonEntity individualLessonEntityStub = IndividualLessonEntityStub.create();
+        IndividualLessonEntity individualLessonEntityStub = IndividualLessonEntityStub.createWithDatesOfLesson(LocalDateTime.now().minusHours(1), LocalDateTime.now().plusHours(1));
         Iterable<IndividualLessonEntity> individualLessonEntitiesStub = Lists.newArrayList(individualLessonEntityStub);
 
         when(individualLessonRepositoryMock.findAll(any(BooleanExpression.class))).thenReturn(individualLessonEntitiesStub);
@@ -79,7 +81,8 @@ public class IndividualLessonServiceImplTest {
         assertEquals(1, individualLessonResponseList.size());
         IndividualLessonResponse individualLessonResponse = individualLessonResponseList.stream().findFirst().get();
         assertEquals(individualLessonEntityStub.getTitle(), individualLessonResponse.getTitle());
-        assertEquals(individualLessonEntityStub.getDateOfLesson(), individualLessonResponse.getDateOfLesson());
+        assertEquals(individualLessonEntityStub.getStartDateOfLesson(), individualLessonResponse.getStartDateOfLesson());
+        assertEquals(individualLessonEntityStub.getEndDateOfLesson(), individualLessonResponse.getEndDateOfLesson());
         assertEquals(individualLessonEntityStub.getDescription(), individualLessonResponse.getDescription());
         assertEquals(individualLessonEntityStub.getOrganizationEntity().getAlias(), individualLessonResponse.getSubdomainName());
         assertEquals(individualLessonEntityStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorEmailAddress());

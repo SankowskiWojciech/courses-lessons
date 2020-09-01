@@ -17,7 +17,8 @@ public class IndividualLessonToIndividualLessonEntity implements Function<Indivi
     public IndividualLessonEntity apply(IndividualLesson individualLesson) {
         return IndividualLessonEntity.builder()
                 .title(individualLesson.getTitle())
-                .dateOfLesson(individualLesson.getDateOfLesson())
+                .startDateOfLesson(individualLesson.getStartDateOfLesson())
+                .endDateOfLesson(individualLesson.getEndDateOfLesson())
                 .description(individualLesson.getDescription())
                 .organizationEntity(individualLesson.getOrganizationEntity())
                 .tutorEntity(individualLesson.getTutorEntity())

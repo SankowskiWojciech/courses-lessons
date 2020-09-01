@@ -37,8 +37,11 @@ public class IndividualLessonEntity {
     @Column(name = "TITLE", length = 50, nullable = false)
     private String title;
 
-    @Column(name = "DATE_OF_LESSON", nullable = false)
-    private LocalDateTime dateOfLesson;
+    @Column(name = "START_DATE_OF_LESSON", nullable = false)
+    private LocalDateTime startDateOfLesson;
+
+    @Column(name = "END_DATE_OF_LESSON", nullable = false)
+    private LocalDateTime endDateOfLesson;
 
     @Column(name = "DESCRIPTION", length = 2000)
     private String description;

@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 @Getter
 public class IndividualLessonResponse {
     private String title;
-    private LocalDateTime dateOfLesson;
+    private LocalDateTime startDateOfLesson;
+    private LocalDateTime endDateOfLesson;
     private String description;
     private String subdomainName;
     private String tutorEmailAddress;

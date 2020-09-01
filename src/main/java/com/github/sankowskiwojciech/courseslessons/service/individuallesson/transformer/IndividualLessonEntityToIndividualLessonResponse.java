@@ -16,7 +16,8 @@ public class IndividualLessonEntityToIndividualLessonResponse implements Functio
     public IndividualLessonResponse apply(IndividualLessonEntity individualLessonEntity) {
         return IndividualLessonResponse.builder()
                 .title(individualLessonEntity.getTitle())
-                .dateOfLesson(individualLessonEntity.getDateOfLesson())
+                .startDateOfLesson(individualLessonEntity.getStartDateOfLesson())
+                .endDateOfLesson(individualLessonEntity.getEndDateOfLesson())
                 .description(individualLessonEntity.getDescription())
                 .subdomainName(getSubdomainName(individualLessonEntity))
                 .tutorEmailAddress(individualLessonEntity.getTutorEntity().getEmailAddress())
