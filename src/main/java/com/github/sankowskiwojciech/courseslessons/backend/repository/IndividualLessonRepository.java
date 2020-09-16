@@ -14,5 +14,8 @@ import java.util.List;
 public interface IndividualLessonRepository extends JpaRepository<IndividualLessonEntity, Long>, QuerydslPredicateExecutor {
 
     @Query("SELECT individualLesson FROM IndividualLessonEntity individualLesson WHERE :startDateOfLesson < individualLesson.endDateOfLesson AND :endDateOfLesson > individualLesson.startDateOfLesson AND :tutorEmailAddress = individualLesson.tutorEntity.emailAddress")
-    List<IndividualLessonEntity> findAllIndividualLessonsWhichCanCollideWithNewIndividualLesson(@Param("startDateOfLesson") LocalDateTime startDateOfLesson, @Param("endDateOfLesson") LocalDateTime endDateOfLesson, @Param("tutorEmailAddress") String tutorEmailAddress);
+    List<IndividualLessonEntity> findAllIndividualLessonsWhichCanCollideWithNewIndividualLessonForTutorAsSubdomain(@Param("startDateOfLesson") LocalDateTime startDateOfLesson, @Param("endDateOfLesson") LocalDateTime endDateOfLesson, @Param("tutorEmailAddress") String tutorEmailAddress);
+
+    @Query("SELECT individualLesson FROM IndividualLessonEntity individualLesson WHERE :startDateOfLesson < individualLesson.endDateOfLesson AND :endDateOfLesson > individualLesson.startDateOfLesson AND :tutorEmailAddress = individualLesson.tutorEntity.emailAddress AND :organizationEmailAddress = individualLesson.organizationEntity.emailAddress")
+    List<IndividualLessonEntity> findAllIndividualLessonsWhichCanCollideWithNewIndividualLessonForOrganizationAsSubdomain(@Param("startDateOfLesson") LocalDateTime startDateOfLesson, @Param("endDateOfLesson") LocalDateTime endDateOfLesson, @Param("tutorEmailAddress") String tutorEmailAddress, @Param("organizationEmailAddress") String organizationEmailAddress);
 }
