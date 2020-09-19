@@ -16,6 +16,7 @@ import java.util.List;
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.ORGANIZATION_EMAIL_ADDRESS_STUB;
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.TUTOR_EMAIL_ADDRESS_STUB;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -31,29 +32,7 @@ public class LessonCollisionValidatorServiceImplTest {
     }
 
     @Test(expected = NewLessonCollidesWithExistingOnes.class)
-    public void shouldThrowNewLessonCollidesWithExistingOnesWhenNewLessonCollidesWithExistingOnesAndSubdomainIsTutor() {
-        //given
-        LocalDateTime startDateOfLessonStub = LocalDateTime.now();
-        LocalDateTime endDateOfLessonStub = startDateOfLessonStub.plusHours(2);
-        String tutorEmailAddressStub = TUTOR_EMAIL_ADDRESS_STUB;
-        String organizationEmailAddressStub = null;
-        List<IndividualLessonEntity> existingIndividualLessonEntitiesStub = Lists.newArrayList(IndividualLessonEntityStub.createWithDatesOfLesson(startDateOfLessonStub, endDateOfLessonStub));
-
-        when(individualLessonRepositoryMock.findAllIndividualLessonsWhichCanCollideWithNewIndividualLessonForTutorAsSubdomain(eq(startDateOfLessonStub), eq(endDateOfLessonStub), eq(tutorEmailAddressStub))).thenReturn(existingIndividualLessonEntitiesStub);
-
-        //when
-        try {
-            testee.validateIfNewLessonDoesNotCollideWithExistingOnes(startDateOfLessonStub, endDateOfLessonStub, tutorEmailAddressStub, organizationEmailAddressStub);
-        } catch (NewLessonCollidesWithExistingOnes e) {
-
-            //then exception is thrown
-            verify(individualLessonRepositoryMock).findAllIndividualLessonsWhichCanCollideWithNewIndividualLessonForTutorAsSubdomain(eq(startDateOfLessonStub), eq(endDateOfLessonStub), eq(tutorEmailAddressStub));
-            throw e;
-        }
-    }
-
-    @Test(expected = NewLessonCollidesWithExistingOnes.class)
-    public void shouldThrowNewLessonCollidesWithExistingOnesWhenNewLessonCollidesWithExistingOnesAndSubdomainIsOrganization() {
+    public void shouldThrowNewLessonCollidesWithExistingOnesWhenNewLessonCollidesWithExistingOnes() {
         //given
         LocalDateTime startDateOfLessonStub = LocalDateTime.now();
         LocalDateTime endDateOfLessonStub = startDateOfLessonStub.plusHours(2);
@@ -61,7 +40,7 @@ public class LessonCollisionValidatorServiceImplTest {
         String organizationEmailAddressStub = ORGANIZATION_EMAIL_ADDRESS_STUB;
         List<IndividualLessonEntity> existingIndividualLessonEntitiesStub = Lists.newArrayList(IndividualLessonEntityStub.createWithDatesOfLesson(startDateOfLessonStub, endDateOfLessonStub));
 
-        when(individualLessonRepositoryMock.findAllIndividualLessonsWhichCanCollideWithNewIndividualLessonForOrganizationAsSubdomain(eq(startDateOfLessonStub), eq(endDateOfLessonStub), eq(tutorEmailAddressStub), eq(organizationEmailAddressStub))).thenReturn(existingIndividualLessonEntitiesStub);
+        when(individualLessonRepositoryMock.findAllLessonsWhichCanCollideWithNewLesson(eq(startDateOfLessonStub), eq(endDateOfLessonStub), eq(tutorEmailAddressStub), eq(organizationEmailAddressStub))).thenReturn(existingIndividualLessonEntitiesStub);
 
         //when
         try {
@@ -69,13 +48,13 @@ public class LessonCollisionValidatorServiceImplTest {
         } catch (NewLessonCollidesWithExistingOnes e) {
 
             //then exception is thrown
-            verify(individualLessonRepositoryMock).findAllIndividualLessonsWhichCanCollideWithNewIndividualLessonForOrganizationAsSubdomain(eq(startDateOfLessonStub), eq(endDateOfLessonStub), eq(tutorEmailAddressStub), eq(organizationEmailAddressStub));
+            verify(individualLessonRepositoryMock).findAllLessonsWhichCanCollideWithNewLesson(eq(startDateOfLessonStub), eq(endDateOfLessonStub), eq(tutorEmailAddressStub), eq(organizationEmailAddressStub));
             throw e;
         }
     }
 
     @Test
-    public void shouldDoNothingWhenNewLessonDoesNotCollideWithExistingOnesAndSubdomainIsTutor() {
+    public void shouldDoNothingWhenNewLessonDoesNotCollideWithExistingOnes() {
         //given
         LocalDateTime startDateOfLessonStub = LocalDateTime.now();
         LocalDateTime endDateOfLessonStub = startDateOfLessonStub.plusHours(2);
@@ -83,30 +62,12 @@ public class LessonCollisionValidatorServiceImplTest {
         String organizationEmailAddressStub = null;
         List<IndividualLessonEntity> existingIndividualLessonEntitiesStub = Collections.emptyList();
 
-        when(individualLessonRepositoryMock.findAllIndividualLessonsWhichCanCollideWithNewIndividualLessonForTutorAsSubdomain(eq(startDateOfLessonStub), eq(endDateOfLessonStub), eq(tutorEmailAddressStub))).thenReturn(existingIndividualLessonEntitiesStub);
+        when(individualLessonRepositoryMock.findAllLessonsWhichCanCollideWithNewLesson(eq(startDateOfLessonStub), eq(endDateOfLessonStub), eq(tutorEmailAddressStub), isNull())).thenReturn(existingIndividualLessonEntitiesStub);
 
         //when
         testee.validateIfNewLessonDoesNotCollideWithExistingOnes(startDateOfLessonStub, endDateOfLessonStub, tutorEmailAddressStub, organizationEmailAddressStub);
 
         //then nothing happens
-        verify(individualLessonRepositoryMock).findAllIndividualLessonsWhichCanCollideWithNewIndividualLessonForTutorAsSubdomain(eq(startDateOfLessonStub), eq(endDateOfLessonStub), eq(tutorEmailAddressStub));
-    }
-
-    @Test
-    public void shouldDoNothingWhenNewLessonDoesNotCollideWithExistingOnesAndSubdomainIsOrganization() {
-        //given
-        LocalDateTime startDateOfLessonStub = LocalDateTime.now();
-        LocalDateTime endDateOfLessonStub = startDateOfLessonStub.plusHours(2);
-        String tutorEmailAddressStub = TUTOR_EMAIL_ADDRESS_STUB;
-        String organizationEmailAddressStub = ORGANIZATION_EMAIL_ADDRESS_STUB;
-        List<IndividualLessonEntity> existingIndividualLessonEntitiesStub = Collections.emptyList();
-
-        when(individualLessonRepositoryMock.findAllIndividualLessonsWhichCanCollideWithNewIndividualLessonForOrganizationAsSubdomain(eq(startDateOfLessonStub), eq(endDateOfLessonStub), eq(tutorEmailAddressStub), eq(organizationEmailAddressStub))).thenReturn(existingIndividualLessonEntitiesStub);
-
-        //when
-        testee.validateIfNewLessonDoesNotCollideWithExistingOnes(startDateOfLessonStub, endDateOfLessonStub, tutorEmailAddressStub, organizationEmailAddressStub);
-
-        //then nothing happens
-        verify(individualLessonRepositoryMock).findAllIndividualLessonsWhichCanCollideWithNewIndividualLessonForOrganizationAsSubdomain(eq(startDateOfLessonStub), eq(endDateOfLessonStub), eq(tutorEmailAddressStub), eq(organizationEmailAddressStub));
+        verify(individualLessonRepositoryMock).findAllLessonsWhichCanCollideWithNewLesson(eq(startDateOfLessonStub), eq(endDateOfLessonStub), eq(tutorEmailAddressStub), isNull());
     }
 }

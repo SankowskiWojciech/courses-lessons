@@ -95,7 +95,7 @@ public class IndividualLessonRepositoryTest {
     }
 
     @Test
-    public void shouldFindAllIndividualLessonsWhichCollideWithNewIndividualLessonForTutorAsSubdomain() {
+    public void shouldFindAllIndividualLessonsWhichCanCollideWithNewIndividualLesson() {
         //given
         final LocalDateTime currentDateTime = LocalDateTime.now();
         LocalDateTime existingIndividualLessonStartDate = currentDateTime;
@@ -104,33 +104,12 @@ public class IndividualLessonRepositoryTest {
         LocalDateTime newIndividualLessonStartDate = currentDateTime.minusHours(1);
         LocalDateTime newIndividualLessonEndDate = currentDateTime.plusHours(1);
         String tutorEmailAddressStub = TUTOR_EMAIL_ADDRESS_STUB;
+        String organizationEmailAddress = ORGANIZATION_EMAIL_ADDRESS_STUB;
 
         testee.save(existingIndividualLessonStub);
 
         //when
-        List<IndividualLessonEntity> individualLessonEntities = testee.findAllIndividualLessonsWhichCanCollideWithNewIndividualLessonForTutorAsSubdomain(newIndividualLessonStartDate, newIndividualLessonEndDate, tutorEmailAddressStub);
-
-        //then
-        assertNotNull(individualLessonEntities);
-        assertFalse(individualLessonEntities.isEmpty());
-    }
-
-    @Test
-    public void shouldFindAllIndividualLessonsWhichCollideWithNewIndividualLessonForOrganizationAsSubdomain() {
-        //given
-        final LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDateTime existingIndividualLessonStartDate = currentDateTime;
-        LocalDateTime existingIndividualLessonEndDate = currentDateTime.plusHours(2);
-        IndividualLessonEntity existingIndividualLessonStub = IndividualLessonEntityStub.createWithDatesOfLesson(existingIndividualLessonStartDate, existingIndividualLessonEndDate);
-        LocalDateTime newIndividualLessonStartDate = currentDateTime.minusHours(1);
-        LocalDateTime newIndividualLessonEndDate = currentDateTime.plusHours(1);
-        String tutorEmailAddressStub = TUTOR_EMAIL_ADDRESS_STUB;
-        String organizationEmailAddressStub = ORGANIZATION_EMAIL_ADDRESS_STUB;
-
-        testee.save(existingIndividualLessonStub);
-
-        //when
-        List<IndividualLessonEntity> individualLessonEntities = testee.findAllIndividualLessonsWhichCanCollideWithNewIndividualLessonForOrganizationAsSubdomain(newIndividualLessonStartDate, newIndividualLessonEndDate, tutorEmailAddressStub, organizationEmailAddressStub);
+        List<IndividualLessonEntity> individualLessonEntities = testee.findAllLessonsWhichCanCollideWithNewLesson(newIndividualLessonStartDate, newIndividualLessonEndDate, tutorEmailAddressStub, organizationEmailAddress);
 
         //then
         assertNotNull(individualLessonEntities);
