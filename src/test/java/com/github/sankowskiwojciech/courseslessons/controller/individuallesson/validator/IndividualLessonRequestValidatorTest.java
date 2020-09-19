@@ -1,7 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.controller.individuallesson.validator;
 
-import com.github.sankowskiwojciech.courseslessons.model.exception.InvalidDatesOfLesson;
 import com.github.sankowskiwojciech.courseslessons.model.exception.InvalidRequestBodyException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidLessonDatesException;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequest;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonRequestStub;
 import org.junit.Test;
@@ -54,8 +54,8 @@ public class IndividualLessonRequestValidatorTest {
         //then exception is thrown
     }
 
-    @Test(expected = InvalidDatesOfLesson.class)
-    public void shouldThrowInvalidDatesOfLessonWhenStartDateOrEndDateOfLessonIsInvalid() {
+    @Test(expected = InvalidLessonDatesException.class)
+    public void shouldThrowInvalidLessonDatesExceptionWhenStartDateOrEndDateOfLessonIsInvalid() {
         //given
         LocalDateTime startDateOfLesson = LocalDateTime.now();
         LocalDateTime endDateOfLesson = LocalDateTime.now().minusHours(1);

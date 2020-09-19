@@ -1,7 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.controller.individuallesson.validator;
 
-import com.github.sankowskiwojciech.courseslessons.model.exception.InvalidDatesOfLesson;
 import com.github.sankowskiwojciech.courseslessons.model.exception.InvalidRequestBodyException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidLessonDatesException;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -23,7 +23,7 @@ public class IndividualLessonRequestValidator {
 
     private static void validateIfStartDateAndEndDateOfLessonAreCorrect(IndividualLessonRequest individualLessonRequest) {
         if (individualLessonRequest.getStartDateOfLesson().isAfter(individualLessonRequest.getEndDateOfLesson())) {
-            throw new InvalidDatesOfLesson();
+            throw new InvalidLessonDatesException();
         }
     }
 }
