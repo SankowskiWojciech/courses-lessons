@@ -27,4 +27,12 @@ public class DayOfWeekWithTimesStub {
                 .endTime(currentTime.plusHours(2))
                 .build();
     }
+
+    public static DayOfWeekWithTimes create(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {
+        return DayOfWeekWithTimes.builder()
+                .dayOfWeek(dayOfWeek)
+                .startTime(startTime)
+                .endTime(endTime)
+                .build();
+    }
 }
