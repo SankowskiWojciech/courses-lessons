@@ -12,12 +12,15 @@ import com.github.sankowskiwojciech.courseslessons.model.exception.SubdomainNotF
 import com.github.sankowskiwojciech.courseslessons.model.exception.UserNotAllowedToAccessSubdomainException;
 import com.github.sankowskiwojciech.courseslessons.model.exception.UserNotAllowedToCreateLesson;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLesson;
+import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonsSchedule;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequest;
+import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonsScheduleRequest;
 import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.model.subdomain.SubdomainType;
 import com.github.sankowskiwojciech.courseslessons.service.lessonvalidator.LessonCollisionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.subdomain.SubdomainService;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonRequestStub;
+import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonsScheduleRequestStub;
 import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.SubdomainStub;
@@ -233,6 +236,33 @@ public class IndividualLessonValidatorServiceImplTest {
         verify(subdomainServiceMock).validateIfUserIsAllowedToAccessSubdomain(eq(subdomainStub.getEmailAddress()), eq(studentEntityStub.getEmailAddress()));
         verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDateOfLesson()), eq(individualLessonRequestStub.getEndDateOfLesson()), eq(tutorEntityStub.getEmailAddress()), eq(organizationEntityStub.getEmailAddress()));
         assertIndividualLesson(individualLesson, individualLessonRequestStub, organizationEntityStub, tutorEntityStub, studentEntityStub);
+    }
+
+    @Test
+    public void shouldDoNothingWhenIndividualLessonsScheduleRequestIsCorrect() {
+        //given
+        final Long allLessonsDurationInMinutesStub = 360L;
+        IndividualLessonsScheduleRequest individualLessonsScheduleRequestStub = IndividualLessonsScheduleRequestStub.createWithScheduleTypeFixedDurationLessons(allLessonsDurationInMinutesStub);
+        Subdomain subdomainStub = SubdomainStub.createWithSubdomainType(SubdomainType.ORGANIZATION);
+        TutorEntity tutorEntityStub = TutorEntityStub.create();
+        StudentEntity studentEntityStub = StudentEntityStub.create();
+        OrganizationEntity organizationEntityStub = OrganizationEntityStub.create();
+
+        when(subdomainServiceMock.readSubdomainInformationIfSubdomainExists(eq(individualLessonsScheduleRequestStub.getSubdomainName()))).thenReturn(subdomainStub);
+        when(organizationRepositoryMock.findById(eq(subdomainStub.getEmailAddress()))).thenReturn(Optional.of(organizationEntityStub));
+        when(tutorRepositoryMock.findById(eq(individualLessonsScheduleRequestStub.getTutorId()))).thenReturn(Optional.of(tutorEntityStub));
+        when(studentRepositoryMock.findById(eq(individualLessonsScheduleRequestStub.getStudentId()))).thenReturn(Optional.of(studentEntityStub));
+
+        //when
+        IndividualLessonsSchedule individualLessonsSchedule = testee.validateIndividualLessonsScheduleRequest(individualLessonsScheduleRequestStub);
+
+        //then
+        verify(subdomainServiceMock).readSubdomainInformationIfSubdomainExists(eq(individualLessonsScheduleRequestStub.getSubdomainName()));
+        verify(organizationRepositoryMock).findById(eq(subdomainStub.getEmailAddress()));
+        verify(subdomainServiceMock).validateIfUserIsAllowedToAccessSubdomain(eq(subdomainStub.getEmailAddress()), eq(tutorEntityStub.getEmailAddress()));
+        verify(studentRepositoryMock).findById(eq(individualLessonsScheduleRequestStub.getStudentId()));
+        verify(subdomainServiceMock).validateIfUserIsAllowedToAccessSubdomain(eq(subdomainStub.getEmailAddress()), eq(studentEntityStub.getEmailAddress()));
+        assertNotNull(individualLessonsSchedule);
     }
 
     private void assertIndividualLesson(IndividualLesson individualLesson, IndividualLessonRequest individualLessonRequest, OrganizationEntity organizationEntity, TutorEntity tutorEntity, StudentEntity studentEntity) {
