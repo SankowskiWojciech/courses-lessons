@@ -1,15 +1,19 @@
 package com.github.sankowskiwojciech.courseslessons.controller.individuallesson;
 
 import com.github.sankowskiwojciech.courseslessons.controller.individuallesson.validator.IndividualLessonRequestValidator;
+import com.github.sankowskiwojciech.courseslessons.controller.individuallesson.validator.IndividualLessonsScheduleRequestValidator;
 import com.github.sankowskiwojciech.courseslessons.controller.validator.SubdomainAndUserAccessValidator;
 import com.github.sankowskiwojciech.courseslessons.model.account.AccountInfo;
 import com.github.sankowskiwojciech.courseslessons.model.db.token.TokenEntity;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLesson;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonResponse;
+import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonsSchedule;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequest;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequestParams;
+import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonsScheduleRequest;
 import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonService;
+import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonsSchedulerService;
 import com.github.sankowskiwojciech.courseslessons.service.individuallessonvalidator.IndividualLessonValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.tokenvalidation.TokenValidationService;
 import lombok.AllArgsConstructor;
@@ -34,6 +38,7 @@ public class IndividualLessonController {
     private final TokenValidationService tokenValidationService;
     private final IndividualLessonValidatorService individualLessonValidatorService;
     private final IndividualLessonService individualLessonService;
+    private final IndividualLessonsSchedulerService individualLessonsSchedulerService;
     private final SubdomainAndUserAccessValidator subdomainAndUserAccessValidator;
 
     @CrossOrigin(origins = "http://localhost:4200")
@@ -43,6 +48,15 @@ public class IndividualLessonController {
         tokenValidationService.validateTokenAndUser(authorizationHeaderValue, individualLessonRequest.getTutorId());
         IndividualLesson individualLesson = individualLessonValidatorService.validateCreateIndividualLessonRequest(individualLessonRequest);
         return individualLessonService.createIndividualLesson(individualLesson);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/schedule")
+    public List<IndividualLessonResponse> scheduleIndividualLessons(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestBody IndividualLessonsScheduleRequest individualLessonsScheduleRequest) {
+        IndividualLessonsScheduleRequestValidator.validateIndividualLessonsScheduleRequest(individualLessonsScheduleRequest);
+        tokenValidationService.validateTokenAndUser(authorizationHeaderValue, individualLessonsScheduleRequest.getTutorId());
+        IndividualLessonsSchedule individualLessonsSchedule = individualLessonValidatorService.validateIndividualLessonsScheduleRequest(individualLessonsScheduleRequest);
+        return individualLessonsSchedulerService.scheduleIndividualLessons(individualLessonsSchedule);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")

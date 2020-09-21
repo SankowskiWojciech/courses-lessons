@@ -2,7 +2,8 @@ package com.github.sankowskiwojciech.courseslessons.service.lessonvalidator;
 
 import com.github.sankowskiwojciech.courseslessons.backend.repository.IndividualLessonRepository;
 import com.github.sankowskiwojciech.courseslessons.model.db.individuallesson.IndividualLessonEntity;
-import com.github.sankowskiwojciech.courseslessons.model.exception.NewLessonCollidesWithExistingOnes;
+import com.github.sankowskiwojciech.courseslessons.model.exception.NewLessonCollidesWithExistingOnesException;
+import com.github.sankowskiwojciech.courseslessons.model.lesson.LessonDates;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,21 @@ public class LessonCollisionValidatorServiceImpl implements LessonCollisionValid
     public void validateIfNewLessonDoesNotCollideWithExistingOnes(LocalDateTime startDateOfLesson, LocalDateTime endDateOfLesson, String tutorEmailAddress, String organizationEmailAddress) {
         List<IndividualLessonEntity> individualLessonEntities = individualLessonRepository.findAllLessonsWhichCanCollideWithNewLesson(startDateOfLesson, endDateOfLesson, tutorEmailAddress, organizationEmailAddress);
         if (!individualLessonEntities.isEmpty()) {
-            throw new NewLessonCollidesWithExistingOnes();
+            throw new NewLessonCollidesWithExistingOnesException();
         }
+    }
+
+    @Override
+    public void validateIfScheduledLessonsDoesNotCollideWithExistingOnes(List<LessonDates> generatedLessonsDates, String tutorEmailAddress, String organizationEmailAddress) {
+        LocalDateTime startDateOfLessons = generatedLessonsDates.get(0).getStartDate().toLocalDate().atStartOfDay();
+        LocalDateTime endDateOfLessons = generatedLessonsDates.get(generatedLessonsDates.size() - 1).getStartDate().toLocalDate().atStartOfDay().plusDays(1);
+        List<IndividualLessonEntity> lessonsWhichCanCollideWithNewLessons = individualLessonRepository.findAllLessonsInRangeForTutor(startDateOfLessons, endDateOfLessons, tutorEmailAddress, organizationEmailAddress);
+        generatedLessonsDates.forEach(generatedLessonDates ->
+                lessonsWhichCanCollideWithNewLessons.forEach(individualLessonEntity -> {
+                    if (generatedLessonDates.getStartDate().isBefore(individualLessonEntity.getEndDateOfLesson()) && generatedLessonDates.getEndDate().isAfter(individualLessonEntity.getStartDateOfLesson())) {
+                        throw new NewLessonCollidesWithExistingOnesException();
+                    }
+                })
+        );
     }
 }

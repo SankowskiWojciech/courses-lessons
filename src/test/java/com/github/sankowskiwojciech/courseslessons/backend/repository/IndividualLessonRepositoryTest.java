@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -110,6 +111,26 @@ public class IndividualLessonRepositoryTest {
 
         //when
         List<IndividualLessonEntity> individualLessonEntities = testee.findAllLessonsWhichCanCollideWithNewLesson(newIndividualLessonStartDate, newIndividualLessonEndDate, tutorEmailAddressStub, organizationEmailAddress);
+
+        //then
+        assertNotNull(individualLessonEntities);
+        assertFalse(individualLessonEntities.isEmpty());
+    }
+
+    @Test
+    public void shouldFindAllIndividualLessonsInRangeForTutor() {
+        //given
+        final LocalDateTime currentDate = LocalDate.now().atStartOfDay();
+        LocalDateTime existingIndividualLessonStartDate = currentDate.minusDays(2);
+        LocalDateTime existingIndividualLessonEndDate = currentDate.plusDays(3);
+        IndividualLessonEntity existingIndividualLessonStub = IndividualLessonEntityStub.createWithDatesOfLesson(currentDate, currentDate.plusHours(2));
+        String tutorEmailAddressStub = TUTOR_EMAIL_ADDRESS_STUB;
+        String organizationEmailAddress = ORGANIZATION_EMAIL_ADDRESS_STUB;
+
+        testee.save(existingIndividualLessonStub);
+
+        //when
+        List<IndividualLessonEntity> individualLessonEntities = testee.findAllLessonsInRangeForTutor(existingIndividualLessonStartDate, existingIndividualLessonEndDate, tutorEmailAddressStub, organizationEmailAddress);
 
         //then
         assertNotNull(individualLessonEntities);
