@@ -5,7 +5,7 @@ import com.github.sankowskiwojciech.courseslessons.model.individuallesson.Indivi
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonsSchedule;
 import com.github.sankowskiwojciech.courseslessons.model.lesson.LessonDates;
 import com.github.sankowskiwojciech.courseslessons.model.lesson.ScheduleType;
-import com.github.sankowskiwojciech.courseslessons.service.lesson.DatesGeneratorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.LessonsDatesGeneratorService;
 import com.github.sankowskiwojciech.courseslessons.service.lessonvalidator.LessonCollisionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonsScheduleStub;
 import com.github.sankowskiwojciech.courseslessons.stub.LessonDatesStub;
@@ -30,13 +30,13 @@ import static org.mockito.Mockito.when;
 public class IndividualLessonsSchedulerServiceImplTest {
 
     private final IndividualLessonRepository individualLessonRepositoryMock = mock(IndividualLessonRepository.class);
-    private final DatesGeneratorService datesGeneratorServiceMock = mock(DatesGeneratorService.class);
+    private final LessonsDatesGeneratorService lessonsDatesGeneratorServiceMock = mock(LessonsDatesGeneratorService.class);
     private final LessonCollisionValidatorService lessonCollisionValidatorServiceMock = mock(LessonCollisionValidatorService.class);
-    private final IndividualLessonsSchedulerService testee = new IndividualLessonsSchedulerServiceImpl(individualLessonRepositoryMock, datesGeneratorServiceMock, lessonCollisionValidatorServiceMock);
+    private final IndividualLessonsSchedulerService testee = new IndividualLessonsSchedulerServiceImpl(individualLessonRepositoryMock, lessonsDatesGeneratorServiceMock, lessonCollisionValidatorServiceMock);
 
     @Before
     public void reset() {
-        Mockito.reset(individualLessonRepositoryMock, datesGeneratorServiceMock, lessonCollisionValidatorServiceMock);
+        Mockito.reset(individualLessonRepositoryMock, lessonsDatesGeneratorServiceMock, lessonCollisionValidatorServiceMock);
     }
 
     @Test
@@ -48,13 +48,13 @@ public class IndividualLessonsSchedulerServiceImplTest {
                 LessonDatesStub.createWithDates(LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(1).plusHours(3))
         );
 
-        when(datesGeneratorServiceMock.generateLessonsDatesWithFixedBeginningDateAndEndDate(eq(individualLessonsScheduleStub.getBeginningDate()), isA(LocalDate.class), eq(individualLessonsScheduleStub.getLessonsDaysOfWeekWithTimes()))).thenReturn(lessonsDatesStub);
+        when(lessonsDatesGeneratorServiceMock.generateLessonsDatesWithFixedBeginningDateAndEndDate(eq(individualLessonsScheduleStub.getBeginningDate()), isA(LocalDate.class), eq(individualLessonsScheduleStub.getLessonsDaysOfWeekWithTimes()))).thenReturn(lessonsDatesStub);
 
         //when
         List<IndividualLessonResponse> individualLessonResponses = testee.scheduleIndividualLessons(individualLessonsScheduleStub);
 
         //then
-        verify(datesGeneratorServiceMock).generateLessonsDatesWithFixedBeginningDateAndEndDate(eq(individualLessonsScheduleStub.getBeginningDate()), isA(LocalDate.class), eq(individualLessonsScheduleStub.getLessonsDaysOfWeekWithTimes()));
+        verify(lessonsDatesGeneratorServiceMock).generateLessonsDatesWithFixedBeginningDateAndEndDate(eq(individualLessonsScheduleStub.getBeginningDate()), isA(LocalDate.class), eq(individualLessonsScheduleStub.getLessonsDaysOfWeekWithTimes()));
         verify(lessonCollisionValidatorServiceMock).validateIfScheduledLessonsDoesNotCollideWithExistingOnes(eq(lessonsDatesStub), eq(individualLessonsScheduleStub.getTutorEntity().getEmailAddress()), eq(individualLessonsScheduleStub.getOrganizationEntity().getEmailAddress()));
         verify(individualLessonRepositoryMock).saveAll(anyList());
 
@@ -71,13 +71,36 @@ public class IndividualLessonsSchedulerServiceImplTest {
                 LessonDatesStub.createWithDates(LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(1).plusHours(3))
         );
 
-        when(datesGeneratorServiceMock.generateLessonsDatesWithFixedBeginningDateAndEndDate(eq(individualLessonsScheduleStub.getBeginningDate()), eq(individualLessonsScheduleStub.getEndDate()), eq(individualLessonsScheduleStub.getLessonsDaysOfWeekWithTimes()))).thenReturn(lessonsDatesStub);
+        when(lessonsDatesGeneratorServiceMock.generateLessonsDatesWithFixedBeginningDateAndEndDate(eq(individualLessonsScheduleStub.getBeginningDate()), eq(individualLessonsScheduleStub.getEndDate()), eq(individualLessonsScheduleStub.getLessonsDaysOfWeekWithTimes()))).thenReturn(lessonsDatesStub);
 
         //when
         List<IndividualLessonResponse> individualLessonResponses = testee.scheduleIndividualLessons(individualLessonsScheduleStub);
 
         //then
-        verify(datesGeneratorServiceMock).generateLessonsDatesWithFixedBeginningDateAndEndDate(eq(individualLessonsScheduleStub.getBeginningDate()), eq(individualLessonsScheduleStub.getEndDate()), eq(individualLessonsScheduleStub.getLessonsDaysOfWeekWithTimes()));
+        verify(lessonsDatesGeneratorServiceMock).generateLessonsDatesWithFixedBeginningDateAndEndDate(eq(individualLessonsScheduleStub.getBeginningDate()), eq(individualLessonsScheduleStub.getEndDate()), eq(individualLessonsScheduleStub.getLessonsDaysOfWeekWithTimes()));
+        verify(lessonCollisionValidatorServiceMock).validateIfScheduledLessonsDoesNotCollideWithExistingOnes(eq(lessonsDatesStub), eq(individualLessonsScheduleStub.getTutorEntity().getEmailAddress()), eq(individualLessonsScheduleStub.getOrganizationEntity().getEmailAddress()));
+        verify(individualLessonRepositoryMock).saveAll(anyList());
+
+        assertNotNull(individualLessonResponses);
+        assertEquals(lessonsDatesStub.size(), individualLessonResponses.size());
+    }
+
+    @Test
+    public void shouldScheduleIndividualLessonsWhenScheduleTypeIsFixedDurationLessons() {
+        //given
+        IndividualLessonsSchedule individualLessonsScheduleStub = IndividualLessonsScheduleStub.createWithScheduleType(ScheduleType.FIXED_DURATION_LESSONS);
+        List<LessonDates> lessonsDatesStub = Lists.newArrayList(
+                LessonDatesStub.createWithDates(LocalDateTime.now(), LocalDateTime.now().plusHours(2)),
+                LessonDatesStub.createWithDates(LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(1).plusHours(2))
+        );
+
+        when(lessonsDatesGeneratorServiceMock.generateLessonsDatesForFixedDurationLessons(eq(individualLessonsScheduleStub.getBeginningDate()), eq(individualLessonsScheduleStub.getAllLessonsDurationInMinutes()), eq(individualLessonsScheduleStub.getLessonsDaysOfWeekWithTimes()))).thenReturn(lessonsDatesStub);
+
+        //when
+        List<IndividualLessonResponse> individualLessonResponses = testee.scheduleIndividualLessons(individualLessonsScheduleStub);
+
+        //then
+        verify(lessonsDatesGeneratorServiceMock).generateLessonsDatesForFixedDurationLessons(eq(individualLessonsScheduleStub.getBeginningDate()), eq(individualLessonsScheduleStub.getAllLessonsDurationInMinutes()), eq(individualLessonsScheduleStub.getLessonsDaysOfWeekWithTimes()));
         verify(lessonCollisionValidatorServiceMock).validateIfScheduledLessonsDoesNotCollideWithExistingOnes(eq(lessonsDatesStub), eq(individualLessonsScheduleStub.getTutorEntity().getEmailAddress()), eq(individualLessonsScheduleStub.getOrganizationEntity().getEmailAddress()));
         verify(individualLessonRepositoryMock).saveAll(anyList());
 

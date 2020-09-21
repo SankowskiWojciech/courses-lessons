@@ -13,6 +13,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class IndividualLessonsScheduleStub {
 
+    private static final long ALL_LESSONS_DURATION_IN_MINUTES_STUB = 240;
+
     public static IndividualLessonsSchedule createWithLessonsTitles(List<String> lessonsTitles) {
         final LocalDate currentDate = LocalDate.now();
         return IndividualLessonsSchedule.builder()
@@ -33,7 +35,7 @@ public class IndividualLessonsScheduleStub {
             case FIXED_DATES_LESSONS:
                 return createForScheduleTypeFixedDatesLessons();
             default:
-                return null;
+                return createForScheduleTypeFixedDurationLessons();
         }
     }
 
@@ -55,6 +57,19 @@ public class IndividualLessonsScheduleStub {
                 .beginningDate(currentDate)
                 .endDate(currentDate.plusMonths(3))
                 .scheduleType(ScheduleType.FIXED_DATES_LESSONS)
+                .lessonsDaysOfWeekWithTimes(createDayOfWeekWithTimes())
+                .organizationEntity(OrganizationEntityStub.create())
+                .tutorEntity(TutorEntityStub.create())
+                .studentEntity(StudentEntityStub.create())
+                .build();
+    }
+
+    private static IndividualLessonsSchedule createForScheduleTypeFixedDurationLessons() {
+        final LocalDate currentDate = LocalDate.now();
+        return IndividualLessonsSchedule.builder()
+                .beginningDate(currentDate)
+                .scheduleType(ScheduleType.FIXED_DURATION_LESSONS)
+                .allLessonsDurationInMinutes(ALL_LESSONS_DURATION_IN_MINUTES_STUB)
                 .lessonsDaysOfWeekWithTimes(createDayOfWeekWithTimes())
                 .organizationEntity(OrganizationEntityStub.create())
                 .tutorEntity(TutorEntityStub.create())
