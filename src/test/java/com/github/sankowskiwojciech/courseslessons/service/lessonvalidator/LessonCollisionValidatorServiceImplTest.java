@@ -2,7 +2,7 @@ package com.github.sankowskiwojciech.courseslessons.service.lessonvalidator;
 
 import com.github.sankowskiwojciech.courseslessons.backend.repository.IndividualLessonRepository;
 import com.github.sankowskiwojciech.courseslessons.model.db.individuallesson.IndividualLessonEntity;
-import com.github.sankowskiwojciech.courseslessons.model.exception.NewLessonCollidesWithExistingOnesException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.NewLessonCollidesWithExistingOnesDetailedException;
 import com.github.sankowskiwojciech.courseslessons.model.lesson.LessonDates;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.LessonDatesStub;
@@ -34,7 +34,7 @@ public class LessonCollisionValidatorServiceImplTest {
         Mockito.reset(individualLessonRepositoryMock);
     }
 
-    @Test(expected = NewLessonCollidesWithExistingOnesException.class)
+    @Test(expected = NewLessonCollidesWithExistingOnesDetailedException.class)
     public void shouldThrowNewLessonCollidesWithExistingOnesWhenNewLessonCollidesWithExistingOnes() {
         //given
         LocalDateTime startDateOfLessonStub = LocalDateTime.now();
@@ -48,7 +48,7 @@ public class LessonCollisionValidatorServiceImplTest {
         //when
         try {
             testee.validateIfNewLessonDoesNotCollideWithExistingOnes(startDateOfLessonStub, endDateOfLessonStub, tutorEmailAddressStub, organizationEmailAddressStub);
-        } catch (NewLessonCollidesWithExistingOnesException e) {
+        } catch (NewLessonCollidesWithExistingOnesDetailedException e) {
 
             //then exception is thrown
             verify(individualLessonRepositoryMock).findAllLessonsWhichCanCollideWithNewLesson(eq(startDateOfLessonStub), eq(endDateOfLessonStub), eq(tutorEmailAddressStub), eq(organizationEmailAddressStub));
@@ -74,7 +74,7 @@ public class LessonCollisionValidatorServiceImplTest {
         verify(individualLessonRepositoryMock).findAllLessonsWhichCanCollideWithNewLesson(eq(startDateOfLessonStub), eq(endDateOfLessonStub), eq(tutorEmailAddressStub), isNull());
     }
 
-    @Test(expected = NewLessonCollidesWithExistingOnesException.class)
+    @Test(expected = NewLessonCollidesWithExistingOnesDetailedException.class)
     public void shouldThrowNewLessonCollidesWithExistingOnesExceptionWhenScheduledLessonsCollideWithExistingOnes() {
         //given
         final LocalDateTime currentDateTime = LocalDateTime.now();
@@ -92,7 +92,7 @@ public class LessonCollisionValidatorServiceImplTest {
         //when
         try {
             testee.validateIfScheduledLessonsDoesNotCollideWithExistingOnes(generatedLessonDatesStub, tutorEmailAddressStub, organizationEmailAddressStub);
-        } catch (NewLessonCollidesWithExistingOnesException e) {
+        } catch (NewLessonCollidesWithExistingOnesDetailedException e) {
 
             //then exception is thrown
             verify(individualLessonRepositoryMock).findAllLessonsInRangeForTutor(isA(LocalDateTime.class), isA(LocalDateTime.class), eq(tutorEmailAddressStub), eq(organizationEmailAddressStub));

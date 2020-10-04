@@ -1,9 +1,9 @@
 package com.github.sankowskiwojciech.courseslessons.controller.individuallesson.validator;
 
-import com.github.sankowskiwojciech.courseslessons.model.exception.InvalidRequestBodyException;
-import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidAllLessonsDurationException;
-import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidBeginningOrEndLessonsDateException;
-import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidLessonTimesException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.InvalidRequestBodyDetailedException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidBeginningOrEndLessonsDateDetailedException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidLessonTimesDetailedException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidLessonsDurationDetailedException;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonsScheduleRequest;
 import com.github.sankowskiwojciech.courseslessons.model.lesson.DayOfWeekWithTimes;
 import com.github.sankowskiwojciech.courseslessons.stub.DayOfWeekWithTimesStub;
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class IndividualLessonsScheduleRequestValidatorTest {
 
-    @Test(expected = InvalidRequestBodyException.class)
+    @Test(expected = InvalidRequestBodyDetailedException.class)
     public void shouldThrowInvalidRequestBodyExceptionWhenMandatoryFieldsAreMissing() {
         //given
         List<DayOfWeekWithTimes> lessonsDaysOfWeekWithTimesStub = Collections.emptyList();
@@ -29,7 +29,7 @@ public class IndividualLessonsScheduleRequestValidatorTest {
         //then exception is thrown
     }
 
-    @Test(expected = InvalidLessonTimesException.class)
+    @Test(expected = InvalidLessonTimesDetailedException.class)
     public void shouldThrowInvalidLessonTimesExceptionWhenLessonsTimesAreInvalid() {
         DayOfWeekWithTimes dayOfWeekWithTimesStub = DayOfWeekWithTimesStub.createInvalid();
         List<DayOfWeekWithTimes> lessonsDaysOfWeekWithTimesStub = Lists.newArrayList(dayOfWeekWithTimesStub);
@@ -41,7 +41,7 @@ public class IndividualLessonsScheduleRequestValidatorTest {
         //then exception is thrown
     }
 
-    @Test(expected = InvalidAllLessonsDurationException.class)
+    @Test(expected = InvalidLessonsDurationDetailedException.class)
     public void shouldThrowInvalidAllLessonsDurationExceptionWhenMandatoryFieldsAreMissingAndScheduleTypeIsFixedDurationLessons() {
         //given
         final Long allLessonsDurationInMinutesStub = null;
@@ -53,7 +53,7 @@ public class IndividualLessonsScheduleRequestValidatorTest {
         //then exception is thrown
     }
 
-    @Test(expected = InvalidBeginningOrEndLessonsDateException.class)
+    @Test(expected = InvalidBeginningOrEndLessonsDateDetailedException.class)
     public void shouldThrowInvalidBeginningOrEndLessonsDateExceptionWhenMandatoryFieldsAreMissingAndScheduleTypeIsFixedDatesLessons() {
         //given
         final LocalDate beginningDateStub = LocalDate.now();

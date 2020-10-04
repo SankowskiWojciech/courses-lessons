@@ -6,7 +6,7 @@ import com.github.sankowskiwojciech.courseslessons.backend.repository.TutorRepos
 import com.github.sankowskiwojciech.courseslessons.model.db.organization.OrganizationEntity;
 import com.github.sankowskiwojciech.courseslessons.model.db.student.StudentEntity;
 import com.github.sankowskiwojciech.courseslessons.model.db.tutor.TutorEntity;
-import com.github.sankowskiwojciech.courseslessons.model.exception.StudentNotFoundException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.StudentNotFoundDetailedException;
 import com.github.sankowskiwojciech.courseslessons.model.exception.UserNotAllowedToCreateLesson;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLesson;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonsSchedule;
@@ -75,7 +75,7 @@ public class IndividualLessonValidatorServiceImpl implements IndividualLessonVal
     private StudentEntity readStudent(String studentId) {
         Optional<StudentEntity> studentEntity = studentRepository.findById(studentId);
         if (!studentEntity.isPresent()) {
-            throw new StudentNotFoundException();
+            throw new StudentNotFoundDetailedException();
         }
         return studentEntity.get();
     }

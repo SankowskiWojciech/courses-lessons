@@ -6,8 +6,8 @@ import com.github.sankowskiwojciech.courseslessons.backend.repository.TutorRepos
 import com.github.sankowskiwojciech.courseslessons.model.db.organization.OrganizationEntity;
 import com.github.sankowskiwojciech.courseslessons.model.db.subdomainuseraccess.SubdomainUserAccessEntityId;
 import com.github.sankowskiwojciech.courseslessons.model.db.tutor.TutorEntity;
-import com.github.sankowskiwojciech.courseslessons.model.exception.SubdomainNotFoundException;
-import com.github.sankowskiwojciech.courseslessons.model.exception.UserNotAllowedToAccessSubdomainException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.SubdomainNotFoundDetailedException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.UserNotAllowedToAccessSubdomainDetailedException;
 import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.service.subdomain.transformer.OrganizationEntityToSubdomain;
 import com.github.sankowskiwojciech.courseslessons.service.subdomain.transformer.TutorEntityToSubdomain;
@@ -28,7 +28,7 @@ public class SubdomainServiceImpl implements SubdomainService {
     @Override
     public Subdomain readSubdomainInformationIfSubdomainExists(String subdomainName) {
         if (StringUtils.isBlank(subdomainName)) {
-            throw new SubdomainNotFoundException();
+            throw new SubdomainNotFoundDetailedException();
         }
         Optional<OrganizationEntity> organizationEntity = organizationRepository.findByAlias(subdomainName);
         if (organizationEntity.isPresent()) {
@@ -38,13 +38,13 @@ public class SubdomainServiceImpl implements SubdomainService {
         if (tutorEntity.isPresent()) {
             return TutorEntityToSubdomain.getInstance().apply(tutorEntity.get());
         }
-        throw new SubdomainNotFoundException();
+        throw new SubdomainNotFoundDetailedException();
     }
 
     @Override
     public void validateIfUserIsAllowedToAccessSubdomain(String subdomainEmailAddress, String userEmailAddress) {
         if (!subdomainUserAccessRepository.existsById(new SubdomainUserAccessEntityId(subdomainEmailAddress, userEmailAddress))) {
-            throw new UserNotAllowedToAccessSubdomainException();
+            throw new UserNotAllowedToAccessSubdomainDetailedException();
         }
     }
 }

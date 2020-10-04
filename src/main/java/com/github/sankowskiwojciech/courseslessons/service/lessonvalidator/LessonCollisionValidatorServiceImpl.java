@@ -2,7 +2,7 @@ package com.github.sankowskiwojciech.courseslessons.service.lessonvalidator;
 
 import com.github.sankowskiwojciech.courseslessons.backend.repository.IndividualLessonRepository;
 import com.github.sankowskiwojciech.courseslessons.model.db.individuallesson.IndividualLessonEntity;
-import com.github.sankowskiwojciech.courseslessons.model.exception.NewLessonCollidesWithExistingOnesException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.NewLessonCollidesWithExistingOnesDetailedException;
 import com.github.sankowskiwojciech.courseslessons.model.lesson.LessonDates;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class LessonCollisionValidatorServiceImpl implements LessonCollisionValid
     public void validateIfNewLessonDoesNotCollideWithExistingOnes(LocalDateTime startDateOfLesson, LocalDateTime endDateOfLesson, String tutorEmailAddress, String organizationEmailAddress) {
         List<IndividualLessonEntity> individualLessonEntities = individualLessonRepository.findAllLessonsWhichCanCollideWithNewLesson(startDateOfLesson, endDateOfLesson, tutorEmailAddress, organizationEmailAddress);
         if (!individualLessonEntities.isEmpty()) {
-            throw new NewLessonCollidesWithExistingOnesException();
+            throw new NewLessonCollidesWithExistingOnesDetailedException();
         }
     }
 
@@ -32,7 +32,7 @@ public class LessonCollisionValidatorServiceImpl implements LessonCollisionValid
         generatedLessonsDates.forEach(generatedLessonDates ->
                 lessonsWhichCanCollideWithNewLessons.forEach(individualLessonEntity -> {
                     if (generatedLessonDates.getStartDate().isBefore(individualLessonEntity.getEndDateOfLesson()) && generatedLessonDates.getEndDate().isAfter(individualLessonEntity.getStartDateOfLesson())) {
-                        throw new NewLessonCollidesWithExistingOnesException();
+                        throw new NewLessonCollidesWithExistingOnesDetailedException();
                     }
                 })
         );

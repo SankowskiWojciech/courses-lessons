@@ -1,9 +1,9 @@
 package com.github.sankowskiwojciech.courseslessons.controller.individuallesson.validator;
 
-import com.github.sankowskiwojciech.courseslessons.model.exception.InvalidRequestBodyException;
-import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidAllLessonsDurationException;
-import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidBeginningOrEndLessonsDateException;
-import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidLessonTimesException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.InvalidRequestBodyDetailedException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidBeginningOrEndLessonsDateDetailedException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidLessonTimesDetailedException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidLessonsDurationDetailedException;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonsScheduleRequest;
 import com.github.sankowskiwojciech.courseslessons.model.lesson.DayOfWeekWithTimes;
 import lombok.AccessLevel;
@@ -29,7 +29,7 @@ public class IndividualLessonsScheduleRequestValidator {
                 || individualLessonsScheduleRequest.getLessonsDaysOfWeekWithTimes() == null
                 || individualLessonsScheduleRequest.getLessonsDaysOfWeekWithTimes().isEmpty()
                 || StringUtils.isAnyBlank(individualLessonsScheduleRequest.getStudentId(), individualLessonsScheduleRequest.getTutorId(), individualLessonsScheduleRequest.getSubdomainName())) {
-            throw new InvalidRequestBodyException();
+            throw new InvalidRequestBodyDetailedException();
         }
     }
 
@@ -37,7 +37,7 @@ public class IndividualLessonsScheduleRequestValidator {
         lessonsTimes.forEach(dayOfWeekWithTimes -> {
             Duration durationOfLesson = Duration.between(dayOfWeekWithTimes.getStartTime(), dayOfWeekWithTimes.getEndTime());
             if (durationOfLesson.isNegative() || durationOfLesson.isZero()) {
-                throw new InvalidLessonTimesException();
+                throw new InvalidLessonTimesDetailedException();
             }
         });
     }
@@ -55,13 +55,13 @@ public class IndividualLessonsScheduleRequestValidator {
 
     private static void validateMandatoryFieldsWhenScheduleTypeIsFixedDurationLessons(Long allLessonsDurationInMinutes) {
         if (allLessonsDurationInMinutes == null || allLessonsDurationInMinutes <= 0) {
-            throw new InvalidAllLessonsDurationException();
+            throw new InvalidLessonsDurationDetailedException();
         }
     }
 
     private static void validateMandatoryFieldsWhenScheduleTypeIsFixedDatesLessons(LocalDate beginningDate, LocalDate endDate) {
         if (beginningDate == null || endDate == null || !endDate.isAfter(beginningDate)) {
-            throw new InvalidBeginningOrEndLessonsDateException();
+            throw new InvalidBeginningOrEndLessonsDateDetailedException();
         }
     }
 }

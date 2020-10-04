@@ -1,7 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.controller.individuallesson.validator;
 
-import com.github.sankowskiwojciech.courseslessons.model.exception.InvalidRequestBodyException;
-import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidLessonDatesException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.InvalidRequestBodyDetailedException;
+import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidLessonDatesDetailedException;
 import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequest;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonRequestStub;
 import org.junit.Test;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 public class IndividualLessonRequestValidatorTest {
 
-    @Test(expected = InvalidRequestBodyException.class)
+    @Test(expected = InvalidRequestBodyDetailedException.class)
     public void shouldThrowInvalidRequestBodyWhenIndividualLessonRequestIsNull() {
         //given
         IndividualLessonRequest individualLessonRequestStub = null;
@@ -21,7 +21,7 @@ public class IndividualLessonRequestValidatorTest {
         //then exception is thrown
     }
 
-    @Test(expected = InvalidRequestBodyException.class)
+    @Test(expected = InvalidRequestBodyDetailedException.class)
     public void shouldThrowInvalidRequestBodyWhenStartDateOfLessonIsNull() {
         //given
         IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.createWithDatesOfLesson(null, LocalDateTime.now().plusHours(2));
@@ -32,7 +32,7 @@ public class IndividualLessonRequestValidatorTest {
         //then exception is thrown
     }
 
-    @Test(expected = InvalidRequestBodyException.class)
+    @Test(expected = InvalidRequestBodyDetailedException.class)
     public void shouldThrowInvalidRequestBodyWhenEndDateOfLessonIsNull() {
         //given
         IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.createWithDatesOfLesson(LocalDateTime.now(), null);
@@ -43,7 +43,7 @@ public class IndividualLessonRequestValidatorTest {
         //then exception is thrown
     }
 
-    @Test(expected = InvalidRequestBodyException.class)
+    @Test(expected = InvalidRequestBodyDetailedException.class)
     public void shouldThrowInvalidRequestBodyWhenTitleIsNull() {
         //given
         IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.createWithTitle(null);
@@ -54,7 +54,7 @@ public class IndividualLessonRequestValidatorTest {
         //then exception is thrown
     }
 
-    @Test(expected = InvalidLessonDatesException.class)
+    @Test(expected = InvalidLessonDatesDetailedException.class)
     public void shouldThrowInvalidLessonDatesExceptionWhenStartDateOrEndDateOfLessonIsInvalid() {
         //given
         LocalDateTime startDateOfLesson = LocalDateTime.now();

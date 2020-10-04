@@ -1,8 +1,13 @@
 package com.github.sankowskiwojciech.courseslessons.model.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "User not allowed to create lesson.")
-public class UserNotAllowedToCreateLesson extends RuntimeException {
+public class UserNotAllowedToCreateLesson extends DetailedException {
+    private static final int statusCode = HttpStatus.FORBIDDEN.value();
+    private static final String errorCode = "USER_NOT_ALLOWED_TO_CREATE_LESSONS";
+    private static final String errorMessage = "User not allowed to create lessons.";
+
+    public UserNotAllowedToCreateLesson() {
+        super(statusCode, errorCode, errorMessage);
+    }
 }
