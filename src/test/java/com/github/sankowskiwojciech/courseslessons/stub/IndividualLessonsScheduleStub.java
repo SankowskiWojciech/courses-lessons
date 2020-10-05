@@ -21,7 +21,7 @@ public class IndividualLessonsScheduleStub {
                 .beginningDate(currentDate)
                 .scheduleType(ScheduleType.FIXED_DURATION_LESSONS)
                 .lessonsDaysOfWeekWithTimes(createDayOfWeekWithTimes())
-                .lessonTitles(lessonsTitles)
+                .lessonsTitles(lessonsTitles)
                 .organizationEntity(OrganizationEntityStub.create())
                 .tutorEntity(TutorEntityStub.create())
                 .studentEntity(StudentEntityStub.create())

@@ -23,7 +23,7 @@ public class IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLess
     public List<IndividualLessonEntity> apply(IndividualLessonsSchedule individualLessonsSchedule, List<LessonDates> lessonsDates) {
         LocalDateTime currentDateTime = LocalDateTime.now();
         List<IndividualLessonEntity> individualLessonEntities = new ArrayList<>();
-        List<String> lessonsTitles = individualLessonsSchedule.getLessonTitles();
+        List<String> lessonsTitles = individualLessonsSchedule.getLessonsTitles();
         for (int i = 0; i < lessonsDates.size(); i++) {
             IndividualLessonEntity individualLessonEntity = IndividualLessonEntity.builder()
                     .title(lessonsTitles != null && i < lessonsTitles.size() ? lessonsTitles.get(i) : getDefaultLessonTitle(individualLessonsSchedule.getStudentEntity().getFullName()))

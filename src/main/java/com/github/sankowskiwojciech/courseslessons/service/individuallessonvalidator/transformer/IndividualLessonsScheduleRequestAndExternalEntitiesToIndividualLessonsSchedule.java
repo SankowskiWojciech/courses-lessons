@@ -18,7 +18,7 @@ public class IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLess
                 .scheduleType(individualLessonsScheduleRequest.getScheduleType())
                 .allLessonsDurationInMinutes(individualLessonsScheduleRequest.getAllLessonsDurationInMinutes())
                 .lessonsDaysOfWeekWithTimes(individualLessonsScheduleRequest.getLessonsDaysOfWeekWithTimes())
-                .lessonTitles(individualLessonsScheduleRequest.getLessonTitles())
+                .lessonsTitles(individualLessonsScheduleRequest.getLessonsTitles())
                 .organizationEntity(organizationEntity)
                 .tutorEntity(tutorEntity)
                 .studentEntity(studentEntity)

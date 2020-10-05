@@ -38,7 +38,7 @@ public class IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLess
         assertEquals(individualLessonsScheduleRequestStub.getAllLessonsDurationInMinutes(), individualLessonsSchedule.getAllLessonsDurationInMinutes());
         assertEquals(individualLessonsScheduleRequestStub.getLessonsDaysOfWeekWithTimes(), individualLessonsSchedule.getLessonsDaysOfWeekWithTimes());
         assertEquals(individualLessonsScheduleRequestStub.getScheduleType(), individualLessonsSchedule.getScheduleType());
-        assertEquals(individualLessonsScheduleRequestStub.getLessonTitles(), individualLessonsSchedule.getLessonTitles());
+        assertEquals(individualLessonsScheduleRequestStub.getLessonsTitles(), individualLessonsSchedule.getLessonsTitles());
         assertEquals(organizationEntityStub, individualLessonsSchedule.getOrganizationEntity());
         assertEquals(tutorEntityStub, individualLessonsSchedule.getTutorEntity());
         assertEquals(studentEntityStub, individualLessonsSchedule.getStudentEntity());

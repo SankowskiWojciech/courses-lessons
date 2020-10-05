@@ -46,7 +46,7 @@ public class IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLess
     private void assertIndividualLessonEntities(List<IndividualLessonEntity> individualLessonEntitiesResult, List<LessonDates> lessonDatesStub, IndividualLessonsSchedule individualLessonsScheduleStub) {
         assertNotNull(individualLessonEntitiesResult);
         assertEquals(lessonDatesStub.size(), individualLessonEntitiesResult.size());
-        List<String> lessonsTitles = individualLessonsScheduleStub.getLessonTitles();
+        List<String> lessonsTitles = individualLessonsScheduleStub.getLessonsTitles();
         for (int i = 0; i < lessonDatesStub.size(); i++) {
             IndividualLessonEntity individualLessonEntityResult = individualLessonEntitiesResult.get(i);
             LessonDates expectedLessonDates = lessonDatesStub.get(i);
