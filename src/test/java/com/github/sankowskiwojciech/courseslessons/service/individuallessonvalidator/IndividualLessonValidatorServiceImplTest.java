@@ -6,11 +6,11 @@ import com.github.sankowskiwojciech.coursescorelib.backend.repository.TutorRepos
 import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.NewLessonCollidesWithExistingOnesDetailedException;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.StudentNotFoundDetailedException;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.SubdomainNotFoundDetailedException;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.UserNotAllowedToAccessSubdomainDetailedException;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.UserNotAllowedToCreateLesson;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.StudentNotFoundException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.SubdomainNotFoundException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.lesson.NewLessonCollidesWithExistingOnesException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToAccessSubdomainException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToCreateLessonException;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequest;
@@ -54,17 +54,17 @@ public class IndividualLessonValidatorServiceImplTest {
         Mockito.reset(tutorRepositoryMock, studentRepositoryMock, subdomainServiceMock, organizationRepositoryMock, lessonCollisionValidatorServiceMock);
     }
 
-    @Test(expected = SubdomainNotFoundDetailedException.class)
+    @Test(expected = SubdomainNotFoundException.class)
     public void shouldThrowSubdomainNotFoundExceptionWhenSubdomainIsNotFound() {
         //given
         IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.create();
 
-        when(subdomainServiceMock.readSubdomainInformationIfSubdomainExists(eq(individualLessonRequestStub.getSubdomainName()))).thenThrow(SubdomainNotFoundDetailedException.class);
+        when(subdomainServiceMock.readSubdomainInformationIfSubdomainExists(eq(individualLessonRequestStub.getSubdomainName()))).thenThrow(SubdomainNotFoundException.class);
 
         //when
         try {
             IndividualLesson individualLesson = testee.validateCreateIndividualLessonRequest(individualLessonRequestStub);
-        } catch (SubdomainNotFoundDetailedException e) {
+        } catch (SubdomainNotFoundException e) {
 
             //then exception is thrown
             verify(subdomainServiceMock).readSubdomainInformationIfSubdomainExists(eq(individualLessonRequestStub.getSubdomainName()));
@@ -72,7 +72,7 @@ public class IndividualLessonValidatorServiceImplTest {
         }
     }
 
-    @Test(expected = UserNotAllowedToCreateLesson.class)
+    @Test(expected = UserNotAllowedToCreateLessonException.class)
     public void shouldThrowUserNotAllowedToCreateLessionExceptionWhenTutorIsNotFound() {
         //given
         IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.create();
@@ -86,7 +86,7 @@ public class IndividualLessonValidatorServiceImplTest {
         //when
         try {
             IndividualLesson individualLesson = testee.validateCreateIndividualLessonRequest(individualLessonRequestStub);
-        } catch (UserNotAllowedToCreateLesson e) {
+        } catch (UserNotAllowedToCreateLessonException e) {
 
             //then exception is thrown
             verify(subdomainServiceMock).readSubdomainInformationIfSubdomainExists(eq(individualLessonRequestStub.getSubdomainName()));
@@ -96,7 +96,7 @@ public class IndividualLessonValidatorServiceImplTest {
         }
     }
 
-    @Test(expected = UserNotAllowedToAccessSubdomainDetailedException.class)
+    @Test(expected = UserNotAllowedToAccessSubdomainException.class)
     public void shouldThrowUserNotAllowedToAccessSubdomainExceptionWhenTutorDoesNotBelongToProvidedSubdomain() {
         //given
         IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.create();
@@ -107,12 +107,12 @@ public class IndividualLessonValidatorServiceImplTest {
         when(subdomainServiceMock.readSubdomainInformationIfSubdomainExists(eq(individualLessonRequestStub.getSubdomainName()))).thenReturn(subdomainStub);
         when(organizationRepositoryMock.findById(eq(subdomainStub.getEmailAddress()))).thenReturn(Optional.of(organizationEntityStub));
         when(tutorRepositoryMock.findById(eq(individualLessonRequestStub.getTutorId()))).thenReturn(Optional.of(tutorEntityStub));
-        doThrow(UserNotAllowedToAccessSubdomainDetailedException.class).when(subdomainServiceMock).validateIfUserIsAllowedToAccessSubdomain(eq(subdomainStub.getEmailAddress()), eq(tutorEntityStub.getEmailAddress()));
+        doThrow(UserNotAllowedToAccessSubdomainException.class).when(subdomainServiceMock).validateIfUserIsAllowedToAccessSubdomain(eq(subdomainStub.getEmailAddress()), eq(tutorEntityStub.getEmailAddress()));
 
         //when
         try {
             IndividualLesson individualLesson = testee.validateCreateIndividualLessonRequest(individualLessonRequestStub);
-        } catch (UserNotAllowedToCreateLesson e) {
+        } catch (UserNotAllowedToCreateLessonException e) {
 
             //then exception is thrown
             verify(subdomainServiceMock).readSubdomainInformationIfSubdomainExists(eq(individualLessonRequestStub.getSubdomainName()));
@@ -123,7 +123,7 @@ public class IndividualLessonValidatorServiceImplTest {
         }
     }
 
-    @Test(expected = StudentNotFoundDetailedException.class)
+    @Test(expected = StudentNotFoundException.class)
     public void shouldThrowStudentNotFoundExceptionWhenStudentIsNotFound() {
         //given
         IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.create();
@@ -137,7 +137,7 @@ public class IndividualLessonValidatorServiceImplTest {
         //when
         try {
             IndividualLesson individualLesson = testee.validateCreateIndividualLessonRequest(individualLessonRequestStub);
-        } catch (StudentNotFoundDetailedException e) {
+        } catch (StudentNotFoundException e) {
 
             //then exception is thrown
             verify(subdomainServiceMock).readSubdomainInformationIfSubdomainExists(eq(individualLessonRequestStub.getSubdomainName()));
@@ -149,7 +149,7 @@ public class IndividualLessonValidatorServiceImplTest {
         }
     }
 
-    @Test(expected = UserNotAllowedToAccessSubdomainDetailedException.class)
+    @Test(expected = UserNotAllowedToAccessSubdomainException.class)
     public void shouldThrowUserNotAllowedToAccessSubdomainExceptionWhenStudentDoesNotBelongToProvidedSubdomain() {
         //given
         IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.create();
@@ -162,12 +162,12 @@ public class IndividualLessonValidatorServiceImplTest {
         when(organizationRepositoryMock.findById(eq(subdomainStub.getEmailAddress()))).thenReturn(Optional.of(organizationEntityStub));
         when(tutorRepositoryMock.findById(eq(individualLessonRequestStub.getTutorId()))).thenReturn(Optional.of(tutorEntityStub));
         when(studentRepositoryMock.findById(eq(individualLessonRequestStub.getStudentId()))).thenReturn(Optional.of(studentEntityStub));
-        doThrow(UserNotAllowedToAccessSubdomainDetailedException.class).when(subdomainServiceMock).validateIfUserIsAllowedToAccessSubdomain(eq(subdomainStub.getEmailAddress()), eq(studentEntityStub.getEmailAddress()));
+        doThrow(UserNotAllowedToAccessSubdomainException.class).when(subdomainServiceMock).validateIfUserIsAllowedToAccessSubdomain(eq(subdomainStub.getEmailAddress()), eq(studentEntityStub.getEmailAddress()));
 
         //when
         try {
             IndividualLesson individualLesson = testee.validateCreateIndividualLessonRequest(individualLessonRequestStub);
-        } catch (StudentNotFoundDetailedException e) {
+        } catch (StudentNotFoundException e) {
 
             //then exception is thrown
             verify(subdomainServiceMock).readSubdomainInformationIfSubdomainExists(eq(individualLessonRequestStub.getSubdomainName()));
@@ -180,7 +180,7 @@ public class IndividualLessonValidatorServiceImplTest {
         }
     }
 
-    @Test(expected = NewLessonCollidesWithExistingOnesDetailedException.class)
+    @Test(expected = NewLessonCollidesWithExistingOnesException.class)
     public void shouldThrowNewLessonCollidesWithCurrentOnesWhenNewLessonCollidesWithExistingOnes() {
         //given
         IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.create();
@@ -193,12 +193,12 @@ public class IndividualLessonValidatorServiceImplTest {
         when(organizationRepositoryMock.findById(eq(subdomainStub.getEmailAddress()))).thenReturn(Optional.of(organizationEntityStub));
         when(tutorRepositoryMock.findById(eq(individualLessonRequestStub.getTutorId()))).thenReturn(Optional.of(tutorEntityStub));
         when(studentRepositoryMock.findById(eq(individualLessonRequestStub.getStudentId()))).thenReturn(Optional.of(studentEntityStub));
-        doThrow(NewLessonCollidesWithExistingOnesDetailedException.class).when(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDateOfLesson()), eq(individualLessonRequestStub.getEndDateOfLesson()), eq(tutorEntityStub.getEmailAddress()), eq(organizationEntityStub.getEmailAddress()));
+        doThrow(NewLessonCollidesWithExistingOnesException.class).when(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDateOfLesson()), eq(individualLessonRequestStub.getEndDateOfLesson()), eq(tutorEntityStub.getEmailAddress()), eq(organizationEntityStub.getEmailAddress()));
 
         //when
         try {
             IndividualLesson individualLesson = testee.validateCreateIndividualLessonRequest(individualLessonRequestStub);
-        } catch (NewLessonCollidesWithExistingOnesDetailedException e) {
+        } catch (NewLessonCollidesWithExistingOnesException e) {
 
             //then exception is thrown
             verify(subdomainServiceMock).readSubdomainInformationIfSubdomainExists(eq(individualLessonRequestStub.getSubdomainName()));

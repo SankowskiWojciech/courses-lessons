@@ -6,8 +6,8 @@ import com.github.sankowskiwojciech.coursescorelib.backend.repository.TutorRepos
 import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.StudentNotFoundDetailedException;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.UserNotAllowedToCreateLesson;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.StudentNotFoundException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToCreateLessonException;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequest;
@@ -67,7 +67,7 @@ public class IndividualLessonValidatorServiceImpl implements IndividualLessonVal
     private TutorEntity readTutor(String tutorId) {
         Optional<TutorEntity> tutorEntity = tutorRepository.findById(tutorId);
         if (!tutorEntity.isPresent()) {
-            throw new UserNotAllowedToCreateLesson();
+            throw new UserNotAllowedToCreateLessonException();
         }
         return tutorEntity.get();
     }
@@ -75,7 +75,7 @@ public class IndividualLessonValidatorServiceImpl implements IndividualLessonVal
     private StudentEntity readStudent(String studentId) {
         Optional<StudentEntity> studentEntity = studentRepository.findById(studentId);
         if (!studentEntity.isPresent()) {
-            throw new StudentNotFoundDetailedException();
+            throw new StudentNotFoundException();
         }
         return studentEntity.get();
     }

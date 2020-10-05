@@ -2,7 +2,7 @@ package com.github.sankowskiwojciech.courseslessons.controller.student;
 
 import com.github.sankowskiwojciech.coursescorelib.model.account.AccountType;
 import com.github.sankowskiwojciech.coursescorelib.model.db.token.TokenEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.UserNotAllowedToReadInformationAboutStudents;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToAccessStudentsInformationException;
 import com.github.sankowskiwojciech.coursescorelib.model.student.StudentResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.controller.validator.SubdomainAndUserAccessValidator;
@@ -38,7 +38,7 @@ public class StudentController {
 
     private void validateIfUserIsTutor(TokenEntity tokenEntity) {
         if (!AccountType.TUTOR.equals(tokenEntity.getAccountType())) {
-            throw new UserNotAllowedToReadInformationAboutStudents();
+            throw new UserNotAllowedToAccessStudentsInformationException();
         }
     }
 }

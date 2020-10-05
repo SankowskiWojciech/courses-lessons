@@ -2,7 +2,7 @@ package com.github.sankowskiwojciech.courseslessons.service.tokenvalidation;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.TokenRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.db.token.TokenEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.InvalidTokenDetailedException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.InvalidTokenException;
 import com.github.sankowskiwojciech.courseslessons.stub.TokenEntityStub;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +29,7 @@ public class TokenValidationServiceImplTest {
         Mockito.reset(tokenRepositoryMock);
     }
 
-    @Test(expected = InvalidTokenDetailedException.class)
+    @Test(expected = InvalidTokenException.class)
     public void shouldThrowInvalidTokenExceptionWhenTokenIsNotFound() {
         //given
         String tokenValueStub = TOKEN_VALUE_STUB;
@@ -38,7 +38,7 @@ public class TokenValidationServiceImplTest {
         //when
         try {
             TokenEntity tokenEntity = testee.validateToken(tokenValueStub);
-        } catch (InvalidTokenDetailedException e) {
+        } catch (InvalidTokenException e) {
 
             //then exception is thrown
             verify(tokenRepositoryMock).findByTokenValue(eq(tokenValueStub));
@@ -46,7 +46,7 @@ public class TokenValidationServiceImplTest {
         }
     }
 
-    @Test(expected = InvalidTokenDetailedException.class)
+    @Test(expected = InvalidTokenException.class)
     public void shouldThrowInvalidTokenExceptionWhenTokenIsRevoked() {
         //given
         String tokenValueStub = TOKEN_VALUE_STUB;
@@ -56,7 +56,7 @@ public class TokenValidationServiceImplTest {
         //when
         try {
             TokenEntity tokenEntity = testee.validateToken(tokenValueStub);
-        } catch (InvalidTokenDetailedException e) {
+        } catch (InvalidTokenException e) {
 
             //then exception is thrown
             verify(tokenRepositoryMock).findByTokenValue(eq(tokenValueStub));
@@ -64,7 +64,7 @@ public class TokenValidationServiceImplTest {
         }
     }
 
-    @Test(expected = InvalidTokenDetailedException.class)
+    @Test(expected = InvalidTokenException.class)
     public void shouldThrowInvalidTokenExceptionWhenTokenIsExpired() {
         //given
         String tokenValueStub = TOKEN_VALUE_STUB;
@@ -74,7 +74,7 @@ public class TokenValidationServiceImplTest {
         //when
         try {
             testee.validateToken(tokenValueStub);
-        } catch (InvalidTokenDetailedException e) {
+        } catch (InvalidTokenException e) {
 
             //then exception is thrown
             verify(tokenRepositoryMock).findByTokenValue(eq(tokenValueStub));
@@ -82,7 +82,7 @@ public class TokenValidationServiceImplTest {
         }
     }
 
-    @Test(expected = InvalidTokenDetailedException.class)
+    @Test(expected = InvalidTokenException.class)
     public void shouldThrowInvalidTokenExceptionWhenTokenIsNotIssuedForProvidedUser() {
         //given
         String tokenValueStub = TOKEN_VALUE_STUB;
@@ -93,7 +93,7 @@ public class TokenValidationServiceImplTest {
         //when
         try {
             TokenEntity tokenEntity = testee.validateTokenAndUser(tokenValueStub, userEmailAddressStub);
-        } catch (InvalidTokenDetailedException e) {
+        } catch (InvalidTokenException e) {
 
             //then exception is thrown
             verify(tokenRepositoryMock).findByTokenValue(eq(tokenValueStub));

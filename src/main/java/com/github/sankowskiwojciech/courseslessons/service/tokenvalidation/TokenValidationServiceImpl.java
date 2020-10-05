@@ -2,7 +2,7 @@ package com.github.sankowskiwojciech.courseslessons.service.tokenvalidation;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.TokenRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.db.token.TokenEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.InvalidTokenDetailedException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.InvalidTokenException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,24 +32,24 @@ public class TokenValidationServiceImpl implements TokenValidationService {
     }
 
     private TokenEntity readTokenByTokenValue(String tokenValue) {
-        return tokenRepository.findByTokenValue(tokenValue).orElseThrow(InvalidTokenDetailedException::new);
+        return tokenRepository.findByTokenValue(tokenValue).orElseThrow(InvalidTokenException::new);
     }
 
     private void validateIfTokenIsNotRevoked(LocalDateTime revocationDateTime) {
         if (revocationDateTime != null) {
-            throw new InvalidTokenDetailedException();
+            throw new InvalidTokenException();
         }
     }
 
     private void validateIfTokenIsNotExpired(LocalDateTime expirationDateTime) {
         if (expirationDateTime.isBefore(LocalDateTime.now())) {
-            throw new InvalidTokenDetailedException();
+            throw new InvalidTokenException();
         }
     }
 
     private void validateIfTokenIsIssuedForProvidedUser(String userEmailAddressFromToken, String providedUserEmailAddress) {
         if (!userEmailAddressFromToken.equals(providedUserEmailAddress)) {
-            throw new InvalidTokenDetailedException();
+            throw new InvalidTokenException();
         }
     }
 }

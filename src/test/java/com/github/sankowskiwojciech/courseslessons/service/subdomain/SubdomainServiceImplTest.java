@@ -6,8 +6,8 @@ import com.github.sankowskiwojciech.coursescorelib.backend.repository.TutorRepos
 import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.subdomainuseraccess.SubdomainUserAccessEntityId;
 import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.SubdomainNotFoundDetailedException;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.UserNotAllowedToAccessSubdomainDetailedException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.SubdomainNotFoundException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToAccessSubdomainException;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
@@ -42,7 +42,7 @@ public class SubdomainServiceImplTest {
         Mockito.reset(organizationRepositoryMock, tutorRepositoryMock, subdomainUserAccessRepositoryMock);
     }
 
-    @Test(expected = SubdomainNotFoundDetailedException.class)
+    @Test(expected = SubdomainNotFoundException.class)
     public void shouldThrowSubdomainNotFoundExceptionWhenSubdomainNameIsNotValid() {
         //given
         String subdomainName = StringUtils.EMPTY;
@@ -50,7 +50,7 @@ public class SubdomainServiceImplTest {
         //when
         try {
             Subdomain subdomain = testee.readSubdomainInformationIfSubdomainExists(subdomainName);
-        } catch (SubdomainNotFoundDetailedException e) {
+        } catch (SubdomainNotFoundException e) {
 
             //then exception is thrown
             verifyNoInteractions(organizationRepositoryMock, tutorRepositoryMock);
@@ -58,7 +58,7 @@ public class SubdomainServiceImplTest {
         }
     }
 
-    @Test(expected = SubdomainNotFoundDetailedException.class)
+    @Test(expected = SubdomainNotFoundException.class)
     public void shouldThrowSubdomainNotFoundExceptionWhenSubdomainDoesNotBelongToOrganizationOrTutor() {
         //given
         String subdomainName = UUID.randomUUID().toString();
@@ -68,7 +68,7 @@ public class SubdomainServiceImplTest {
         //when
         try {
             Subdomain subdomain = testee.readSubdomainInformationIfSubdomainExists(subdomainName);
-        } catch (SubdomainNotFoundDetailedException e) {
+        } catch (SubdomainNotFoundException e) {
 
             //then exception is thrown
             verify(organizationRepositoryMock).findByAlias(eq(subdomainName));
@@ -107,7 +107,7 @@ public class SubdomainServiceImplTest {
         verify(tutorRepositoryMock).findByAlias(eq(subdomainName));
     }
 
-    @Test(expected = UserNotAllowedToAccessSubdomainDetailedException.class)
+    @Test(expected = UserNotAllowedToAccessSubdomainException.class)
     public void shouldThrowUserNotAllowedToAccessSubdomainExceptionWhenUserIsNotAllowedToAccessGivenSubdomain() {
         //given
         String subdomainEmaillAddress = ORGANIZATION_EMAIL_ADDRESS_STUB;
@@ -118,7 +118,7 @@ public class SubdomainServiceImplTest {
         //when
         try {
             testee.validateIfUserIsAllowedToAccessSubdomain(subdomainEmaillAddress, userEmailAddress);
-        } catch (UserNotAllowedToAccessSubdomainDetailedException e) {
+        } catch (UserNotAllowedToAccessSubdomainException e) {
 
             //then exception is thrown
             verify(subdomainUserAccessRepositoryMock).existsById(any(SubdomainUserAccessEntityId.class));
