@@ -1,10 +1,10 @@
 package com.github.sankowskiwojciech.courseslessons.service.student;
 
-import com.github.sankowskiwojciech.courseslessons.backend.repository.StudentRepository;
-import com.github.sankowskiwojciech.courseslessons.backend.repository.SubdomainUserAccessRepository;
-import com.github.sankowskiwojciech.courseslessons.model.db.student.StudentEntity;
-import com.github.sankowskiwojciech.courseslessons.model.db.subdomainuseraccess.SubdomainUserAccessEntity;
-import com.github.sankowskiwojciech.courseslessons.model.student.StudentResponse;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.StudentRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.SubdomainUserAccessRepository;
+import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.subdomainuseraccess.SubdomainUserAccessEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.student.StudentResponse;
 import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.SubdomainUserAccessEntityStub;
 import com.google.common.collect.Lists;

@@ -1,8 +1,8 @@
 package com.github.sankowskiwojciech.courseslessons.controller.individuallesson.validator;
 
-import com.github.sankowskiwojciech.courseslessons.model.exception.InvalidRequestBodyDetailedException;
-import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidLessonDatesDetailedException;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequest;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.InvalidRequestBodyDetailedException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.lesson.InvalidLessonDatesDetailedException;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

@@ -1,6 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.stub;
 
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequest;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

@@ -1,7 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.controller.validator;
 
-import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
-import com.github.sankowskiwojciech.courseslessons.model.subdomain.SubdomainType;
+import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
+import com.github.sankowskiwojciech.coursescorelib.model.subdomain.SubdomainType;
 import com.github.sankowskiwojciech.courseslessons.service.subdomain.SubdomainService;
 import com.github.sankowskiwojciech.courseslessons.stub.SubdomainStub;
 import org.apache.commons.lang3.StringUtils;

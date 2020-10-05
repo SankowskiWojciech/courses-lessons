@@ -1,6 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.stub;
 
-import com.github.sankowskiwojciech.courseslessons.model.db.organization.OrganizationEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
 import lombok.NoArgsConstructor;
 
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.ORGANIZATION_ALIAS_STUB;

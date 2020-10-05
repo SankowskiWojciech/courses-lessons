@@ -1,10 +1,10 @@
 package com.github.sankowskiwojciech.courseslessons.service.individuallessonvalidator.transformer;
 
-import com.github.sankowskiwojciech.courseslessons.model.db.organization.OrganizationEntity;
-import com.github.sankowskiwojciech.courseslessons.model.db.student.StudentEntity;
-import com.github.sankowskiwojciech.courseslessons.model.db.tutor.TutorEntity;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonsSchedule;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonsScheduleRequest;
+import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonsSchedule;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonsScheduleRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

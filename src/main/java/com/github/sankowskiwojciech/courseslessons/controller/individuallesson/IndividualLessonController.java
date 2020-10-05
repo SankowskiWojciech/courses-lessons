@@ -1,17 +1,17 @@
 package com.github.sankowskiwojciech.courseslessons.controller.individuallesson;
 
+import com.github.sankowskiwojciech.coursescorelib.model.account.AccountInfo;
+import com.github.sankowskiwojciech.coursescorelib.model.db.token.TokenEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonsSchedule;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequest;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequestParams;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonsScheduleRequest;
+import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.controller.individuallesson.validator.IndividualLessonRequestValidator;
 import com.github.sankowskiwojciech.courseslessons.controller.individuallesson.validator.IndividualLessonsScheduleRequestValidator;
 import com.github.sankowskiwojciech.courseslessons.controller.validator.SubdomainAndUserAccessValidator;
-import com.github.sankowskiwojciech.courseslessons.model.account.AccountInfo;
-import com.github.sankowskiwojciech.courseslessons.model.db.token.TokenEntity;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLesson;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonResponse;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonsSchedule;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequest;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequestParams;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonsScheduleRequest;
-import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonService;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonsSchedulerService;
 import com.github.sankowskiwojciech.courseslessons.service.individuallessonvalidator.IndividualLessonValidatorService;

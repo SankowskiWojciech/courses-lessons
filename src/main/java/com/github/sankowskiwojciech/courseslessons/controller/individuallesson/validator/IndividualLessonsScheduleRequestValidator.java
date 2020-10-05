@@ -1,11 +1,11 @@
 package com.github.sankowskiwojciech.courseslessons.controller.individuallesson.validator;
 
-import com.github.sankowskiwojciech.courseslessons.model.exception.InvalidRequestBodyDetailedException;
-import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidBeginningOrEndLessonsDateDetailedException;
-import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidLessonTimesDetailedException;
-import com.github.sankowskiwojciech.courseslessons.model.exception.lesson.InvalidLessonsDurationDetailedException;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonsScheduleRequest;
-import com.github.sankowskiwojciech.courseslessons.model.lesson.DayOfWeekWithTimes;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.InvalidRequestBodyDetailedException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.lesson.InvalidBeginningOrEndLessonsDateDetailedException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.lesson.InvalidLessonTimesDetailedException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.lesson.InvalidLessonsDurationDetailedException;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonsScheduleRequest;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.DayOfWeekWithTimes;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

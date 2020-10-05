@@ -1,7 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.stub;
 
-import com.github.sankowskiwojciech.courseslessons.model.account.AccountInfo;
-import com.github.sankowskiwojciech.courseslessons.model.account.AccountType;
+import com.github.sankowskiwojciech.coursescorelib.model.account.AccountInfo;
+import com.github.sankowskiwojciech.coursescorelib.model.account.AccountType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

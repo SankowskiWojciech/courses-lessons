@@ -1,6 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.service.lessonvalidator;
 
-import com.github.sankowskiwojciech.courseslessons.model.lesson.LessonDates;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonDates;
 
 import java.time.LocalDateTime;
 import java.util.List;

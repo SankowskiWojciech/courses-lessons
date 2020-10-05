@@ -1,11 +1,11 @@
 package com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer;
 
-import com.github.sankowskiwojciech.courseslessons.model.account.AccountInfo;
-import com.github.sankowskiwojciech.courseslessons.model.account.AccountType;
-import com.github.sankowskiwojciech.courseslessons.model.db.individuallesson.QIndividualLessonEntity;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequestParams;
-import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
-import com.github.sankowskiwojciech.courseslessons.model.subdomain.SubdomainType;
+import com.github.sankowskiwojciech.coursescorelib.model.account.AccountInfo;
+import com.github.sankowskiwojciech.coursescorelib.model.account.AccountType;
+import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.QIndividualLessonEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequestParams;
+import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
+import com.github.sankowskiwojciech.coursescorelib.model.subdomain.SubdomainType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -1,8 +1,8 @@
 package com.github.sankowskiwojciech.courseslessons.stub;
 
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonsScheduleRequest;
-import com.github.sankowskiwojciech.courseslessons.model.lesson.DayOfWeekWithTimes;
-import com.github.sankowskiwojciech.courseslessons.model.lesson.ScheduleType;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonsScheduleRequest;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.DayOfWeekWithTimes;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.ScheduleType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.assertj.core.util.Lists;

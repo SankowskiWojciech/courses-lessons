@@ -1,9 +1,9 @@
 package com.github.sankowskiwojciech.courseslessons.service.individuallessonvalidator;
 
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLesson;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonsSchedule;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonRequest;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.request.IndividualLessonsScheduleRequest;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonsSchedule;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequest;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonsScheduleRequest;
 
 public interface IndividualLessonValidatorService {
 

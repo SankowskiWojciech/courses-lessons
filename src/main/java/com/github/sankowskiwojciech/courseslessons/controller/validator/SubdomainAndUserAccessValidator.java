@@ -1,6 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.controller.validator;
 
-import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
+import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.service.subdomain.SubdomainService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

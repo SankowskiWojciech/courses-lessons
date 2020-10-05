@@ -1,7 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.service.student.transformer;
 
-import com.github.sankowskiwojciech.courseslessons.model.db.student.StudentEntity;
-import com.github.sankowskiwojciech.courseslessons.model.student.StudentResponse;
+import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.student.StudentResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

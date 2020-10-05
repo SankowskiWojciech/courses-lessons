@@ -1,7 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson;
 
-import com.github.sankowskiwojciech.courseslessons.model.lesson.DayOfWeekWithTimes;
-import com.github.sankowskiwojciech.courseslessons.model.lesson.LessonDates;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.DayOfWeekWithTimes;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonDates;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;

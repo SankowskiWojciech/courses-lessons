@@ -1,6 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.service.student;
 
-import com.github.sankowskiwojciech.courseslessons.model.student.StudentResponse;
+import com.github.sankowskiwojciech.coursescorelib.model.student.StudentResponse;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.stub;
 
-import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
-import com.github.sankowskiwojciech.courseslessons.model.subdomain.SubdomainType;
+import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
+import com.github.sankowskiwojciech.coursescorelib.model.subdomain.SubdomainType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

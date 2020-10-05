@@ -1,6 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.stub;
 
-import com.github.sankowskiwojciech.courseslessons.model.lesson.DayOfWeekWithTimes;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.DayOfWeekWithTimes;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

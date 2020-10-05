@@ -1,8 +1,8 @@
 package com.github.sankowskiwojciech.courseslessons.service.subdomain.transformer;
 
-import com.github.sankowskiwojciech.courseslessons.model.db.tutor.TutorEntity;
-import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
-import com.github.sankowskiwojciech.courseslessons.model.subdomain.SubdomainType;
+import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
+import com.github.sankowskiwojciech.coursescorelib.model.subdomain.SubdomainType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

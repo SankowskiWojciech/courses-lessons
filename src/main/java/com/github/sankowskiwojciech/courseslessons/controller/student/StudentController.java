@@ -1,11 +1,11 @@
 package com.github.sankowskiwojciech.courseslessons.controller.student;
 
+import com.github.sankowskiwojciech.coursescorelib.model.account.AccountType;
+import com.github.sankowskiwojciech.coursescorelib.model.db.token.TokenEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.UserNotAllowedToReadInformationAboutStudents;
+import com.github.sankowskiwojciech.coursescorelib.model.student.StudentResponse;
+import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.controller.validator.SubdomainAndUserAccessValidator;
-import com.github.sankowskiwojciech.courseslessons.model.account.AccountType;
-import com.github.sankowskiwojciech.courseslessons.model.db.token.TokenEntity;
-import com.github.sankowskiwojciech.courseslessons.model.exception.UserNotAllowedToReadInformationAboutStudents;
-import com.github.sankowskiwojciech.courseslessons.model.student.StudentResponse;
-import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.service.student.StudentService;
 import com.github.sankowskiwojciech.courseslessons.service.tokenvalidation.TokenValidationService;
 import lombok.AllArgsConstructor;

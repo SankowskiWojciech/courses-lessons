@@ -1,7 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer;
 
-import com.github.sankowskiwojciech.courseslessons.model.db.individuallesson.IndividualLessonEntity;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonResponse;
+import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

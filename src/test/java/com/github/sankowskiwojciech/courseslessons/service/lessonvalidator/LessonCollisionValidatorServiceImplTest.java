@@ -1,9 +1,9 @@
 package com.github.sankowskiwojciech.courseslessons.service.lessonvalidator;
 
-import com.github.sankowskiwojciech.courseslessons.backend.repository.IndividualLessonRepository;
-import com.github.sankowskiwojciech.courseslessons.model.db.individuallesson.IndividualLessonEntity;
-import com.github.sankowskiwojciech.courseslessons.model.exception.NewLessonCollidesWithExistingOnesDetailedException;
-import com.github.sankowskiwojciech.courseslessons.model.lesson.LessonDates;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonRepository;
+import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.NewLessonCollidesWithExistingOnesDetailedException;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonDates;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.LessonDatesStub;
 import org.assertj.core.util.Lists;

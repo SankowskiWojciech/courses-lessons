@@ -1,8 +1,8 @@
 package com.github.sankowskiwojciech.courseslessons.service.tokenvalidation;
 
-import com.github.sankowskiwojciech.courseslessons.backend.repository.TokenRepository;
-import com.github.sankowskiwojciech.courseslessons.model.db.token.TokenEntity;
-import com.github.sankowskiwojciech.courseslessons.model.exception.InvalidTokenDetailedException;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.TokenRepository;
+import com.github.sankowskiwojciech.coursescorelib.model.db.token.TokenEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.InvalidTokenDetailedException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

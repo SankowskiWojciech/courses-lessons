@@ -1,10 +1,10 @@
 package com.github.sankowskiwojciech.courseslessons.service.individuallesson;
 
-import com.github.sankowskiwojciech.courseslessons.backend.repository.IndividualLessonRepository;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonResponse;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLessonsSchedule;
-import com.github.sankowskiwojciech.courseslessons.model.lesson.LessonDates;
-import com.github.sankowskiwojciech.courseslessons.model.lesson.ScheduleType;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonRepository;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonsSchedule;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonDates;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.ScheduleType;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.LessonsDatesGeneratorService;
 import com.github.sankowskiwojciech.courseslessons.service.lessonvalidator.LessonCollisionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonsScheduleStub;

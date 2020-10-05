@@ -1,14 +1,14 @@
 package com.github.sankowskiwojciech.courseslessons.service.subdomain;
 
-import com.github.sankowskiwojciech.courseslessons.backend.repository.OrganizationRepository;
-import com.github.sankowskiwojciech.courseslessons.backend.repository.SubdomainUserAccessRepository;
-import com.github.sankowskiwojciech.courseslessons.backend.repository.TutorRepository;
-import com.github.sankowskiwojciech.courseslessons.model.db.organization.OrganizationEntity;
-import com.github.sankowskiwojciech.courseslessons.model.db.subdomainuseraccess.SubdomainUserAccessEntityId;
-import com.github.sankowskiwojciech.courseslessons.model.db.tutor.TutorEntity;
-import com.github.sankowskiwojciech.courseslessons.model.exception.SubdomainNotFoundDetailedException;
-import com.github.sankowskiwojciech.courseslessons.model.exception.UserNotAllowedToAccessSubdomainDetailedException;
-import com.github.sankowskiwojciech.courseslessons.model.subdomain.Subdomain;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.OrganizationRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.SubdomainUserAccessRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.TutorRepository;
+import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.subdomainuseraccess.SubdomainUserAccessEntityId;
+import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.SubdomainNotFoundDetailedException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.UserNotAllowedToAccessSubdomainDetailedException;
+import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.courseslessons.service.subdomain.transformer.OrganizationEntityToSubdomain;
 import com.github.sankowskiwojciech.courseslessons.service.subdomain.transformer.TutorEntityToSubdomain;
 import lombok.AllArgsConstructor;

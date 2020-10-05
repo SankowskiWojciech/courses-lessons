@@ -12,7 +12,6 @@ public interface DefaultTestValues {
     String ORGANIZATION_EMAIL_ADDRESS_STUB = "info@zslitnr1.pl";
     String ORGANIZATION_PHONE_NUMBER_STUB = "123456789";
     String ORGANIZATION_WEBSITE_URL_STUB = "http://zslitnr1.pl";
-    String ORGANIZATION_EMAIL_ADDRESS_STUB_2 = "not.spam@dancewithme.pl";
 
     //tutor
     String TUTOR_ALIAS_STUB = "wsankowski";
@@ -30,9 +29,6 @@ public interface DefaultTestValues {
     //token
     String TOKEN_VALUE_STUB = "tokenValueStub";
     String RSA_PUBLIC_KEY_STUB = "rsaPublicKey";
-
-    //parent
-    String PARENT_EMAIL_ADDRESS_STUB = "kbac@gmail.com";
 
     //lesson
     long INDIVIDUAL_LESSON_ID_STUB = 1;

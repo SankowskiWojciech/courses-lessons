@@ -1,9 +1,9 @@
 package com.github.sankowskiwojciech.courseslessons.stub;
 
-import com.github.sankowskiwojciech.courseslessons.model.db.organization.OrganizationEntity;
-import com.github.sankowskiwojciech.courseslessons.model.db.student.StudentEntity;
-import com.github.sankowskiwojciech.courseslessons.model.db.tutor.TutorEntity;
-import com.github.sankowskiwojciech.courseslessons.model.individuallesson.IndividualLesson;
+import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
