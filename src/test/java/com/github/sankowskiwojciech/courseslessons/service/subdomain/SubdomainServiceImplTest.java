@@ -43,13 +43,13 @@ public class SubdomainServiceImplTest {
     }
 
     @Test(expected = SubdomainNotFoundException.class)
-    public void shouldThrowSubdomainNotFoundExceptionWhenSubdomainNameIsNotValid() {
+    public void shouldThrowSubdomainNotFoundExceptionWhenSubdomainAliasIsNotValid() {
         //given
-        String subdomainName = StringUtils.EMPTY;
+        String subdomainAlias = StringUtils.EMPTY;
 
         //when
         try {
-            Subdomain subdomain = testee.readSubdomainInformationIfSubdomainExists(subdomainName);
+            Subdomain subdomain = testee.readSubdomainInformationIfSubdomainExists(subdomainAlias);
         } catch (SubdomainNotFoundException e) {
 
             //then exception is thrown
@@ -61,18 +61,18 @@ public class SubdomainServiceImplTest {
     @Test(expected = SubdomainNotFoundException.class)
     public void shouldThrowSubdomainNotFoundExceptionWhenSubdomainDoesNotBelongToOrganizationOrTutor() {
         //given
-        String subdomainName = UUID.randomUUID().toString();
-        when(organizationRepositoryMock.findByAlias(eq(subdomainName))).thenReturn(Optional.empty());
-        when(tutorRepositoryMock.findByAlias(eq(subdomainName))).thenReturn(Optional.empty());
+        String subdomainAlias = UUID.randomUUID().toString();
+        when(organizationRepositoryMock.findByAlias(eq(subdomainAlias))).thenReturn(Optional.empty());
+        when(tutorRepositoryMock.findByAlias(eq(subdomainAlias))).thenReturn(Optional.empty());
 
         //when
         try {
-            Subdomain subdomain = testee.readSubdomainInformationIfSubdomainExists(subdomainName);
+            Subdomain subdomain = testee.readSubdomainInformationIfSubdomainExists(subdomainAlias);
         } catch (SubdomainNotFoundException e) {
 
             //then exception is thrown
-            verify(organizationRepositoryMock).findByAlias(eq(subdomainName));
-            verify(tutorRepositoryMock).findByAlias(eq(subdomainName));
+            verify(organizationRepositoryMock).findByAlias(eq(subdomainAlias));
+            verify(tutorRepositoryMock).findByAlias(eq(subdomainAlias));
             throw e;
         }
     }
@@ -80,31 +80,31 @@ public class SubdomainServiceImplTest {
     @Test
     public void shouldDoNothingWhenSubdomainBelongsToOrganization() {
         //given
-        String subdomainName = ORGANIZATION_ALIAS_STUB;
+        String subdomainAlias = ORGANIZATION_ALIAS_STUB;
         OrganizationEntity organizationEntityStub = OrganizationEntityStub.create();
-        when(organizationRepositoryMock.findByAlias(eq(subdomainName))).thenReturn(Optional.of(organizationEntityStub));
+        when(organizationRepositoryMock.findByAlias(eq(subdomainAlias))).thenReturn(Optional.of(organizationEntityStub));
 
         //when
-        testee.readSubdomainInformationIfSubdomainExists(subdomainName);
+        testee.readSubdomainInformationIfSubdomainExists(subdomainAlias);
 
         //then nothing happens
-        verify(organizationRepositoryMock).findByAlias(eq(subdomainName));
+        verify(organizationRepositoryMock).findByAlias(eq(subdomainAlias));
     }
 
     @Test
     public void shouldDoNothingWhenSubdomainBelongsToTutor() {
         //given
-        String subdomainName = TUTOR_ALIAS_STUB;
+        String subdomainAlias = TUTOR_ALIAS_STUB;
         TutorEntity tutorEntityStub = TutorEntityStub.create();
-        when(organizationRepositoryMock.findByAlias(eq(subdomainName))).thenReturn(Optional.empty());
-        when(tutorRepositoryMock.findByAlias(eq(subdomainName))).thenReturn(Optional.of(tutorEntityStub));
+        when(organizationRepositoryMock.findByAlias(eq(subdomainAlias))).thenReturn(Optional.empty());
+        when(tutorRepositoryMock.findByAlias(eq(subdomainAlias))).thenReturn(Optional.of(tutorEntityStub));
 
         //when
-        testee.readSubdomainInformationIfSubdomainExists(subdomainName);
+        testee.readSubdomainInformationIfSubdomainExists(subdomainAlias);
 
         //then nothing happens
-        verify(organizationRepositoryMock).findByAlias(eq(subdomainName));
-        verify(tutorRepositoryMock).findByAlias(eq(subdomainName));
+        verify(organizationRepositoryMock).findByAlias(eq(subdomainAlias));
+        verify(tutorRepositoryMock).findByAlias(eq(subdomainAlias));
     }
 
     @Test(expected = UserNotAllowedToAccessSubdomainException.class)

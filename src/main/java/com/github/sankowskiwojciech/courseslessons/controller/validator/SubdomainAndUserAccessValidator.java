@@ -13,9 +13,9 @@ public class SubdomainAndUserAccessValidator implements BiFunction<String, Strin
     private final SubdomainService subdomainService;
 
     @Override
-    public Subdomain apply(String subdomainName, String userEmailAddress) {
-        if (StringUtils.isNotBlank(subdomainName)) {
-            Subdomain subdomain = subdomainService.readSubdomainInformationIfSubdomainExists(subdomainName);
+    public Subdomain apply(String subdomainAlias, String userEmailAddress) {
+        if (StringUtils.isNotBlank(subdomainAlias)) {
+            Subdomain subdomain = subdomainService.readSubdomainInformationIfSubdomainExists(subdomainAlias);
             subdomainService.validateIfUserIsAllowedToAccessSubdomain(subdomain.getEmailAddress(), userEmailAddress);
             return subdomain;
         }

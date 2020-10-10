@@ -4,7 +4,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 
 public interface SubdomainService {
 
-    Subdomain readSubdomainInformationIfSubdomainExists(String subdomainName);
+    Subdomain readSubdomainInformationIfSubdomainExists(String subdomainAlias);
 
     void validateIfUserIsAllowedToAccessSubdomain(String subdomainEmailAddress, String userEmailAddress);
 }

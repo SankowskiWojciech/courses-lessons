@@ -27,13 +27,13 @@ public class SubdomainAndUserAccessValidatorTest {
     }
 
     @Test
-    public void shouldReturnNullWhenSubdomainNameIsEmpty() {
+    public void shouldReturnNullWhenSubdomainAliasIsEmpty() {
         //given
-        String subdomainNameStub = StringUtils.EMPTY;
+        String subdomainAliasStub = StringUtils.EMPTY;
         String userEmailAddressStub = TUTOR_EMAIL_ADDRESS_STUB;
 
         //when
-        Subdomain subdomain = testee.apply(subdomainNameStub, userEmailAddressStub);
+        Subdomain subdomain = testee.apply(subdomainAliasStub, userEmailAddressStub);
 
         //then
         assertNull(subdomain);
@@ -43,16 +43,16 @@ public class SubdomainAndUserAccessValidatorTest {
     public void shouldReturnSubdomainCorrectly() {
         //given
         Subdomain subdomainStub = SubdomainStub.createWithSubdomainType(SubdomainType.ORGANIZATION);
-        String subdomainNameStub = subdomainStub.getAlias();
+        String subdomainAliasStub = subdomainStub.getAlias();
         String userEmailAddressStub = TUTOR_EMAIL_ADDRESS_STUB;
 
-        when(subdomainServiceMock.readSubdomainInformationIfSubdomainExists(eq(subdomainNameStub))).thenReturn(subdomainStub);
+        when(subdomainServiceMock.readSubdomainInformationIfSubdomainExists(eq(subdomainAliasStub))).thenReturn(subdomainStub);
 
         //when
-        Subdomain subdomainResult = testee.apply(subdomainNameStub, userEmailAddressStub);
+        Subdomain subdomainResult = testee.apply(subdomainAliasStub, userEmailAddressStub);
 
         //then
-        verify(subdomainServiceMock).readSubdomainInformationIfSubdomainExists(eq(subdomainNameStub));
+        verify(subdomainServiceMock).readSubdomainInformationIfSubdomainExists(eq(subdomainAliasStub));
         verify(subdomainServiceMock).validateIfUserIsAllowedToAccessSubdomain(eq(subdomainStub.getEmailAddress()), eq(userEmailAddressStub));
         assertEquals(subdomainResult, subdomainStub);
     }

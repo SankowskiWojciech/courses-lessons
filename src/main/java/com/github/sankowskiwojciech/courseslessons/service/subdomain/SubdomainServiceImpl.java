@@ -26,15 +26,15 @@ public class SubdomainServiceImpl implements SubdomainService {
     private final SubdomainUserAccessRepository subdomainUserAccessRepository;
 
     @Override
-    public Subdomain readSubdomainInformationIfSubdomainExists(String subdomainName) {
-        if (StringUtils.isBlank(subdomainName)) {
+    public Subdomain readSubdomainInformationIfSubdomainExists(String subdomainAlias) {
+        if (StringUtils.isBlank(subdomainAlias)) {
             throw new SubdomainNotFoundException();
         }
-        Optional<OrganizationEntity> organizationEntity = organizationRepository.findByAlias(subdomainName);
+        Optional<OrganizationEntity> organizationEntity = organizationRepository.findByAlias(subdomainAlias);
         if (organizationEntity.isPresent()) {
             return OrganizationEntityToSubdomain.getInstance().apply(organizationEntity.get());
         }
-        Optional<TutorEntity> tutorEntity = tutorRepository.findByAlias(subdomainName);
+        Optional<TutorEntity> tutorEntity = tutorRepository.findByAlias(subdomainAlias);
         if (tutorEntity.isPresent()) {
             return TutorEntityToSubdomain.getInstance().apply(tutorEntity.get());
         }

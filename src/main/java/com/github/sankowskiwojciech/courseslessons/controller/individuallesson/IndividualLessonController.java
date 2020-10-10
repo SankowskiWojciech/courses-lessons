@@ -61,9 +61,9 @@ public class IndividualLessonController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
-    public List<IndividualLessonResponse> readIndividualLessons(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam(value = "subdomainName", required = false) String subdomainName, @RequestParam(value = "fromDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fromDate, @RequestParam(value = "toDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime toDate) {
+    public List<IndividualLessonResponse> readIndividualLessons(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam(value = "subdomainAlias", required = false) String subdomainAlias, @RequestParam(value = "fromDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fromDate, @RequestParam(value = "toDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime toDate) {
         TokenEntity tokenEntity = tokenValidationService.validateToken(authorizationHeaderValue);
-        Subdomain subdomain = subdomainAndUserAccessValidator.apply(subdomainName, tokenEntity.getUserEmailAddress());
+        Subdomain subdomain = subdomainAndUserAccessValidator.apply(subdomainAlias, tokenEntity.getUserEmailAddress());
         AccountInfo accountInfo = new AccountInfo(tokenEntity.getUserEmailAddress(), tokenEntity.getAccountType());
         IndividualLessonRequestParams individualLessonRequestParams = new IndividualLessonRequestParams(subdomain, fromDate, toDate);
         return individualLessonService.readIndividualLessons(accountInfo, individualLessonRequestParams);
