@@ -21,6 +21,9 @@ public interface DefaultTestValues {
     String TUTOR_EMAIL_ADDRESS_STUB = "sankowski.wojciech@gmail.com";
     String TUTOR_PHONE_NUMBER_STUB = "111222333";
 
+    //user
+    String USER_ID_STUB = "user@test.com";
+
     //tutor
     String STUDENT_FIRST_NAME_STUB = "Marcin";
     String STUDENT_LAST_NAME_STUB = "Baczewski";
@@ -34,4 +37,9 @@ public interface DefaultTestValues {
     long INDIVIDUAL_LESSON_ID_STUB = 1;
     String LESSON_TITLE_STUB = "Tytul lekcji.";
     String LESSON_DESCRIPTION_STUB = "Opis lekcji.";
+
+    //file
+    String FILE_NAME_STUB = "Test file.pdf";
+    String FILE_CONTENT_TYPE_STUB = "application/pdf";
+    byte[] FILE_CONTENT_STUB = new byte[5];
 }
