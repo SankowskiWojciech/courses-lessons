@@ -2,6 +2,8 @@ package com.github.sankowskiwojciech.courseslessons.controller.lessonfile;
 
 import com.github.sankowskiwojciech.coursescorelib.model.db.token.TokenEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.UserPermissionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.tokenvalidation.TokenValidationService;
@@ -24,15 +26,14 @@ public class LessonFileController {
     private final TokenValidationService tokenValidationService;
     private final UserPermissionValidatorService userPermissionValidatorService;
     private final LessonFileValidatorService lessonFileValidatorService;
+    private final LessonFileService lessonFileService;
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping
-    public String createFile(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam("file") MultipartFile file) throws IOException {
+    public LessonFileResponse createFile(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam("file") MultipartFile file) throws IOException {
         TokenEntity tokenEntity = tokenValidationService.validateToken(authorizationHeaderValue);
         userPermissionValidatorService.validateIfUserIsAllowedToCreateFile(tokenEntity.getUserEmailAddress());
         LessonFile lessonFile = lessonFileValidatorService.validateFile(file);
-
-
-        return null;
+        return lessonFileService.createLessonFile(lessonFile, tokenEntity.getUserEmailAddress());
     }
 }

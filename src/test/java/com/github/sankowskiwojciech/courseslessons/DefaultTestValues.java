@@ -1,5 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons;
 
+import java.time.LocalDateTime;
+
 public interface DefaultTestValues {
 
     //subdomain
@@ -39,7 +41,11 @@ public interface DefaultTestValues {
     String LESSON_DESCRIPTION_STUB = "Opis lekcji.";
 
     //file
+    long FILE_ID_STUB = 1;
     String FILE_NAME_STUB = "Test file.pdf";
+    String FILE_EXTENSION_STUB = "pdf";
     String FILE_CONTENT_TYPE_STUB = "application/pdf";
     byte[] FILE_CONTENT_STUB = new byte[5];
+    String FILE_CREATED_BY_STUB = "sankowski.wojciech@gmail.com";
+    LocalDateTime FILE_CREATION_DATE_TIME_STUB = LocalDateTime.now();
 }
