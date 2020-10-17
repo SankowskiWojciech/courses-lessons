@@ -1,4 +1,4 @@
-package com.github.sankowskiwojciech.courseslessons.service.individuallessonvalidator;
+package com.github.sankowskiwojciech.courseslessons.service.individuallesson.validator;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.OrganizationRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.StudentRepository;
@@ -14,9 +14,9 @@ import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.reques
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonsScheduleRequest;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.SubdomainType;
-import com.github.sankowskiwojciech.courseslessons.service.individuallessonvalidator.transformer.IndividualLessonRequestAndExternalEntitiesToIndividualLesson;
-import com.github.sankowskiwojciech.courseslessons.service.individuallessonvalidator.transformer.IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsSchedule;
-import com.github.sankowskiwojciech.courseslessons.service.lessonvalidator.LessonCollisionValidatorService;
+import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonRequestAndExternalEntitiesToIndividualLesson;
+import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsSchedule;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.subdomain.SubdomainService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

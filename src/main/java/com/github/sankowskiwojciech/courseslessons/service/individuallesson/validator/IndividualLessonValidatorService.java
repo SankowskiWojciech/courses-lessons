@@ -1,4 +1,4 @@
-package com.github.sankowskiwojciech.courseslessons.service.individuallessonvalidator;
+package com.github.sankowskiwojciech.courseslessons.service.individuallesson.validator;
 
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonsSchedule;

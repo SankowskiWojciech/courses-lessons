@@ -1,4 +1,4 @@
-package com.github.sankowskiwojciech.courseslessons.service.lessonvalidator;
+package com.github.sankowskiwojciech.courseslessons.service.lesson.validator;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;

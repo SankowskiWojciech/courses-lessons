@@ -1,4 +1,4 @@
-package com.github.sankowskiwojciech.courseslessons.service.individuallessonvalidator.transformer;
+package com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer;
 
 import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;

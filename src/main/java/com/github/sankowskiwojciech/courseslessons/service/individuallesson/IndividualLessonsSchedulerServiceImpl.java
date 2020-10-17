@@ -7,8 +7,8 @@ import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.Indivi
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonDates;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonEntityToIndividualLessonResponse;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLessonEntity;
-import com.github.sankowskiwojciech.courseslessons.service.lesson.LessonsDatesGeneratorService;
-import com.github.sankowskiwojciech.courseslessons.service.lessonvalidator.LessonCollisionValidatorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.date.LessonsDatesGeneratorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

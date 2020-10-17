@@ -1,4 +1,4 @@
-package com.github.sankowskiwojciech.courseslessons.service.lesson;
+package com.github.sankowskiwojciech.courseslessons.service.lesson.date;
 
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.DayOfWeekWithTimes;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonDates;

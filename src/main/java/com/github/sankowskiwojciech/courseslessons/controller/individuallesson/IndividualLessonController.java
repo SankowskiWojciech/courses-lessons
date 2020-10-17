@@ -14,7 +14,7 @@ import com.github.sankowskiwojciech.courseslessons.controller.individuallesson.v
 import com.github.sankowskiwojciech.courseslessons.controller.validator.SubdomainAndUserAccessValidator;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonService;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonsSchedulerService;
-import com.github.sankowskiwojciech.courseslessons.service.individuallessonvalidator.IndividualLessonValidatorService;
+import com.github.sankowskiwojciech.courseslessons.service.individuallesson.validator.IndividualLessonValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.tokenvalidation.TokenValidationService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;

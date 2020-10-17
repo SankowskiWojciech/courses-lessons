@@ -5,8 +5,8 @@ import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.Indivi
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonDates;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.ScheduleType;
-import com.github.sankowskiwojciech.courseslessons.service.lesson.LessonsDatesGeneratorService;
-import com.github.sankowskiwojciech.courseslessons.service.lessonvalidator.LessonCollisionValidatorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.date.LessonsDatesGeneratorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonsScheduleStub;
 import com.github.sankowskiwojciech.courseslessons.stub.LessonDatesStub;
 import org.assertj.core.util.Lists;
