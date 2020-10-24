@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import java.util.List;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/lessons/files")
@@ -38,6 +40,13 @@ public class LessonFileController {
         fileAccessPermissionValidatorService.validateIfUserIsAllowedToCreateFile(tokenEntity.getUserEmailAddress());
         LessonFile lessonFile = lessonFileValidatorService.validateUploadedFile(file);
         return lessonFileService.createLessonFile(lessonFile, tokenEntity.getUserEmailAddress());
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping
+    public List<LessonFileResponse> readFilesInformation(@RequestHeader(value = "Authorization") String authorizationHeaderValue) {
+        TokenEntity tokenEntity = tokenValidationService.validateToken(authorizationHeaderValue);
+        return lessonFileService.readFilesInformation(tokenEntity.getUserEmailAddress());
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
