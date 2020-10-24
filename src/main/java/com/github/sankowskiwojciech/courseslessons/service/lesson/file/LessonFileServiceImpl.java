@@ -5,6 +5,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.lessonfile.LessonFil
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonFileAndUserIdToLessonFileEntity;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonFileEntityToLessonFile;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonFileEntityToLessonFileResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,11 @@ public class LessonFileServiceImpl implements LessonFileService {
         LessonFileEntity lessonFileEntity = LessonFileAndUserIdToLessonFileEntity.getInstance().apply(lessonFile, userId);
         LessonFileEntity savedLessonFileEntity = lessonFileRepository.save(lessonFileEntity);
         return LessonFileEntityToLessonFileResponse.getInstance().apply(savedLessonFileEntity);
+    }
+
+    @Override
+    public LessonFile readLessonFile(long fileId) {
+        LessonFileEntity lessonFileEntity = lessonFileRepository.findById(fileId).get();
+        return LessonFileEntityToLessonFile.getInstance().apply(lessonFileEntity);
     }
 }

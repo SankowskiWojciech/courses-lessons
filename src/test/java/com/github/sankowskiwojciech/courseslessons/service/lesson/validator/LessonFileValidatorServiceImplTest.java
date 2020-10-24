@@ -1,6 +1,8 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.validator;
 
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.file.FileCorruptedException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.file.FileNotFoundException;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.file.InvalidFileFormatException;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
 import com.github.sankowskiwojciech.courseslessons.stub.MultipartFileStub;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
 
+import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILE_ID_STUB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -30,11 +33,12 @@ public class LessonFileValidatorServiceImplTest {
 
     private final Detector detectorMock = mock(Detector.class);
     private final Set<String> validFileMIMETypesMock = mock(Set.class);
-    private final LessonFileValidatorService testee = new LessonFileValidatorServiceImpl(detectorMock, validFileMIMETypesMock);
+    private final LessonFileRepository lessonFileRepositoryMock = mock(LessonFileRepository.class);
+    private final LessonFileValidatorService testee = new LessonFileValidatorServiceImpl(detectorMock, validFileMIMETypesMock, lessonFileRepositoryMock);
 
     @Before
     public void reset() {
-        Mockito.reset(detectorMock, validFileMIMETypesMock);
+        Mockito.reset(detectorMock, validFileMIMETypesMock, lessonFileRepositoryMock);
     }
 
     @Test(expected = FileCorruptedException.class)
@@ -45,7 +49,7 @@ public class LessonFileValidatorServiceImplTest {
 
         //when
         try {
-            LessonFile lessonFile = testee.validateFile(multipartFileStub);
+            LessonFile lessonFile = testee.validateUploadedFile(multipartFileStub);
         } catch (FileCorruptedException e) {
             //then exception is thrown
             verify(detectorMock).detect(any(InputStream.class), any(Metadata.class));
@@ -64,7 +68,7 @@ public class LessonFileValidatorServiceImplTest {
 
         //when
         try {
-            LessonFile lessonFile = testee.validateFile(multipartFileStub);
+            LessonFile lessonFile = testee.validateUploadedFile(multipartFileStub);
         } catch (InvalidFileFormatException e) {
             //then exception is thrown
             verify(detectorMock).detect(any(InputStream.class), any(Metadata.class));
@@ -84,7 +88,7 @@ public class LessonFileValidatorServiceImplTest {
         when(validFileMIMETypesMock.contains(eq(mediaTypeStub.toString()))).thenReturn(isValidFileMIMEType);
 
         //when
-        LessonFile lessonFile = testee.validateFile(multipartFileStub);
+        LessonFile lessonFile = testee.validateUploadedFile(multipartFileStub);
 
         //then
         verify(detectorMock).detect(any(InputStream.class), any(Metadata.class));
@@ -97,5 +101,39 @@ public class LessonFileValidatorServiceImplTest {
         assertEquals(multipartFileStub.getOriginalFilename(), lessonFile.getName());
         assertEquals(FilenameUtils.getExtension(multipartFileStub.getOriginalFilename()), lessonFile.getExtension());
         assertEquals(multipartFileStub.getBytes(), lessonFile.getContent());
+    }
+
+    @Test(expected = FileNotFoundException.class)
+    public void shouldThrowFileNotFoundExceptionWhenFileDoesNotExist() {
+        //given
+        Long fileId = FILE_ID_STUB;
+        boolean doesFileExist = false;
+
+        when(lessonFileRepositoryMock.existsById(eq(fileId))).thenReturn(doesFileExist);
+
+        //when
+        try {
+            testee.validateIfFileExists(fileId);
+        } catch (FileNotFoundException e) {
+
+            //then exception is thrown
+            verify(lessonFileRepositoryMock).existsById(eq(fileId));
+            throw e;
+        }
+    }
+
+    @Test
+    public void shouldDoNothingWhenFileExists() {
+        //given
+        Long fileId = FILE_ID_STUB;
+        boolean doesFileExist = true;
+
+        when(lessonFileRepositoryMock.existsById(eq(fileId))).thenReturn(doesFileExist);
+
+        //when
+        testee.validateIfFileExists(fileId);
+
+        //then nothing happens
+        verify(lessonFileRepositoryMock).existsById(eq(fileId));
     }
 }

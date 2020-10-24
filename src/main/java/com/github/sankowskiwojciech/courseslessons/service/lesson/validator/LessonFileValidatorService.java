@@ -5,5 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface LessonFileValidatorService {
 
-    LessonFile validateFile(MultipartFile file);
+    LessonFile validateUploadedFile(MultipartFile file);
+
+    void validateIfFileExists(long fileId);
 }

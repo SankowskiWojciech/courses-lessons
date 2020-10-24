@@ -1,6 +1,8 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.validator;
 
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.file.FileCorruptedException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.file.FileNotFoundException;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.file.InvalidFileFormatException;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.MultipartFileToLessonFile;
@@ -18,13 +20,21 @@ public class LessonFileValidatorServiceImpl implements LessonFileValidatorServic
 
     private final Detector detector;
     private final Set<String> validFileMIMETypes;
+    private final LessonFileRepository lessonFileRepository;
 
     @Override
-    public LessonFile validateFile(MultipartFile file) {
+    public LessonFile validateUploadedFile(MultipartFile file) {
         if (!validFileMIMETypes.contains(getFileMediaType(file))) {
             throw new InvalidFileFormatException();
         }
         return MultipartFileToLessonFile.getInstance().apply(file);
+    }
+
+    @Override
+    public void validateIfFileExists(long fileId) {
+        if (!lessonFileRepository.existsById(fileId)) {
+            throw new FileNotFoundException();
+        }
     }
 
     private String getFileMediaType(MultipartFile file) {

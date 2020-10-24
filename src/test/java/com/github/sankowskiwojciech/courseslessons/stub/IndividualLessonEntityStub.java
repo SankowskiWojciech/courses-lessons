@@ -45,4 +45,19 @@ public class IndividualLessonEntityStub {
                 .creationDateTime(currentDateTime.minusMonths(2))
                 .build();
     }
+
+    public static IndividualLessonEntity create() {
+        final LocalDateTime currentDateTime = LocalDateTime.now();
+        return IndividualLessonEntity.builder()
+                .lessonId(INDIVIDUAL_LESSON_ID_STUB)
+                .title(LESSON_TITLE_STUB)
+                .startDateOfLesson(LocalDateTime.now())
+                .endDateOfLesson(LocalDateTime.now().plusHours(2))
+                .description(LESSON_DESCRIPTION_STUB)
+                .organizationEntity(OrganizationEntityStub.create())
+                .tutorEntity(TutorEntityStub.create())
+                .studentEntity(StudentEntityStub.create())
+                .creationDateTime(currentDateTime.minusMonths(2))
+                .build();
+    }
 }

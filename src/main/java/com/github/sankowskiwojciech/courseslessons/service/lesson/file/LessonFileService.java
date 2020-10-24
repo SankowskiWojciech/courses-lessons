@@ -5,4 +5,6 @@ import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileRespon
 
 public interface LessonFileService {
     LessonFileResponse createLessonFile(LessonFile lessonFile, String userId);
+
+    LessonFile readLessonFile(long fileId);
 }
