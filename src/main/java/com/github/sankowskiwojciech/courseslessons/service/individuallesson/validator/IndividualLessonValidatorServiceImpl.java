@@ -16,11 +16,15 @@ import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.SubdomainType;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonRequestAndExternalEntitiesToIndividualLesson;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsSchedule;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileAccessPermissionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.subdomain.SubdomainService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,6 +36,8 @@ public class IndividualLessonValidatorServiceImpl implements IndividualLessonVal
     private final SubdomainService subdomainService;
     private final OrganizationRepository organizationRepository;
     private final LessonCollisionValidatorService lessonCollisionValidatorService;
+    private final LessonFileValidatorService lessonFileValidatorService;
+    private final FileAccessPermissionValidatorService fileAccessPermissionValidatorService;
 
     @Override
     public IndividualLesson validateCreateIndividualLessonRequest(IndividualLessonRequest individualLessonRequest) {
@@ -43,6 +49,7 @@ public class IndividualLessonValidatorServiceImpl implements IndividualLessonVal
         subdomainService.validateIfUserIsAllowedToAccessSubdomain(subdomain.getEmailAddress(), studentEntity.getEmailAddress());
         String organizationEmailAddress = organizationEntity != null ? organizationEntity.getEmailAddress() : null;
         lessonCollisionValidatorService.validateIfNewLessonDoesNotCollideWithExistingOnes(individualLessonRequest.getStartDateOfLesson(), individualLessonRequest.getEndDateOfLesson(), tutorEntity.getEmailAddress(), organizationEmailAddress);
+        validateFilesIds(individualLessonRequest.getFilesIds(), individualLessonRequest.getTutorId());
         return IndividualLessonRequestAndExternalEntitiesToIndividualLesson.transform(individualLessonRequest, organizationEntity, tutorEntity, studentEntity);
     }
 
@@ -78,5 +85,14 @@ public class IndividualLessonValidatorServiceImpl implements IndividualLessonVal
             throw new StudentNotFoundException();
         }
         return studentEntity.get();
+    }
+
+    private void validateFilesIds(List<Long> filesIds, String tutorId) {
+        if (CollectionUtils.isNotEmpty(filesIds)) {
+            filesIds.forEach(fileId -> {
+                lessonFileValidatorService.validateIfFileExists(fileId);
+                fileAccessPermissionValidatorService.validateIfUserIsAllowedToAccessFile(tutorId, fileId);
+            });
+        }
     }
 }

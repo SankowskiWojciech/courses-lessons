@@ -20,6 +20,7 @@ public class IndividualLessonRequestAndExternalEntitiesToIndividualLesson {
                 .organizationEntity(organizationEntity)
                 .tutorEntity(tutorEntity)
                 .studentEntity(studentEntity)
+                .filesIds(individualLessonRequest.getFilesIds())
                 .build();
     }
 }

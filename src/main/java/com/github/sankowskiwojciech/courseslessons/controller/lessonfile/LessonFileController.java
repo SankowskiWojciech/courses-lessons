@@ -54,7 +54,7 @@ public class LessonFileController {
     public ResponseEntity<StreamingResponseBody> readFile(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @PathVariable long fileId) {
         TokenEntity tokenEntity = tokenValidationService.validateToken(authorizationHeaderValue);
         lessonFileValidatorService.validateIfFileExists(fileId);
-        fileAccessPermissionValidatorService.validateIfUserIsAllowedToReadFile(tokenEntity.getUserEmailAddress(), fileId);
+        fileAccessPermissionValidatorService.validateIfUserIsAllowedToAccessFile(tokenEntity.getUserEmailAddress(), fileId);
         LessonFile lessonFile = lessonFileService.readLessonFile(fileId);
         return LessonFileToResponseEntityOfStreamingResponseBody.getInstance().apply(lessonFile);
     }

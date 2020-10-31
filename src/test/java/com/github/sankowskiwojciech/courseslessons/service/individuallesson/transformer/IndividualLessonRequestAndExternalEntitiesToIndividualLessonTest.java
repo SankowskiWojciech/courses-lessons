@@ -36,5 +36,6 @@ public class IndividualLessonRequestAndExternalEntitiesToIndividualLessonTest {
         assertEquals(organizationEntityStub, individualLesson.getOrganizationEntity());
         assertEquals(tutorEntityStub, individualLesson.getTutorEntity());
         assertEquals(studentEntityStub, individualLesson.getStudentEntity());
+        assertEquals(individualLessonRequestStub.getFilesIds(), individualLesson.getFilesIds());
     }
 }

@@ -1,19 +1,24 @@
 package com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer;
 
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonFileEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.function.Function;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class IndividualLessonEntityToIndividualLessonResponse implements Function<IndividualLessonEntity, IndividualLessonResponse> {
+public class IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLessonResponse implements BiFunction<IndividualLessonEntity, List<IndividualLessonFileEntity>, IndividualLessonResponse> {
 
-    private static final IndividualLessonEntityToIndividualLessonResponse INSTANCE = new IndividualLessonEntityToIndividualLessonResponse();
+    private static final IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLessonResponse INSTANCE = new IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLessonResponse();
 
     @Override
-    public IndividualLessonResponse apply(IndividualLessonEntity individualLessonEntity) {
+    public IndividualLessonResponse apply(IndividualLessonEntity individualLessonEntity, List<IndividualLessonFileEntity> individualLessonFileEntities) {
         return IndividualLessonResponse.builder()
                 .title(individualLessonEntity.getTitle())
                 .startDateOfLesson(individualLessonEntity.getStartDateOfLesson())
@@ -23,6 +28,7 @@ public class IndividualLessonEntityToIndividualLessonResponse implements Functio
                 .tutorEmailAddress(individualLessonEntity.getTutorEntity().getEmailAddress())
                 .studentFullName(individualLessonEntity.getStudentEntity().getFullName())
                 .studentEmailAddress(individualLessonEntity.getStudentEntity().getEmailAddress())
+                .filesIds(getSavedFilesIds(individualLessonFileEntities))
                 .build();
     }
 
@@ -30,7 +36,16 @@ public class IndividualLessonEntityToIndividualLessonResponse implements Functio
         return individualLessonEntity.getOrganizationEntity() != null ? individualLessonEntity.getOrganizationEntity().getAlias() : individualLessonEntity.getTutorEntity().getAlias();
     }
 
-    public static IndividualLessonEntityToIndividualLessonResponse getInstance() {
+    private List<Long> getSavedFilesIds(List<IndividualLessonFileEntity> individualLessonFileEntities) {
+        if (CollectionUtils.isNotEmpty(individualLessonFileEntities)) {
+            return individualLessonFileEntities.stream()
+                    .map(IndividualLessonFileEntity::getFileId)
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
+    }
+
+    public static IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLessonResponse getInstance() {
         return INSTANCE;
     }
 }

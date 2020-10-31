@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILES_IDS_STUB;
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.LESSON_DESCRIPTION_STUB;
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.LESSON_TITLE_STUB;
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.STUDENT_EMAIL_ADDRESS_STUB;
@@ -50,6 +51,7 @@ public class IndividualLessonRequestStub {
                 .subdomainName(SUBDOMAIN_NAME_STUB)
                 .tutorId(TUTOR_EMAIL_ADDRESS_STUB)
                 .studentId(STUDENT_EMAIL_ADDRESS_STUB)
+                .filesIds(FILES_IDS_STUB)
                 .build();
     }
 }

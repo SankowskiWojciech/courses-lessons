@@ -17,7 +17,9 @@ import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.reques
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonsScheduleRequest;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.SubdomainType;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileAccessPermissionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.subdomain.SubdomainService;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonRequestStub;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonsScheduleRequestStub;
@@ -33,9 +35,11 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -47,11 +51,13 @@ public class IndividualLessonValidatorServiceImplTest {
     private final SubdomainService subdomainServiceMock = mock(SubdomainService.class);
     private final OrganizationRepository organizationRepositoryMock = mock(OrganizationRepository.class);
     private final LessonCollisionValidatorService lessonCollisionValidatorServiceMock = mock(LessonCollisionValidatorService.class);
-    private final IndividualLessonValidatorService testee = new IndividualLessonValidatorServiceImpl(tutorRepositoryMock, studentRepositoryMock, subdomainServiceMock, organizationRepositoryMock, lessonCollisionValidatorServiceMock);
+    private final LessonFileValidatorService lessonFileValidatorServiceMock = mock(LessonFileValidatorService.class);
+    private final FileAccessPermissionValidatorService fileAccessPermissionValidatorServiceMock = mock(FileAccessPermissionValidatorService.class);
+    private final IndividualLessonValidatorService testee = new IndividualLessonValidatorServiceImpl(tutorRepositoryMock, studentRepositoryMock, subdomainServiceMock, organizationRepositoryMock, lessonCollisionValidatorServiceMock, lessonFileValidatorServiceMock, fileAccessPermissionValidatorServiceMock);
 
     @Before
     public void reset() {
-        Mockito.reset(tutorRepositoryMock, studentRepositoryMock, subdomainServiceMock, organizationRepositoryMock, lessonCollisionValidatorServiceMock);
+        Mockito.reset(tutorRepositoryMock, studentRepositoryMock, subdomainServiceMock, organizationRepositoryMock, lessonCollisionValidatorServiceMock, lessonFileValidatorServiceMock, fileAccessPermissionValidatorServiceMock);
     }
 
     @Test(expected = SubdomainNotFoundException.class)
@@ -235,6 +241,8 @@ public class IndividualLessonValidatorServiceImplTest {
         verify(studentRepositoryMock).findById(eq(individualLessonRequestStub.getStudentId()));
         verify(subdomainServiceMock).validateIfUserIsAllowedToAccessSubdomain(eq(subdomainStub.getEmailAddress()), eq(studentEntityStub.getEmailAddress()));
         verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDateOfLesson()), eq(individualLessonRequestStub.getEndDateOfLesson()), eq(tutorEntityStub.getEmailAddress()), eq(organizationEntityStub.getEmailAddress()));
+        verify(lessonFileValidatorServiceMock, times(3)).validateIfFileExists(anyLong());
+        verify(fileAccessPermissionValidatorServiceMock, times(3)).validateIfUserIsAllowedToAccessFile(eq(individualLessonRequestStub.getTutorId()), anyLong());
         assertIndividualLesson(individualLesson, individualLessonRequestStub, organizationEntityStub, tutorEntityStub, studentEntityStub);
     }
 

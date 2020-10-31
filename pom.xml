@@ -19,6 +19,7 @@
 
         <courses-core-lib.version>1.0-SNAPSHOT</courses-core-lib.version>
 
+        <commons-collections4.version>4.4</commons-collections4.version>
         <commons-lang3.version>3.10</commons-lang3.version>
         <tika-core.version>1.24.1</tika-core.version>
         <tika-parsers.version>1.24.1</tika-parsers.version>
@@ -77,6 +78,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons-collections4.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

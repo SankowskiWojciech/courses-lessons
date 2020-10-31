@@ -5,7 +5,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.Ind
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonDates;
-import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonEntityToIndividualLessonResponse;
+import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLessonResponse;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLessonEntity;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.date.LessonsDatesGeneratorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,6 @@ public class IndividualLessonsSchedulerServiceImpl implements IndividualLessonsS
         lessonCollisionValidatorService.validateIfScheduledLessonsDoesNotCollideWithExistingOnes(generatedLessonsDates, individualLessonsSchedule.getTutorEntity().getEmailAddress(), organizationEmailAddress);
         List<IndividualLessonEntity> individualLessonEntities = IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLessonEntity.getInstance().apply(individualLessonsSchedule, generatedLessonsDates);
         individualLessonRepository.saveAll(individualLessonEntities);
-        return individualLessonEntities.stream().map(individualLessonEntity -> IndividualLessonEntityToIndividualLessonResponse.getInstance().apply(individualLessonEntity)).collect(Collectors.toList());
+        return individualLessonEntities.stream().map(individualLessonEntity -> IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLessonResponse.getInstance().apply(individualLessonEntity, Collections.emptyList())).collect(Collectors.toList());
     }
 }

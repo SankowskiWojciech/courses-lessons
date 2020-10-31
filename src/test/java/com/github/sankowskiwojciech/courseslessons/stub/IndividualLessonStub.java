@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILES_IDS_STUB;
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.LESSON_DESCRIPTION_STUB;
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.LESSON_TITLE_STUB;
 
@@ -24,6 +25,7 @@ public class IndividualLessonStub {
                 .organizationEntity(organizationEntity)
                 .tutorEntity(tutorEntity)
                 .studentEntity(studentEntity)
+                .filesIds(FILES_IDS_STUB)
                 .build();
     }
 }
