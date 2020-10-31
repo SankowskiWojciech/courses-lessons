@@ -128,7 +128,7 @@ public class FileAccessPermissionValidatorServiceImplTest {
         String userIdStub = TUTOR_EMAIL_ADDRESS_STUB;
         long fileIdStub = FILE_ID_STUB;
         List<IndividualLessonFileEntity> lessonsWhichFileBelongsToStub = Lists.newArrayList(IndividualLessonFileEntityStub.create(INDIVIDUAL_LESSON_ID_STUB, FILE_ID_STUB));
-        List<IndividualLessonEntity> lessonsFoundByUserIdAndLessonsIdsStub = Lists.newArrayList(IndividualLessonEntityStub.create());
+        List<IndividualLessonEntity> lessonsFoundByUserIdAndLessonsIdsStub = Lists.newArrayList(IndividualLessonEntityStub.create(INDIVIDUAL_LESSON_ID_STUB));
 
         when(lessonFileRepositoryMock.getFileOwnerId(eq(fileIdStub))).thenReturn(fileOwnerIdStub);
         when(individualLessonFileRepositoryMock.findAllByFileId(eq(fileIdStub))).thenReturn(lessonsWhichFileBelongsToStub);

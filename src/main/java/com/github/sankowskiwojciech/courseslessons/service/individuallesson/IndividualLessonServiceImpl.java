@@ -10,25 +10,26 @@ import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.Indivi
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequestParams;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.AccountInfoAndIndividualLessonRequestParamsToBooleanExpression;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLessonResponse;
+import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonFileEntitiesForIterableOfIndividualLessonEntityProvider;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonToIndividualLessonEntity;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.LessonIdAndFilesIdsToIndividualLessonFileEntities;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-@Service
 @AllArgsConstructor
 public class IndividualLessonServiceImpl implements IndividualLessonService {
 
     private final IndividualLessonRepository individualLessonRepository;
     private final IndividualLessonFileRepository individualLessonFileRepository;
+    private final IndividualLessonFileEntitiesForIterableOfIndividualLessonEntityProvider individualLessonFileEntitiesForIterableOfIndividualLessonEntityProvider;
 
     @Transactional
     @Override
@@ -43,8 +44,9 @@ public class IndividualLessonServiceImpl implements IndividualLessonService {
     public List<IndividualLessonResponse> readIndividualLessons(AccountInfo accountInfo, IndividualLessonRequestParams individualLessonRequestParams) {
         BooleanExpression queryBooleanExpression = AccountInfoAndIndividualLessonRequestParamsToBooleanExpression.getInstance().apply(accountInfo, individualLessonRequestParams);
         Iterable<IndividualLessonEntity> individualLessonEntities = individualLessonRepository.findAll(queryBooleanExpression);
+        Map<Long, List<IndividualLessonFileEntity>> individualLessonFileEntities = individualLessonFileEntitiesForIterableOfIndividualLessonEntityProvider.apply(individualLessonEntities);
         return StreamSupport.stream(individualLessonEntities.spliterator(), false)
-                .map(individualLessonEntity -> IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLessonResponse.getInstance().apply(individualLessonEntity, Collections.emptyList())) //todo: fix it, add proper list
+                .map(individualLessonEntity -> IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLessonResponse.getInstance().apply(individualLessonEntity, individualLessonFileEntities.getOrDefault(individualLessonEntity.getLessonId(), Collections.emptyList())))
                 .collect(Collectors.toList());
     }
 

@@ -98,7 +98,7 @@ public class LessonFileServiceImplTest {
     public void shouldReadFilesInformationCorrectly() {
         //given
         String userId = TUTOR_EMAIL_ADDRESS_STUB;
-        List<IndividualLessonEntity> lessonEntitiesRelatedToUserStub = Lists.newArrayList(IndividualLessonEntityStub.create());
+        List<IndividualLessonEntity> lessonEntitiesRelatedToUserStub = Lists.newArrayList(IndividualLessonEntityStub.create(INDIVIDUAL_LESSON_ID_STUB));
         List<IndividualLessonFileEntity> lessonsFilesRelatedToUserStub = Lists.newArrayList(IndividualLessonFileEntityStub.create(INDIVIDUAL_LESSON_ID_STUB, FILE_ID_STUB));
         List<LessonFileWithoutContent> lessonFilesWithoutContentStub = Lists.newArrayList(LessonFileWithoutContentStub.create());
 

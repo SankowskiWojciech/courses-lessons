@@ -46,10 +46,10 @@ public class IndividualLessonEntityStub {
                 .build();
     }
 
-    public static IndividualLessonEntity create() {
+    public static IndividualLessonEntity create(long lessonId) {
         final LocalDateTime currentDateTime = LocalDateTime.now();
         return IndividualLessonEntity.builder()
-                .lessonId(INDIVIDUAL_LESSON_ID_STUB)
+                .lessonId(lessonId)
                 .title(LESSON_TITLE_STUB)
                 .startDateOfLesson(LocalDateTime.now())
                 .endDateOfLesson(LocalDateTime.now().plusHours(2))
