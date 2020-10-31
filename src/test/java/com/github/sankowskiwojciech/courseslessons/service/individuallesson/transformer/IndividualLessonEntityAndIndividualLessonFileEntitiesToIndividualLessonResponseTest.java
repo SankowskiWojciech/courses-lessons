@@ -31,6 +31,7 @@ public class IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLe
 
         //then
         assertNotNull(individualLessonResponse);
+        assertEquals(individualLessonEntityStub.getLessonId(), individualLessonResponse.getLessonId());
         assertEquals(individualLessonEntityStub.getTitle(), individualLessonResponse.getTitle());
         assertEquals(individualLessonEntityStub.getStartDateOfLesson(), individualLessonResponse.getStartDateOfLesson());
         assertEquals(individualLessonEntityStub.getEndDateOfLesson(), individualLessonResponse.getEndDateOfLesson());
@@ -53,6 +54,7 @@ public class IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLe
 
         //then
         assertNotNull(individualLessonResponse);
+        assertEquals(individualLessonEntityStub.getLessonId(), individualLessonResponse.getLessonId());
         assertEquals(individualLessonEntityStub.getTitle(), individualLessonResponse.getTitle());
         assertEquals(individualLessonEntityStub.getStartDateOfLesson(), individualLessonResponse.getStartDateOfLesson());
         assertEquals(individualLessonEntityStub.getEndDateOfLesson(), individualLessonResponse.getEndDateOfLesson());

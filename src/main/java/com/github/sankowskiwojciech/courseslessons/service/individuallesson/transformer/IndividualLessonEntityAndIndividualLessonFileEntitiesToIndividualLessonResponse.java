@@ -20,6 +20,7 @@ public class IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLe
     @Override
     public IndividualLessonResponse apply(IndividualLessonEntity individualLessonEntity, List<IndividualLessonFileEntity> individualLessonFileEntities) {
         return IndividualLessonResponse.builder()
+                .lessonId(individualLessonEntity.getLessonId())
                 .title(individualLessonEntity.getTitle())
                 .startDateOfLesson(individualLessonEntity.getStartDateOfLesson())
                 .endDateOfLesson(individualLessonEntity.getEndDateOfLesson())
