@@ -10,5 +10,5 @@ public interface LessonFileService {
 
     LessonFile readLessonFile(long fileId);
 
-    List<LessonFileResponse> readFilesInformation(String userId);
+    List<LessonFileResponse> readFilesInformation(String fileOwnerId);
 }
