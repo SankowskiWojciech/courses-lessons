@@ -5,7 +5,7 @@ import com.github.sankowskiwojciech.coursescorelib.backend.repository.Individual
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileRepository;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonService;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonServiceImpl;
-import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonFileEntitiesForIterableOfIndividualLessonEntityProvider;
+import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorServiceImpl;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.ValidFileMIMETypes;
@@ -28,8 +28,8 @@ public class ServiceConfig {
     private IndividualLessonFileRepository individualLessonFileRepository;
 
     @Bean
-    public IndividualLessonFileEntitiesForIterableOfIndividualLessonEntityProvider individualLessonFileEntitiesForIterableOfIndividualLessonEntityProvider() {
-        return new IndividualLessonFileEntitiesForIterableOfIndividualLessonEntityProvider(individualLessonFileRepository);
+    public IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider() {
+        return new IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider(individualLessonFileRepository, lessonFileRepository);
     }
 
     @Bean
@@ -39,7 +39,7 @@ public class ServiceConfig {
 
     @Bean
     public IndividualLessonService individualLessonService() {
-        return new IndividualLessonServiceImpl(individualLessonRepository, individualLessonFileRepository, individualLessonFileEntitiesForIterableOfIndividualLessonEntityProvider());
+        return new IndividualLessonServiceImpl(individualLessonRepository, individualLessonFileRepository, lessonFileRepository, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider());
     }
 
     private Detector createDetector() {

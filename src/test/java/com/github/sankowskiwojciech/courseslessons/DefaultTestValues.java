@@ -52,5 +52,5 @@ public interface DefaultTestValues {
     byte[] FILE_CONTENT_STUB = new byte[5];
     String FILE_CREATED_BY_STUB = "sankowski.wojciech@gmail.com";
     LocalDateTime FILE_CREATION_DATE_TIME_STUB = LocalDateTime.now();
-    List<Long> FILES_IDS_STUB = Lists.newArrayList(1L, 2L, 3L);
+    List<Long> FILES_IDS_STUB = Lists.newArrayList(1L);
 }

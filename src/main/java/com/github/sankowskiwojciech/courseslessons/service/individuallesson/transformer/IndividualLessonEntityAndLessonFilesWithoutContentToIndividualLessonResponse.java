@@ -1,8 +1,10 @@
 package com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer;
 
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonFileEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.lessonfile.LessonFileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonFileWithoutContentToLessonFileResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -13,12 +15,12 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLessonResponse implements BiFunction<IndividualLessonEntity, List<IndividualLessonFileEntity>, IndividualLessonResponse> {
+public class IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse implements BiFunction<IndividualLessonEntity, List<LessonFileWithoutContent>, IndividualLessonResponse> {
 
-    private static final IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLessonResponse INSTANCE = new IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLessonResponse();
+    private static final IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse INSTANCE = new IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse();
 
     @Override
-    public IndividualLessonResponse apply(IndividualLessonEntity individualLessonEntity, List<IndividualLessonFileEntity> individualLessonFileEntities) {
+    public IndividualLessonResponse apply(IndividualLessonEntity individualLessonEntity, List<LessonFileWithoutContent> lessonFilesWithoutContent) {
         return IndividualLessonResponse.builder()
                 .lessonId(individualLessonEntity.getLessonId())
                 .title(individualLessonEntity.getTitle())
@@ -29,7 +31,7 @@ public class IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLe
                 .tutorEmailAddress(individualLessonEntity.getTutorEntity().getEmailAddress())
                 .studentFullName(individualLessonEntity.getStudentEntity().getFullName())
                 .studentEmailAddress(individualLessonEntity.getStudentEntity().getEmailAddress())
-                .filesIds(getSavedFilesIds(individualLessonFileEntities))
+                .filesInformation(transformFilesWithoutContentToLessonFileResponses(lessonFilesWithoutContent))
                 .build();
     }
 
@@ -37,16 +39,16 @@ public class IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLe
         return individualLessonEntity.getOrganizationEntity() != null ? individualLessonEntity.getOrganizationEntity().getAlias() : individualLessonEntity.getTutorEntity().getAlias();
     }
 
-    private List<Long> getSavedFilesIds(List<IndividualLessonFileEntity> individualLessonFileEntities) {
-        if (CollectionUtils.isNotEmpty(individualLessonFileEntities)) {
-            return individualLessonFileEntities.stream()
-                    .map(IndividualLessonFileEntity::getFileId)
+    private List<LessonFileResponse> transformFilesWithoutContentToLessonFileResponses(List<LessonFileWithoutContent> lessonFilesWithoutContent) {
+        if (CollectionUtils.isNotEmpty(lessonFilesWithoutContent)) {
+            return lessonFilesWithoutContent.stream()
+                    .map(lessonFileWithoutContent -> LessonFileWithoutContentToLessonFileResponse.getInstance().apply(lessonFileWithoutContent))
                     .collect(Collectors.toList());
         }
         return Collections.emptyList();
     }
 
-    public static IndividualLessonEntityAndIndividualLessonFileEntitiesToIndividualLessonResponse getInstance() {
+    public static IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse getInstance() {
         return INSTANCE;
     }
 }
