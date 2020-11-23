@@ -1,6 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.stub;
 
-import com.github.sankowskiwojciech.coursescorelib.model.db.subdomainuseraccess.SubdomainUserAccessEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.subdomain.SubdomainUserAccessEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.subdomain.SubdomainUserAccessEntityId;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,6 @@ import lombok.NoArgsConstructor;
 public class SubdomainUserAccessEntityStub {
 
     public static SubdomainUserAccessEntity create(String subdomainEmailAddress, String userEmailAddress) {
-        return new SubdomainUserAccessEntity(subdomainEmailAddress, userEmailAddress);
+        return new SubdomainUserAccessEntity(new SubdomainUserAccessEntityId(subdomainEmailAddress, userEmailAddress), null);
     }
 }

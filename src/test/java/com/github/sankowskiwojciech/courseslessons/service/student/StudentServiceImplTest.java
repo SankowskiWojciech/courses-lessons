@@ -3,7 +3,7 @@ package com.github.sankowskiwojciech.courseslessons.service.student;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.StudentRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.SubdomainUserAccessRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.db.subdomainuseraccess.SubdomainUserAccessEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.subdomain.SubdomainUserAccessEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.student.StudentResponse;
 import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.SubdomainUserAccessEntityStub;
@@ -15,7 +15,7 @@ import org.mockito.Mockito;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.ORGANIZATION_EMAIL_ADDRESS_STUB;
+import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.ORGANIZATION_ALIAS_STUB;
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.TUTOR_EMAIL_ADDRESS_STUB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -46,19 +46,19 @@ public class StudentServiceImplTest {
     @Test
     public void shouldReadInformationAboutStudentsCorrectly() {
         //given
-        String subdomainEmailAddressStub = ORGANIZATION_EMAIL_ADDRESS_STUB;
+        String subdomainAliasStub = ORGANIZATION_ALIAS_STUB;
         String tutorEmailAddressStub = TUTOR_EMAIL_ADDRESS_STUB;
-        List<SubdomainUserAccessEntity> subdomainUserAccessEntitiesStub = createSubdomainUserAccessEntitiesStub(subdomainEmailAddressStub);
+        List<SubdomainUserAccessEntity> subdomainUserAccessEntitiesStub = createSubdomainUserAccessEntitiesStub(subdomainAliasStub);
         List<StudentEntity> studentEntitiesStub = createStudentEntitiesStub();
 
-        when(subdomainUserAccessRepositoryMock.findAllBySubdomainEmailAddressAndUserEmailAddressIsNot(eq(subdomainEmailAddressStub), eq(tutorEmailAddressStub))).thenReturn(subdomainUserAccessEntitiesStub);
+        when(subdomainUserAccessRepositoryMock.findAllBySubdomainUserAccessEntityIdSubdomainIdAndSubdomainUserAccessEntityIdUserEmailAddressIsNot(eq(subdomainAliasStub), eq(tutorEmailAddressStub))).thenReturn(subdomainUserAccessEntitiesStub);
         when(studentRepositoryMock.findAllById(anyList())).thenReturn(studentEntitiesStub);
 
         //when
-        List<StudentResponse> studentResponses = testee.readStudents(subdomainEmailAddressStub, tutorEmailAddressStub);
+        List<StudentResponse> studentResponses = testee.readStudents(subdomainAliasStub, tutorEmailAddressStub);
 
         //then
-        verify(subdomainUserAccessRepositoryMock).findAllBySubdomainEmailAddressAndUserEmailAddressIsNot(eq(subdomainEmailAddressStub), eq(tutorEmailAddressStub));
+        verify(subdomainUserAccessRepositoryMock).findAllBySubdomainUserAccessEntityIdSubdomainIdAndSubdomainUserAccessEntityIdUserEmailAddressIsNot(eq(subdomainAliasStub), eq(tutorEmailAddressStub));
         verify(studentRepositoryMock).findAllById(anyList());
 
         assertNotNull(studentResponses);

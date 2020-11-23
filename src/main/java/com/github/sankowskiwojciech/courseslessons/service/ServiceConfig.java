@@ -3,6 +3,11 @@ package com.github.sankowskiwojciech.courseslessons.service;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonFileRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.OrganizationRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.SubdomainRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.TutorRepository;
+import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
+import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainServiceImpl;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonService;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonServiceImpl;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider;
@@ -17,6 +22,15 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ServiceConfig {
+
+    @Autowired
+    private SubdomainRepository subdomainRepository;
+
+    @Autowired
+    private OrganizationRepository organizationRepository;
+
+    @Autowired
+    private TutorRepository tutorRepository;
 
     @Autowired
     private LessonFileRepository lessonFileRepository;
@@ -40,6 +54,11 @@ public class ServiceConfig {
     @Bean
     public IndividualLessonService individualLessonService() {
         return new IndividualLessonServiceImpl(individualLessonRepository, individualLessonFileRepository, lessonFileRepository, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider());
+    }
+
+    @Bean
+    public SubdomainService subdomainService() {
+        return new SubdomainServiceImpl(organizationRepository, tutorRepository, subdomainRepository);
     }
 
     private Detector createDetector() {

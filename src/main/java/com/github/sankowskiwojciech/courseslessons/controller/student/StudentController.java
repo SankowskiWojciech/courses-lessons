@@ -5,7 +5,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.token.TokenEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToAccessStudentsInformationException;
 import com.github.sankowskiwojciech.coursescorelib.model.student.StudentResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
-import com.github.sankowskiwojciech.courseslessons.controller.validator.SubdomainAndUserAccessValidator;
+import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
 import com.github.sankowskiwojciech.courseslessons.service.student.StudentService;
 import com.github.sankowskiwojciech.courseslessons.service.tokenvalidation.TokenValidationService;
 import lombok.AllArgsConstructor;
@@ -24,16 +24,16 @@ import java.util.List;
 public class StudentController {
 
     private final TokenValidationService tokenValidationService;
-    private final SubdomainAndUserAccessValidator subdomainAndUserAccessValidator;
+    private final SubdomainService subdomainService;
     private final StudentService studentService;
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
-    public List<StudentResponse> readIndividualLessons(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam(value = "subdomainAlias") String subdomainAlias) {
+    public List<StudentResponse> readStudents(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam(value = "subdomainAlias") String subdomainAlias) {
         TokenEntity tokenEntity = tokenValidationService.validateToken(authorizationHeaderValue);
         validateIfUserIsTutor(tokenEntity);
-        Subdomain subdomain = subdomainAndUserAccessValidator.apply(subdomainAlias, tokenEntity.getUserEmailAddress());
-        return studentService.readStudents(subdomain.getEmailAddress(), tokenEntity.getUserEmailAddress());
+        Subdomain subdomain = subdomainService.validateIfUserIsAllowedToLoginToSubdomain(subdomainAlias, tokenEntity.getUserEmailAddress());
+        return studentService.readStudents(subdomain.getAlias(), tokenEntity.getUserEmailAddress());
     }
 
     private void validateIfUserIsTutor(TokenEntity tokenEntity) {

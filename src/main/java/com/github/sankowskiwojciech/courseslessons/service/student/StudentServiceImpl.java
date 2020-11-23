@@ -3,7 +3,7 @@ package com.github.sankowskiwojciech.courseslessons.service.student;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.StudentRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.SubdomainUserAccessRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.db.subdomainuseraccess.SubdomainUserAccessEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.subdomain.SubdomainUserAccessEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.student.StudentResponse;
 import com.github.sankowskiwojciech.courseslessons.service.student.transformer.StudentEntityToStudentResponse;
 import lombok.AllArgsConstructor;
@@ -20,10 +20,10 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
 
     @Override
-    public List<StudentResponse> readStudents(String subdomainEmailAddress, String tutorEmailAddress) {
-        List<SubdomainUserAccessEntity> subdomainUserAccessEntities = subdomainUserAccessRepository.findAllBySubdomainEmailAddressAndUserEmailAddressIsNot(subdomainEmailAddress, tutorEmailAddress);
+    public List<StudentResponse> readStudents(String subdomainAlias, String tutorEmailAddress) {
+        List<SubdomainUserAccessEntity> subdomainUserAccessEntities = subdomainUserAccessRepository.findAllBySubdomainUserAccessEntityIdSubdomainIdAndSubdomainUserAccessEntityIdUserEmailAddressIsNot(subdomainAlias, tutorEmailAddress);
         List<String> usersEmailAddresses = subdomainUserAccessEntities.stream()
-                .map(SubdomainUserAccessEntity::getUserEmailAddress)
+                .map(subdomainUserAccessEntity -> subdomainUserAccessEntity.getSubdomainUserAccessEntityId().getUserEmailAddress())
                 .collect(Collectors.toList());
         List<StudentEntity> studentEntities = studentRepository.findAllById(usersEmailAddresses);
         return studentEntities.stream()

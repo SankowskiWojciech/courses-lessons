@@ -14,12 +14,12 @@ import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.reques
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonsScheduleRequest;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.SubdomainType;
+import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonRequestAndExternalEntitiesToIndividualLesson;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsSchedule;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileAccessPermissionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
-import com.github.sankowskiwojciech.courseslessons.service.subdomain.SubdomainService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
@@ -41,12 +41,11 @@ public class IndividualLessonValidatorServiceImpl implements IndividualLessonVal
 
     @Override
     public IndividualLesson validateCreateIndividualLessonRequest(IndividualLessonRequest individualLessonRequest) {
-        Subdomain subdomain = subdomainService.readSubdomainInformationIfSubdomainExists(individualLessonRequest.getSubdomainName());
+        Subdomain subdomain = subdomainService.readSubdomainInformation(individualLessonRequest.getSubdomainName());
         OrganizationEntity organizationEntity = readOrganizationEntityIfSubdomainIsOrganization(subdomain);
         TutorEntity tutorEntity = readTutor(individualLessonRequest.getTutorId());
-        subdomainService.validateIfUserIsAllowedToAccessSubdomain(subdomain.getEmailAddress(), tutorEntity.getEmailAddress());
         StudentEntity studentEntity = readStudent(individualLessonRequest.getStudentId());
-        subdomainService.validateIfUserIsAllowedToAccessSubdomain(subdomain.getEmailAddress(), studentEntity.getEmailAddress());
+        subdomainService.validateIfUserIsAllowedToLoginToSubdomain(individualLessonRequest.getSubdomainName(), tutorEntity.getEmailAddress(), studentEntity.getEmailAddress());
         String organizationEmailAddress = organizationEntity != null ? organizationEntity.getEmailAddress() : null;
         lessonCollisionValidatorService.validateIfNewLessonDoesNotCollideWithExistingOnes(individualLessonRequest.getStartDateOfLesson(), individualLessonRequest.getEndDateOfLesson(), tutorEntity.getEmailAddress(), organizationEmailAddress);
         validateFilesIds(individualLessonRequest.getFilesIds(), individualLessonRequest.getTutorId());
@@ -55,12 +54,11 @@ public class IndividualLessonValidatorServiceImpl implements IndividualLessonVal
 
     @Override
     public IndividualLessonsSchedule validateIndividualLessonsScheduleRequest(IndividualLessonsScheduleRequest individualLessonsScheduleRequest) {
-        Subdomain subdomain = subdomainService.readSubdomainInformationIfSubdomainExists(individualLessonsScheduleRequest.getSubdomainName());
+        Subdomain subdomain = subdomainService.readSubdomainInformation(individualLessonsScheduleRequest.getSubdomainName());
         OrganizationEntity organizationEntity = readOrganizationEntityIfSubdomainIsOrganization(subdomain);
         TutorEntity tutorEntity = readTutor(individualLessonsScheduleRequest.getTutorId());
-        subdomainService.validateIfUserIsAllowedToAccessSubdomain(subdomain.getEmailAddress(), tutorEntity.getEmailAddress());
         StudentEntity studentEntity = readStudent(individualLessonsScheduleRequest.getStudentId());
-        subdomainService.validateIfUserIsAllowedToAccessSubdomain(subdomain.getEmailAddress(), studentEntity.getEmailAddress());
+        subdomainService.validateIfUserIsAllowedToLoginToSubdomain(individualLessonsScheduleRequest.getSubdomainName(), tutorEntity.getEmailAddress(), studentEntity.getEmailAddress());
         return IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsSchedule.transform(individualLessonsScheduleRequest, organizationEntity, tutorEntity, studentEntity);
     }
 

@@ -9,9 +9,9 @@ import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.reques
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequestParams;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonsScheduleRequest;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
+import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
 import com.github.sankowskiwojciech.courseslessons.controller.individuallesson.validator.IndividualLessonRequestValidator;
 import com.github.sankowskiwojciech.courseslessons.controller.individuallesson.validator.IndividualLessonsScheduleRequestValidator;
-import com.github.sankowskiwojciech.courseslessons.controller.validator.SubdomainAndUserAccessValidator;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonService;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonsSchedulerService;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.validator.IndividualLessonValidatorService;
@@ -39,7 +39,7 @@ public class IndividualLessonController {
     private final IndividualLessonValidatorService individualLessonValidatorService;
     private final IndividualLessonService individualLessonService;
     private final IndividualLessonsSchedulerService individualLessonsSchedulerService;
-    private final SubdomainAndUserAccessValidator subdomainAndUserAccessValidator;
+    private final SubdomainService subdomainService;
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping
@@ -63,7 +63,7 @@ public class IndividualLessonController {
     @GetMapping
     public List<IndividualLessonResponse> readIndividualLessons(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam(value = "subdomainAlias", required = false) String subdomainAlias, @RequestParam(value = "fromDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fromDate, @RequestParam(value = "toDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime toDate) {
         TokenEntity tokenEntity = tokenValidationService.validateToken(authorizationHeaderValue);
-        Subdomain subdomain = subdomainAndUserAccessValidator.apply(subdomainAlias, tokenEntity.getUserEmailAddress());
+        Subdomain subdomain = subdomainService.validateIfUserIsAllowedToLoginToSubdomain(subdomainAlias, tokenEntity.getUserEmailAddress());
         AccountInfo accountInfo = new AccountInfo(tokenEntity.getUserEmailAddress(), tokenEntity.getAccountType());
         IndividualLessonRequestParams individualLessonRequestParams = new IndividualLessonRequestParams(subdomain, fromDate, toDate);
         return individualLessonService.readIndividualLessons(accountInfo, individualLessonRequestParams);
