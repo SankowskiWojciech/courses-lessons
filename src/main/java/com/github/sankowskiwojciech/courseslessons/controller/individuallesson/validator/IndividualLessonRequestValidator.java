@@ -5,7 +5,6 @@ import com.github.sankowskiwojciech.coursescorelib.model.exception.lesson.Invali
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class IndividualLessonRequestValidator {
@@ -16,7 +15,14 @@ public class IndividualLessonRequestValidator {
     }
 
     private static void validateIfMandatoryFieldsAreNotMissing(IndividualLessonRequest individualLessonRequest) {
-        if (individualLessonRequest == null || individualLessonRequest.getStartDateOfLesson() == null || individualLessonRequest.getEndDateOfLesson() == null || StringUtils.isAnyBlank(individualLessonRequest.getTitle(), individualLessonRequest.getSubdomainName(), individualLessonRequest.getTutorId(), individualLessonRequest.getStudentId())) {
+        if (individualLessonRequest == null
+                || individualLessonRequest.getStartDateOfLesson() == null
+                || individualLessonRequest.getEndDateOfLesson() == null
+                || individualLessonRequest.getTitle() == null || individualLessonRequest.getTitle().isBlank()
+                || individualLessonRequest.getSubdomainName() == null || individualLessonRequest.getSubdomainName().isBlank()
+                || individualLessonRequest.getTutorId() == null || individualLessonRequest.getTutorId().isBlank()
+                || individualLessonRequest.getStudentId() == null || individualLessonRequest.getStudentId().isBlank()
+        ) {
             throw new InvalidRequestBodyException();
         }
     }

@@ -31,19 +31,21 @@ public class IndividualLessonsSchedulerServiceImpl implements IndividualLessonsS
     @Transactional
     @Override
     public List<IndividualLessonResponse> scheduleIndividualLessons(IndividualLessonsSchedule individualLessonsSchedule) {
-        List<LessonDates> generatedLessonsDates;
-        switch (individualLessonsSchedule.getScheduleType()) {
-            case ONE_YEAR_LENGTH_LESSONS:
+        return switch (individualLessonsSchedule.getScheduleType()) {
+            case ONE_YEAR_LENGTH_LESSONS -> {
                 LocalDate lessonsEndDate = individualLessonsSchedule.getBeginningDate().plusYears(MAX_LESSONS_DURATION_IN_YEARS);
-                generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesWithFixedBeginningDateAndEndDate(individualLessonsSchedule.getBeginningDate(), lessonsEndDate, individualLessonsSchedule.getLessonsDaysOfWeekWithTimes());
-                return scheduleLessons(individualLessonsSchedule, generatedLessonsDates);
-            case FIXED_DATES_LESSONS:
-                generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesWithFixedBeginningDateAndEndDate(individualLessonsSchedule.getBeginningDate(), individualLessonsSchedule.getEndDate(), individualLessonsSchedule.getLessonsDaysOfWeekWithTimes());
-                return scheduleLessons(individualLessonsSchedule, generatedLessonsDates);
-            default:
-                generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesForFixedDurationLessons(individualLessonsSchedule.getBeginningDate(), individualLessonsSchedule.getAllLessonsDurationInMinutes(), individualLessonsSchedule.getLessonsDaysOfWeekWithTimes());
-                return scheduleLessons(individualLessonsSchedule, generatedLessonsDates);
-        }
+                List<LessonDates> generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesWithFixedBeginningDateAndEndDate(individualLessonsSchedule.getBeginningDate(), lessonsEndDate, individualLessonsSchedule.getLessonsDaysOfWeekWithTimes());
+                yield scheduleLessons(individualLessonsSchedule, generatedLessonsDates);
+            }
+            case FIXED_DATES_LESSONS -> {
+                List<LessonDates> generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesWithFixedBeginningDateAndEndDate(individualLessonsSchedule.getBeginningDate(), individualLessonsSchedule.getEndDate(), individualLessonsSchedule.getLessonsDaysOfWeekWithTimes());
+                yield scheduleLessons(individualLessonsSchedule, generatedLessonsDates);
+            }
+            default -> {
+                List<LessonDates> generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesForFixedDurationLessons(individualLessonsSchedule.getBeginningDate(), individualLessonsSchedule.getAllLessonsDurationInMinutes(), individualLessonsSchedule.getLessonsDaysOfWeekWithTimes());
+                yield scheduleLessons(individualLessonsSchedule, generatedLessonsDates);
+            }
+        };
     }
 
     private List<IndividualLessonResponse> scheduleLessons(IndividualLessonsSchedule individualLessonsSchedule, List<LessonDates> generatedLessonsDates) {

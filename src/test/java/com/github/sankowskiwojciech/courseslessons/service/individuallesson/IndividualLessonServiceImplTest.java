@@ -20,7 +20,6 @@ import com.github.sankowskiwojciech.courseslessons.stub.LessonFileWithoutContent
 import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
-import com.google.common.collect.Lists;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,10 +59,10 @@ public class IndividualLessonServiceImplTest {
         //given
         IndividualLesson individualLessonStub = IndividualLessonStub.createWithExternalEntities(OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
         IndividualLessonEntity individualLessonEntityStub = IndividualLessonEntityStub.create(INDIVIDUAL_LESSON_ID_STUB);
-        List<IndividualLessonFileEntity> individualLessonFileEntitiesStub = Lists.newArrayList(
+        List<IndividualLessonFileEntity> individualLessonFileEntitiesStub = List.of(
                 IndividualLessonFileEntityStub.create(individualLessonEntityStub.getLessonId(), 1L)
         );
-        List<LessonFileWithoutContent> lessonFilesWithoutContent = Lists.newArrayList(LessonFileWithoutContentStub.createWithFileId(1));
+        List<LessonFileWithoutContent> lessonFilesWithoutContent = List.of(LessonFileWithoutContentStub.createWithFileId(1));
 
         when(individualLessonRepositoryMock.save(any(IndividualLessonEntity.class))).thenReturn(individualLessonEntityStub);
         when(individualLessonFileRepositoryMock.saveAll(anyList())).thenReturn(individualLessonFileEntitiesStub);
@@ -95,7 +94,7 @@ public class IndividualLessonServiceImplTest {
         AccountInfo accountInfoStub = AccountInfoStub.create();
         IndividualLessonRequestParams individualLessonRequestParamsStub = IndividualLessonRequestParamsStub.create();
         IndividualLessonEntity individualLessonEntityStub = IndividualLessonEntityStub.createWithDatesOfLesson(LocalDateTime.now().minusHours(1), LocalDateTime.now().plusHours(1));
-        Iterable<IndividualLessonEntity> individualLessonEntitiesStub = Lists.newArrayList(individualLessonEntityStub);
+        Iterable<IndividualLessonEntity> individualLessonEntitiesStub = List.of(individualLessonEntityStub);
 
         when(individualLessonRepositoryMock.findAll(any(BooleanExpression.class))).thenReturn(individualLessonEntitiesStub);
         when(individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock.apply(eq(individualLessonEntitiesStub))).thenReturn(Collections.emptyMap());

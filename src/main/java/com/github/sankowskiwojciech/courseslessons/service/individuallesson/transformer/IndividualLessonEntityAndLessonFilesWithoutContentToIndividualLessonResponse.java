@@ -7,7 +7,6 @@ import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileRespon
 import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonFileWithoutContentToLessonFileResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +39,7 @@ public class IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLesso
     }
 
     private List<LessonFileResponse> transformFilesWithoutContentToLessonFileResponses(List<LessonFileWithoutContent> lessonFilesWithoutContent) {
-        if (CollectionUtils.isNotEmpty(lessonFilesWithoutContent)) {
+        if (lessonFilesWithoutContent != null && !lessonFilesWithoutContent.isEmpty()) {
             return lessonFilesWithoutContent.stream()
                     .map(lessonFileWithoutContent -> LessonFileWithoutContentToLessonFileResponse.getInstance().apply(lessonFileWithoutContent))
                     .collect(Collectors.toList());

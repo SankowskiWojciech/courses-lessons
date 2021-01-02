@@ -8,7 +8,6 @@ import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.reques
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.DayOfWeekWithTimes;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -28,7 +27,11 @@ public class IndividualLessonsScheduleRequestValidator {
                 || individualLessonsScheduleRequest.getScheduleType() == null
                 || individualLessonsScheduleRequest.getLessonsDaysOfWeekWithTimes() == null
                 || individualLessonsScheduleRequest.getLessonsDaysOfWeekWithTimes().isEmpty()
-                || StringUtils.isAnyBlank(individualLessonsScheduleRequest.getStudentId(), individualLessonsScheduleRequest.getTutorId(), individualLessonsScheduleRequest.getSubdomainName())) {
+                || individualLessonsScheduleRequest.getSubdomainName() == null || individualLessonsScheduleRequest.getSubdomainName().isBlank()
+                || individualLessonsScheduleRequest.getTutorId() == null || individualLessonsScheduleRequest.getTutorId().isBlank()
+                || individualLessonsScheduleRequest.getStudentId() == null || individualLessonsScheduleRequest.getStudentId().isBlank()
+
+        ) {
             throw new InvalidRequestBodyException();
         }
     }
@@ -44,12 +47,8 @@ public class IndividualLessonsScheduleRequestValidator {
 
     private static void validateMandatoryFieldsDependingOnScheduleType(IndividualLessonsScheduleRequest individualLessonsScheduleRequest) {
         switch (individualLessonsScheduleRequest.getScheduleType()) {
-            case FIXED_DURATION_LESSONS:
-                validateMandatoryFieldsWhenScheduleTypeIsFixedDurationLessons(individualLessonsScheduleRequest.getAllLessonsDurationInMinutes());
-                break;
-            case FIXED_DATES_LESSONS:
-                validateMandatoryFieldsWhenScheduleTypeIsFixedDatesLessons(individualLessonsScheduleRequest.getBeginningDate(), individualLessonsScheduleRequest.getEndDate());
-                break;
+            case FIXED_DURATION_LESSONS -> validateMandatoryFieldsWhenScheduleTypeIsFixedDurationLessons(individualLessonsScheduleRequest.getAllLessonsDurationInMinutes());
+            case FIXED_DATES_LESSONS -> validateMandatoryFieldsWhenScheduleTypeIsFixedDatesLessons(individualLessonsScheduleRequest.getBeginningDate(), individualLessonsScheduleRequest.getEndDate());
         }
     }
 

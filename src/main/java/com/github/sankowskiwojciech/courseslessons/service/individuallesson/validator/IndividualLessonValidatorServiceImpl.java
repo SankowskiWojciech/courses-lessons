@@ -21,11 +21,9 @@ import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.File
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
 import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -70,23 +68,15 @@ public class IndividualLessonValidatorServiceImpl implements IndividualLessonVal
     }
 
     private TutorEntity readTutor(String tutorId) {
-        Optional<TutorEntity> tutorEntity = tutorRepository.findById(tutorId);
-        if (!tutorEntity.isPresent()) {
-            throw new UserNotAllowedToCreateLessonException();
-        }
-        return tutorEntity.get();
+        return tutorRepository.findById(tutorId).orElseThrow(UserNotAllowedToCreateLessonException::new);
     }
 
     private StudentEntity readStudent(String studentId) {
-        Optional<StudentEntity> studentEntity = studentRepository.findById(studentId);
-        if (!studentEntity.isPresent()) {
-            throw new StudentNotFoundException();
-        }
-        return studentEntity.get();
+        return studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
     }
 
     private void validateFilesIds(List<Long> filesIds, String tutorId) {
-        if (CollectionUtils.isNotEmpty(filesIds)) {
+        if (filesIds != null && !filesIds.isEmpty()) {
             filesIds.forEach(fileId -> {
                 lessonFileValidatorService.validateIfFileExists(fileId);
                 fileAccessPermissionValidatorService.validateIfUserIsAllowedToAccessFile(tutorId, fileId);

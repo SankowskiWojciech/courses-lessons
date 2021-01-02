@@ -29,14 +29,11 @@ public class IndividualLessonsScheduleStub {
     }
 
     public static IndividualLessonsSchedule createWithScheduleType(ScheduleType scheduleType) {
-        switch (scheduleType) {
-            case ONE_YEAR_LENGTH_LESSONS:
-                return createForScheduleTypeOneYearLengthLessons();
-            case FIXED_DATES_LESSONS:
-                return createForScheduleTypeFixedDatesLessons();
-            default:
-                return createForScheduleTypeFixedDurationLessons();
-        }
+        return switch (scheduleType) {
+            case ONE_YEAR_LENGTH_LESSONS -> createForScheduleTypeOneYearLengthLessons();
+            case FIXED_DATES_LESSONS -> createForScheduleTypeFixedDatesLessons();
+            default -> createForScheduleTypeFixedDurationLessons();
+        };
     }
 
     private static IndividualLessonsSchedule createForScheduleTypeOneYearLengthLessons() {

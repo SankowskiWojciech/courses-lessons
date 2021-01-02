@@ -7,7 +7,6 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.subdomain.SubdomainU
 import com.github.sankowskiwojciech.coursescorelib.model.student.StudentResponse;
 import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.SubdomainUserAccessEntityStub;
-import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -29,7 +28,7 @@ public class StudentServiceImplTest {
 
     private static final String STUDENT_EMAIL_ADDRESS_FIRST_STUB = "marcin.b@gmail.com";
     private static final String STUDENT_EMAIL_ADDRESS_SECOND_STUB = "rawskaka@gmail.com";
-    private static final List<String> STUDENTS_EMAIL_ADDRESSES_STUB = Lists.newArrayList(
+    private static final List<String> STUDENTS_EMAIL_ADDRESSES_STUB = List.of(
             STUDENT_EMAIL_ADDRESS_FIRST_STUB,
             STUDENT_EMAIL_ADDRESS_SECOND_STUB
     );

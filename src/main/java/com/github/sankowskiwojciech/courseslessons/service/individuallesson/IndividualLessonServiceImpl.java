@@ -17,7 +17,6 @@ import com.github.sankowskiwojciech.courseslessons.service.individuallesson.tran
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.LessonIdAndFilesIdsToIndividualLessonFileEntities;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
@@ -57,7 +56,7 @@ public class IndividualLessonServiceImpl implements IndividualLessonService {
     }
 
     private List<IndividualLessonFileEntity> saveFilesIdsIfAnyProvided(Long lessonId, List<Long> filesIds) {
-        if (CollectionUtils.isNotEmpty(filesIds)) {
+        if (filesIds != null && !filesIds.isEmpty()) {
             List<IndividualLessonFileEntity> individualLessonFileEntities = LessonIdAndFilesIdsToIndividualLessonFileEntities.getInstance().apply(lessonId, filesIds);
             return individualLessonFileRepository.saveAll(individualLessonFileEntities);
         }

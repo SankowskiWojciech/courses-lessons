@@ -11,7 +11,6 @@ import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.Us
 import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToCreateFileException;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonFileEntityStub;
-import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -101,7 +100,7 @@ public class FileAccessPermissionValidatorServiceImplTest {
         String fileOwnerIdStub = TUTOR_EMAIL_ADDRESS_STUB_2;
         String userIdStub = TUTOR_EMAIL_ADDRESS_STUB;
         long fileIdStub = FILE_ID_STUB;
-        List<IndividualLessonFileEntity> lessonsWhichFileBelongsToStub = Lists.newArrayList(IndividualLessonFileEntityStub.create(INDIVIDUAL_LESSON_ID_STUB, FILE_ID_STUB));
+        List<IndividualLessonFileEntity> lessonsWhichFileBelongsToStub = List.of(IndividualLessonFileEntityStub.create(INDIVIDUAL_LESSON_ID_STUB, FILE_ID_STUB));
         List<IndividualLessonEntity> lessonsFoundByUserIdAndLessonsIdsStub = Collections.emptyList();
 
         when(lessonFileRepositoryMock.getFileOwnerId(eq(fileIdStub))).thenReturn(fileOwnerIdStub);
@@ -127,8 +126,8 @@ public class FileAccessPermissionValidatorServiceImplTest {
         String fileOwnerIdStub = TUTOR_EMAIL_ADDRESS_STUB_2;
         String userIdStub = TUTOR_EMAIL_ADDRESS_STUB;
         long fileIdStub = FILE_ID_STUB;
-        List<IndividualLessonFileEntity> lessonsWhichFileBelongsToStub = Lists.newArrayList(IndividualLessonFileEntityStub.create(INDIVIDUAL_LESSON_ID_STUB, FILE_ID_STUB));
-        List<IndividualLessonEntity> lessonsFoundByUserIdAndLessonsIdsStub = Lists.newArrayList(IndividualLessonEntityStub.create(INDIVIDUAL_LESSON_ID_STUB));
+        List<IndividualLessonFileEntity> lessonsWhichFileBelongsToStub = List.of(IndividualLessonFileEntityStub.create(INDIVIDUAL_LESSON_ID_STUB, FILE_ID_STUB));
+        List<IndividualLessonEntity> lessonsFoundByUserIdAndLessonsIdsStub = List.of(IndividualLessonEntityStub.create(INDIVIDUAL_LESSON_ID_STUB));
 
         when(lessonFileRepositoryMock.getFileOwnerId(eq(fileIdStub))).thenReturn(fileOwnerIdStub);
         when(individualLessonFileRepositoryMock.findAllByFileId(eq(fileIdStub))).thenReturn(lessonsWhichFileBelongsToStub);

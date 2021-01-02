@@ -6,7 +6,6 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.Ind
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonFileEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.lessonfile.LessonFileWithoutContent;
 import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +28,7 @@ public class IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEnt
         List<Long> lessonsIds = StreamSupport.stream(individualLessonEntities.spliterator(), false)
                 .map(IndividualLessonEntity::getLessonId)
                 .collect(Collectors.toList());
-        if (CollectionUtils.isEmpty(lessonsIds)) {
+        if (lessonsIds.isEmpty()) {
             return Collections.emptyMap();
         }
         List<IndividualLessonFileEntity> individualLessonFileEntities = individualLessonFileRepository.findAllByLessonIdIn(lessonsIds);
