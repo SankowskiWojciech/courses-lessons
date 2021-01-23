@@ -2,12 +2,10 @@ package com.github.sankowskiwojciech.courseslessons.controller.individuallesson;
 
 import com.github.sankowskiwojciech.coursescorelib.model.account.AccountInfo;
 import com.github.sankowskiwojciech.coursescorelib.model.db.token.TokenEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
-import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
-import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonsSchedule;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.*;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequest;
-import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequestParams;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonsScheduleRequest;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequestParams;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
 import com.github.sankowskiwojciech.courseslessons.controller.individuallesson.validator.IndividualLessonRequestValidator;
@@ -18,14 +16,7 @@ import com.github.sankowskiwojciech.courseslessons.service.individuallesson.vali
 import com.github.sankowskiwojciech.courseslessons.service.tokenvalidation.TokenValidationService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -65,7 +56,7 @@ public class IndividualLessonController {
         TokenEntity tokenEntity = tokenValidationService.validateToken(authorizationHeaderValue);
         Subdomain subdomain = subdomainService.validateIfUserIsAllowedToLoginToSubdomain(subdomainAlias, tokenEntity.getUserEmailAddress());
         AccountInfo accountInfo = new AccountInfo(tokenEntity.getUserEmailAddress(), tokenEntity.getAccountType());
-        IndividualLessonRequestParams individualLessonRequestParams = new IndividualLessonRequestParams(subdomain, fromDate, toDate);
-        return individualLessonService.readIndividualLessons(accountInfo, individualLessonRequestParams);
+        LessonRequestParams lessonRequestParams = new LessonRequestParams(subdomain, fromDate, toDate);
+        return individualLessonService.readIndividualLessons(accountInfo, lessonRequestParams);
     }
 }

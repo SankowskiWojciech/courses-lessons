@@ -12,16 +12,6 @@ import lombok.NoArgsConstructor;
 public class IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsSchedule {
 
     public static IndividualLessonsSchedule transform(IndividualLessonsScheduleRequest individualLessonsScheduleRequest, OrganizationEntity organizationEntity, TutorEntity tutorEntity, StudentEntity studentEntity) {
-        return IndividualLessonsSchedule.builder()
-                .beginningDate(individualLessonsScheduleRequest.getBeginningDate())
-                .endDate(individualLessonsScheduleRequest.getEndDate())
-                .scheduleType(individualLessonsScheduleRequest.getScheduleType())
-                .allLessonsDurationInMinutes(individualLessonsScheduleRequest.getAllLessonsDurationInMinutes())
-                .lessonsDaysOfWeekWithTimes(individualLessonsScheduleRequest.getLessonsDaysOfWeekWithTimes())
-                .lessonsTitles(individualLessonsScheduleRequest.getLessonsTitles())
-                .organizationEntity(organizationEntity)
-                .tutorEntity(tutorEntity)
-                .studentEntity(studentEntity)
-                .build();
+        return new IndividualLessonsSchedule(individualLessonsScheduleRequest.getBeginningDate(), individualLessonsScheduleRequest.getEndDate(), individualLessonsScheduleRequest.getScheduleType(), individualLessonsScheduleRequest.getAllLessonsDurationInMinutes(), individualLessonsScheduleRequest.getLessonsDaysOfWeekWithTimes(), individualLessonsScheduleRequest.getLessonsTitles(), organizationEntity, tutorEntity, studentEntity);
     }
 }

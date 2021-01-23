@@ -9,23 +9,13 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILES_IDS_STUB;
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.LESSON_DESCRIPTION_STUB;
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.LESSON_TITLE_STUB;
+import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class IndividualLessonStub {
 
     public static IndividualLesson createWithExternalEntities(OrganizationEntity organizationEntity, TutorEntity tutorEntity, StudentEntity studentEntity) {
-        return IndividualLesson.builder()
-                .title(LESSON_TITLE_STUB)
-                .startDateOfLesson(LocalDateTime.now().plusHours(1))
-                .endDateOfLesson(LocalDateTime.now().plusHours(3))
-                .description(LESSON_DESCRIPTION_STUB)
-                .organizationEntity(organizationEntity)
-                .tutorEntity(tutorEntity)
-                .studentEntity(studentEntity)
-                .filesIds(FILES_IDS_STUB)
-                .build();
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return new IndividualLesson(LESSON_TITLE_STUB, currentDateTime.plusHours(1), currentDateTime.plusHours(3), LESSON_DESCRIPTION_STUB, organizationEntity, tutorEntity, FILES_IDS_STUB, studentEntity);
     }
 }

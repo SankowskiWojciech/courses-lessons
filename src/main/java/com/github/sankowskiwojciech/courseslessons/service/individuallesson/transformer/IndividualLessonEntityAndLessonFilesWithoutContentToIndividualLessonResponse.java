@@ -21,18 +21,7 @@ public class IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLesso
 
     @Override
     public IndividualLessonResponse apply(IndividualLessonEntity individualLessonEntity, List<LessonFileWithoutContent> lessonFilesWithoutContent) {
-        return IndividualLessonResponse.builder()
-                .lessonId(individualLessonEntity.getLessonId())
-                .title(individualLessonEntity.getTitle())
-                .startDateOfLesson(individualLessonEntity.getStartDateOfLesson())
-                .endDateOfLesson(individualLessonEntity.getEndDateOfLesson())
-                .description(individualLessonEntity.getDescription())
-                .subdomainName(getSubdomainName(individualLessonEntity))
-                .tutorEmailAddress(individualLessonEntity.getTutorEntity().getEmailAddress())
-                .studentFullName(individualLessonEntity.getStudentEntity().getFullName())
-                .studentEmailAddress(individualLessonEntity.getStudentEntity().getEmailAddress())
-                .filesInformation(transformFilesWithoutContentToLessonFileResponses(lessonFilesWithoutContent))
-                .build();
+        return new IndividualLessonResponse(individualLessonEntity.getLessonId(), individualLessonEntity.getTitle(), individualLessonEntity.getStartDateOfLesson(), individualLessonEntity.getEndDateOfLesson(), individualLessonEntity.getDescription(), getSubdomainName(individualLessonEntity), individualLessonEntity.getTutorEntity().getEmailAddress(), transformFilesWithoutContentToLessonFileResponses(lessonFilesWithoutContent), individualLessonEntity.getStudentEntity().getFullName(), individualLessonEntity.getStudentEntity().getEmailAddress());
     }
 
     private String getSubdomainName(IndividualLessonEntity individualLessonEntity) {

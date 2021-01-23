@@ -1,25 +1,15 @@
 package com.github.sankowskiwojciech.courseslessons.service.individuallesson;
 
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonFileRepository;
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonRepository;
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.*;
 import com.github.sankowskiwojciech.coursescorelib.model.account.AccountInfo;
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonFileEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.lessonfile.LessonFileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
-import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequestParams;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequestParams;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider;
-import com.github.sankowskiwojciech.courseslessons.stub.AccountInfoStub;
-import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonFileEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonRequestParamsStub;
-import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonStub;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonFileWithoutContentStub;
-import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.*;
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.junit.Before;
@@ -31,16 +21,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.INDIVIDUAL_LESSON_ID_STUB;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anySet;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 public class IndividualLessonServiceImplTest {
 
@@ -93,7 +76,7 @@ public class IndividualLessonServiceImplTest {
     public void shouldReadIndividualLessonsCorrectly() {
         //given
         AccountInfo accountInfoStub = AccountInfoStub.create();
-        IndividualLessonRequestParams individualLessonRequestParamsStub = IndividualLessonRequestParamsStub.create();
+        LessonRequestParams lessonRequestParamsStub = LessonRequestParamsStub.create();
         IndividualLessonEntity individualLessonEntityStub = IndividualLessonEntityStub.createWithDatesOfLesson(LocalDateTime.now().minusHours(1), LocalDateTime.now().plusHours(1));
         Iterable<IndividualLessonEntity> individualLessonEntitiesStub = Lists.newArrayList(individualLessonEntityStub);
 
@@ -101,7 +84,7 @@ public class IndividualLessonServiceImplTest {
         when(individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock.apply(eq(individualLessonEntitiesStub))).thenReturn(Collections.emptyMap());
 
         //when
-        List<IndividualLessonResponse> individualLessonResponseList = testee.readIndividualLessons(accountInfoStub, individualLessonRequestParamsStub);
+        List<IndividualLessonResponse> individualLessonResponseList = testee.readIndividualLessons(accountInfoStub, lessonRequestParamsStub);
 
         //then
         verify(individualLessonRepositoryMock).findAll(any(BooleanExpression.class));

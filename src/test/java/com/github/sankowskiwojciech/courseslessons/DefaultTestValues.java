@@ -8,7 +8,7 @@ import java.util.List;
 public interface DefaultTestValues {
 
     //subdomain
-    String SUBDOMAIN_NAME_STUB = "ssit";
+    String SUBDOMAIN_ALIAS_STUB = "ssit";
 
     //organization
     String ORGANIZATION_ALIAS_STUB = "zslitnr1";

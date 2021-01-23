@@ -12,15 +12,6 @@ import lombok.NoArgsConstructor;
 public class IndividualLessonRequestAndExternalEntitiesToIndividualLesson {
 
     public static IndividualLesson transform(IndividualLessonRequest individualLessonRequest, OrganizationEntity organizationEntity, TutorEntity tutorEntity, StudentEntity studentEntity) {
-        return IndividualLesson.builder()
-                .title(individualLessonRequest.getTitle())
-                .startDateOfLesson(individualLessonRequest.getStartDateOfLesson())
-                .endDateOfLesson(individualLessonRequest.getEndDateOfLesson())
-                .description(individualLessonRequest.getDescription())
-                .organizationEntity(organizationEntity)
-                .tutorEntity(tutorEntity)
-                .studentEntity(studentEntity)
-                .filesIds(individualLessonRequest.getFilesIds())
-                .build();
+        return new IndividualLesson(individualLessonRequest.getTitle(), individualLessonRequest.getStartDateOfLesson(), individualLessonRequest.getEndDateOfLesson(), individualLessonRequest.getDescription(), organizationEntity, tutorEntity, individualLessonRequest.getFilesIds(), studentEntity);
     }
 }

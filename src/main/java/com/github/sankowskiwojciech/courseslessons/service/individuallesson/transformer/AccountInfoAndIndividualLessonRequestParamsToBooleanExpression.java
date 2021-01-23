@@ -3,7 +3,7 @@ package com.github.sankowskiwojciech.courseslessons.service.individuallesson.tra
 import com.github.sankowskiwojciech.coursescorelib.model.account.AccountInfo;
 import com.github.sankowskiwojciech.coursescorelib.model.account.AccountType;
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.QIndividualLessonEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequestParams;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequestParams;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.SubdomainType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -14,17 +14,17 @@ import java.time.LocalDateTime;
 import java.util.function.BiFunction;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class AccountInfoAndIndividualLessonRequestParamsToBooleanExpression implements BiFunction<AccountInfo, IndividualLessonRequestParams, BooleanExpression> {
+public class AccountInfoAndIndividualLessonRequestParamsToBooleanExpression implements BiFunction<AccountInfo, LessonRequestParams, BooleanExpression> {
 
     private static final AccountInfoAndIndividualLessonRequestParamsToBooleanExpression INSTANCE = new AccountInfoAndIndividualLessonRequestParamsToBooleanExpression();
 
     @Override
-    public BooleanExpression apply(AccountInfo accountInfo, IndividualLessonRequestParams individualLessonRequestParams) {
+    public BooleanExpression apply(AccountInfo accountInfo, LessonRequestParams lessonRequestParams) {
         QIndividualLessonEntity individualLessonEntity = QIndividualLessonEntity.individualLessonEntity;
         return accountQuery(individualLessonEntity, accountInfo)
-                .and(subdomainQuery(individualLessonEntity, individualLessonRequestParams.getSubdomain()))
-                .and(fromDateTimeQuery(individualLessonEntity, individualLessonRequestParams.getFromDateTime()))
-                .and(toDateTimeQuery(individualLessonEntity, individualLessonRequestParams.getToDateTime()));
+                .and(subdomainQuery(individualLessonEntity, lessonRequestParams.getSubdomain()))
+                .and(fromDateTimeQuery(individualLessonEntity, lessonRequestParams.getFromDateTime()))
+                .and(toDateTimeQuery(individualLessonEntity, lessonRequestParams.getToDateTime()));
     }
 
     private BooleanExpression accountQuery(QIndividualLessonEntity individualLessonEntity, AccountInfo accountInfo) {
