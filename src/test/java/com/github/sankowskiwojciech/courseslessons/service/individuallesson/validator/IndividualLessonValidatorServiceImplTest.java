@@ -26,7 +26,6 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
@@ -229,8 +228,8 @@ public class IndividualLessonValidatorServiceImplTest {
         verify(studentRepositoryMock).findById(eq(individualLessonRequestStub.getStudentId()));
         verify(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(eq(individualLessonRequestStub.getSubdomainAlias()), eq(tutorEntityStub.getEmailAddress()), eq(studentEntityStub.getEmailAddress()));
         verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDateOfLesson()), eq(individualLessonRequestStub.getEndDateOfLesson()), eq(tutorEntityStub.getEmailAddress()), eq(organizationEntityStub.getEmailAddress()));
-        verify(lessonFileValidatorServiceMock).validateIfFileExists(anyLong());
-        verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(eq(individualLessonRequestStub.getTutorId()), anyLong());
+        verify(lessonFileValidatorServiceMock).validateIfFileExists(anyString());
+        verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(eq(individualLessonRequestStub.getTutorId()), anyString());
 
         assertIndividualLesson(individualLesson, individualLessonRequestStub, organizationEntityStub, tutorEntityStub, studentEntityStub);
     }

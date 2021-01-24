@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.INDIVIDUAL_LESSON_ID_STUB;
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.LESSON_DESCRIPTION_STUB;
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.LESSON_TITLE_STUB;
+import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class IndividualLessonEntityStub {
@@ -46,7 +44,7 @@ public class IndividualLessonEntityStub {
                 .build();
     }
 
-    public static IndividualLessonEntity create(long lessonId) {
+    public static IndividualLessonEntity create(String lessonId) {
         final LocalDateTime currentDateTime = LocalDateTime.now();
         return IndividualLessonEntity.builder()
                 .lessonId(lessonId)

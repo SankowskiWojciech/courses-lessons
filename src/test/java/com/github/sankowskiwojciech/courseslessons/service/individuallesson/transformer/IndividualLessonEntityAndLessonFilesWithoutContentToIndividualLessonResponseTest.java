@@ -3,15 +3,12 @@ package com.github.sankowskiwojciech.courseslessons.service.individuallesson.tra
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.lessonfile.LessonFileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
-import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonFileWithoutContentStub;
-import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.*;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,8 +22,8 @@ public class IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLesso
         //given
         IndividualLessonEntity individualLessonEntityStub = IndividualLessonEntityStub.createWithExternalEntities(OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
         List<LessonFileWithoutContent> lessonFilesWithoutContent = Lists.newArrayList(
-                LessonFileWithoutContentStub.createWithFileId(1),
-                LessonFileWithoutContentStub.createWithFileId(2)
+                LessonFileWithoutContentStub.createWithFileId(UUID.randomUUID().toString()),
+                LessonFileWithoutContentStub.createWithFileId(UUID.randomUUID().toString())
         );
 
         //when
@@ -51,8 +48,8 @@ public class IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLesso
         //given
         IndividualLessonEntity individualLessonEntityStub = IndividualLessonEntityStub.createWithExternalEntities(null, TutorEntityStub.create(), StudentEntityStub.create());
         List<LessonFileWithoutContent> lessonFilesWithoutContent = Lists.newArrayList(
-                LessonFileWithoutContentStub.createWithFileId(1),
-                LessonFileWithoutContentStub.createWithFileId(2)
+                LessonFileWithoutContentStub.createWithFileId(UUID.randomUUID().toString()),
+                LessonFileWithoutContentStub.createWithFileId(UUID.randomUUID().toString())
         );
 
         //when

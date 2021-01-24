@@ -32,7 +32,7 @@ public class IndividualLessonServiceImpl implements IndividualLessonService {
         IndividualLessonEntity individualLessonEntity = IndividualLessonToIndividualLessonEntity.getInstance().apply(individualLesson);
         IndividualLessonEntity savedIndividualLessonEntity = individualLessonRepository.save(individualLessonEntity);
         List<IndividualLessonFileEntity> savedIndividualLessonFileEntities = saveFilesIdsIfAnyProvided(savedIndividualLessonEntity.getLessonId(), individualLesson.getFilesIds());
-        Set<Long> filesIds = savedIndividualLessonFileEntities.stream().map(IndividualLessonFileEntity::getFileId).collect(Collectors.toSet());
+        Set<String> filesIds = savedIndividualLessonFileEntities.stream().map(IndividualLessonFileEntity::getFileId).collect(Collectors.toSet());
         List<LessonFileWithoutContent> lessonFilesWithoutContent = filesIds.isEmpty() ? Collections.emptyList() : lessonFileRepository.findAllByFileIdIn(filesIds);
         return IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse.getInstance().apply(individualLessonEntity, lessonFilesWithoutContent);
     }
@@ -41,13 +41,13 @@ public class IndividualLessonServiceImpl implements IndividualLessonService {
     public List<IndividualLessonResponse> readIndividualLessons(AccountInfo accountInfo, LessonRequestParams lessonRequestParams) {
         BooleanExpression queryBooleanExpression = AccountInfoAndIndividualLessonRequestParamsToBooleanExpression.getInstance().apply(accountInfo, lessonRequestParams);
         Iterable<IndividualLessonEntity> individualLessonEntities = individualLessonRepository.findAll(queryBooleanExpression);
-        Map<Long, List<LessonFileWithoutContent>> individualLessonFilesWithoutContent = individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider.apply(individualLessonEntities);
+        Map<String, List<LessonFileWithoutContent>> individualLessonFilesWithoutContent = individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider.apply(individualLessonEntities);
         return StreamSupport.stream(individualLessonEntities.spliterator(), false)
                 .map(individualLessonEntity -> IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse.getInstance().apply(individualLessonEntity, individualLessonFilesWithoutContent.getOrDefault(individualLessonEntity.getLessonId(), Collections.emptyList())))
                 .collect(Collectors.toList());
     }
 
-    private List<IndividualLessonFileEntity> saveFilesIdsIfAnyProvided(Long lessonId, List<Long> filesIds) {
+    private List<IndividualLessonFileEntity> saveFilesIdsIfAnyProvided(String lessonId, List<String> filesIds) {
         if (CollectionUtils.isNotEmpty(filesIds)) {
             List<IndividualLessonFileEntity> individualLessonFileEntities = LessonIdAndFilesIdsToIndividualLessonFileEntities.getInstance().apply(lessonId, filesIds);
             return individualLessonFileRepository.saveAll(individualLessonFileEntities);

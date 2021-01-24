@@ -1,9 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.validator;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileRepository;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.file.FileCorruptedException;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.file.FileNotFoundException;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.file.InvalidFileFormatException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.file.*;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.MultipartFileToLessonFile;
 import lombok.AllArgsConstructor;
@@ -31,7 +29,7 @@ public class LessonFileValidatorServiceImpl implements LessonFileValidatorServic
     }
 
     @Override
-    public void validateIfFileExists(long fileId) {
+    public void validateIfFileExists(String fileId) {
         if (!lessonFileRepository.existsById(fileId)) {
             throw new FileNotFoundException();
         }

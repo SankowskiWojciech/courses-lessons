@@ -8,7 +8,7 @@ import java.util.List;
 public interface LessonFileService {
     LessonFileResponse createLessonFile(LessonFile lessonFile, String userId);
 
-    LessonFile readLessonFile(long fileId);
+    LessonFile readLessonFile(String fileId);
 
     List<LessonFileResponse> readFilesInformation(String fileOwnerId);
 }

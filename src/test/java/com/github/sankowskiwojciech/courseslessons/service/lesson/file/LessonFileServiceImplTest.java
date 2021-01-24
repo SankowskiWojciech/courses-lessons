@@ -5,9 +5,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.lessonfile.LessonFil
 import com.github.sankowskiwojciech.coursescorelib.model.db.lessonfile.LessonFileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonFileEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonFileStub;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonFileWithoutContentStub;
+import com.github.sankowskiwojciech.courseslessons.stub.*;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,14 +17,10 @@ import java.util.Optional;
 
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILE_ID_STUB;
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.TUTOR_EMAIL_ADDRESS_STUB;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class LessonFileServiceImplTest {
 
@@ -64,7 +58,7 @@ public class LessonFileServiceImplTest {
     @Test
     public void shouldReadFileCorrectly() {
         //given
-        long fileId = FILE_ID_STUB;
+        String fileId = FILE_ID_STUB;
         LessonFileEntity lessonFileEntityStub = LessonFileEntityStub.create();
 
         when(lessonFileRepositoryMock.findById(eq(fileId))).thenReturn(Optional.of(lessonFileEntityStub));

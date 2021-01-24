@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class IndividualLessonFileEntityStub {
 
-    public static IndividualLessonFileEntity create(long lessonId, long fileId) {
+    public static IndividualLessonFileEntity create(String lessonId, String fileId) {
         return new IndividualLessonFileEntity(lessonId, fileId);
     }
 }

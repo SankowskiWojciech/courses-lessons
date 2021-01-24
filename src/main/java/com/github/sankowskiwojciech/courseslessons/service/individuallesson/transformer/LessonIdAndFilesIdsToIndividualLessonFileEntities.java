@@ -9,12 +9,12 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class LessonIdAndFilesIdsToIndividualLessonFileEntities implements BiFunction<Long, List<Long>, List<IndividualLessonFileEntity>> {
+public class LessonIdAndFilesIdsToIndividualLessonFileEntities implements BiFunction<String, List<String>, List<IndividualLessonFileEntity>> {
 
     private static final LessonIdAndFilesIdsToIndividualLessonFileEntities INSTANCE = new LessonIdAndFilesIdsToIndividualLessonFileEntities();
 
     @Override
-    public List<IndividualLessonFileEntity> apply(Long lessonId, List<Long> filesIds) {
+    public List<IndividualLessonFileEntity> apply(String lessonId, List<String> filesIds) {
         return filesIds.stream()
                 .map(fileId -> new IndividualLessonFileEntity(lessonId, fileId))
                 .collect(Collectors.toList());

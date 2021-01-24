@@ -1,10 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.validator;
 
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonFileRepository;
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonRepository;
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileRepository;
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.StudentRepository;
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.TutorRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.*;
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonFileEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToAccessFileException;
@@ -19,18 +15,10 @@ import org.mockito.Mockito;
 import java.util.Collections;
 import java.util.List;
 
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILE_ID_STUB;
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.INDIVIDUAL_LESSON_ID_STUB;
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.STUDENT_EMAIL_ADDRESS_STUB;
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.TUTOR_EMAIL_ADDRESS_STUB;
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.TUTOR_EMAIL_ADDRESS_STUB_2;
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.USER_ID_STUB;
+import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.*;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class FileAccessPermissionValidatorServiceImplTest {
 
@@ -100,7 +88,7 @@ public class FileAccessPermissionValidatorServiceImplTest {
         //given
         String fileOwnerIdStub = TUTOR_EMAIL_ADDRESS_STUB_2;
         String userIdStub = TUTOR_EMAIL_ADDRESS_STUB;
-        long fileIdStub = FILE_ID_STUB;
+        String fileIdStub = FILE_ID_STUB;
         List<IndividualLessonFileEntity> lessonsWhichFileBelongsToStub = Lists.newArrayList(IndividualLessonFileEntityStub.create(INDIVIDUAL_LESSON_ID_STUB, FILE_ID_STUB));
         List<IndividualLessonEntity> lessonsFoundByUserIdAndLessonsIdsStub = Collections.emptyList();
 
@@ -126,7 +114,7 @@ public class FileAccessPermissionValidatorServiceImplTest {
         //given
         String fileOwnerIdStub = TUTOR_EMAIL_ADDRESS_STUB_2;
         String userIdStub = TUTOR_EMAIL_ADDRESS_STUB;
-        long fileIdStub = FILE_ID_STUB;
+        String fileIdStub = FILE_ID_STUB;
         List<IndividualLessonFileEntity> lessonsWhichFileBelongsToStub = Lists.newArrayList(IndividualLessonFileEntityStub.create(INDIVIDUAL_LESSON_ID_STUB, FILE_ID_STUB));
         List<IndividualLessonEntity> lessonsFoundByUserIdAndLessonsIdsStub = Lists.newArrayList(IndividualLessonEntityStub.create(INDIVIDUAL_LESSON_ID_STUB));
 
@@ -147,7 +135,7 @@ public class FileAccessPermissionValidatorServiceImplTest {
     public void shouldDoNothingWhenUserIsAnOwnerOfAFile() {
         //given
         String userIdStub = TUTOR_EMAIL_ADDRESS_STUB;
-        long fileIdStub = FILE_ID_STUB;
+        String fileIdStub = FILE_ID_STUB;
 
         when(lessonFileRepositoryMock.getFileOwnerId(eq(fileIdStub))).thenReturn(userIdStub);
 

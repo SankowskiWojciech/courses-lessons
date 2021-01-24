@@ -81,7 +81,7 @@ public class IndividualLessonValidatorServiceImpl implements IndividualLessonVal
         return studentEntity.get();
     }
 
-    private void validateFilesIds(List<Long> filesIds, String tutorId) {
+    private void validateFilesIds(List<String> filesIds, String tutorId) {
         if (CollectionUtils.isNotEmpty(filesIds)) {
             filesIds.forEach(fileId -> {
                 lessonFileValidatorService.validateIfFileExists(fileId);

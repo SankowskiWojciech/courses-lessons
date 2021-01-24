@@ -1,9 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.validator;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileRepository;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.file.FileCorruptedException;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.file.FileNotFoundException;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.file.InvalidFileFormatException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.file.*;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
 import com.github.sankowskiwojciech.courseslessons.stub.MultipartFileStub;
 import org.apache.commons.io.FilenameUtils;
@@ -20,14 +18,10 @@ import java.io.InputStream;
 import java.util.Set;
 
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILE_ID_STUB;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class LessonFileValidatorServiceImplTest {
 
@@ -95,7 +89,7 @@ public class LessonFileValidatorServiceImplTest {
         verify(validFileMIMETypesMock).contains(eq(mediaTypeStub.toString()));
 
         assertNotNull(lessonFile);
-        assertEquals(0, lessonFile.getFileId());
+        assertNull(lessonFile.getFileId());
         assertNull(lessonFile.getCreatedBy());
         assertNull(lessonFile.getCreationDateTime());
         assertEquals(multipartFileStub.getOriginalFilename(), lessonFile.getName());
@@ -106,7 +100,7 @@ public class LessonFileValidatorServiceImplTest {
     @Test(expected = FileNotFoundException.class)
     public void shouldThrowFileNotFoundExceptionWhenFileDoesNotExist() {
         //given
-        Long fileId = FILE_ID_STUB;
+        String fileId = FILE_ID_STUB;
         boolean doesFileExist = false;
 
         when(lessonFileRepositoryMock.existsById(eq(fileId))).thenReturn(doesFileExist);
@@ -125,7 +119,7 @@ public class LessonFileValidatorServiceImplTest {
     @Test
     public void shouldDoNothingWhenFileExists() {
         //given
-        Long fileId = FILE_ID_STUB;
+        String fileId = FILE_ID_STUB;
         boolean doesFileExist = true;
 
         when(lessonFileRepositoryMock.existsById(eq(fileId))).thenReturn(doesFileExist);

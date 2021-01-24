@@ -7,9 +7,7 @@ import java.util.List;
 
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILES_IDS_STUB;
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.INDIVIDUAL_LESSON_ID_STUB;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class LessonIdAndFilesIdsToIndividualLessonFileEntitiesTest {
 
@@ -18,8 +16,8 @@ public class LessonIdAndFilesIdsToIndividualLessonFileEntitiesTest {
     @Test
     public void shouldTransformCorrectly() {
         //given
-        Long lessonIdStub = INDIVIDUAL_LESSON_ID_STUB;
-        List<Long> filesIdsStub = FILES_IDS_STUB;
+        String lessonIdStub = INDIVIDUAL_LESSON_ID_STUB;
+        List<String> filesIdsStub = FILES_IDS_STUB;
 
         //when
         List<IndividualLessonFileEntity> individualLessonFileEntities = testee.apply(lessonIdStub, filesIdsStub);

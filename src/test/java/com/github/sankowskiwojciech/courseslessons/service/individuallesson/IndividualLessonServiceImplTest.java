@@ -17,8 +17,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.INDIVIDUAL_LESSON_ID_STUB;
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,9 +43,9 @@ public class IndividualLessonServiceImplTest {
         IndividualLesson individualLessonStub = IndividualLessonStub.createWithExternalEntities(OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
         IndividualLessonEntity individualLessonEntityStub = IndividualLessonEntityStub.create(INDIVIDUAL_LESSON_ID_STUB);
         List<IndividualLessonFileEntity> individualLessonFileEntitiesStub = Lists.newArrayList(
-                IndividualLessonFileEntityStub.create(individualLessonEntityStub.getLessonId(), 1L)
+                IndividualLessonFileEntityStub.create(individualLessonEntityStub.getLessonId(), UUID.randomUUID().toString())
         );
-        List<LessonFileWithoutContent> lessonFilesWithoutContent = Lists.newArrayList(LessonFileWithoutContentStub.createWithFileId(1));
+        List<LessonFileWithoutContent> lessonFilesWithoutContent = Lists.newArrayList(LessonFileWithoutContentStub.createWithFileId(UUID.randomUUID().toString()));
 
         when(individualLessonRepositoryMock.save(any(IndividualLessonEntity.class))).thenReturn(individualLessonEntityStub);
         when(individualLessonFileRepositoryMock.saveAll(anyList())).thenReturn(individualLessonFileEntitiesStub);
