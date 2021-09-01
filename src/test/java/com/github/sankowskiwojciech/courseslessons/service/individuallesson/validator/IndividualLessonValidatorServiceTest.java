@@ -179,13 +179,12 @@ public class IndividualLessonValidatorServiceTest {
         IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.create();
         Subdomain subdomainStub = SubdomainStub.createWithSubdomainType(SubdomainType.ORGANIZATION);
         TutorEntity tutorEntityStub = TutorEntityStub.create();
-        StudentEntity studentEntityStub = StudentEntityStub.create();
         OrganizationEntity organizationEntityStub = OrganizationEntityStub.create();
 
         when(subdomainServiceMock.readSubdomainInformation(eq(individualLessonRequestStub.getSubdomainAlias()))).thenReturn(subdomainStub);
         when(organizationRepositoryMock.findById(eq(subdomainStub.getEmailAddress()))).thenReturn(Optional.of(organizationEntityStub));
         when(tutorRepositoryMock.findById(eq(individualLessonRequestStub.getTutorId()))).thenReturn(Optional.of(tutorEntityStub));
-        doThrow(NewLessonCollidesWithExistingOnesException.class).when(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDateOfLesson()), eq(individualLessonRequestStub.getEndDateOfLesson()), eq(tutorEntityStub.getEmailAddress()), eq(organizationEntityStub.getEmailAddress()));
+        doThrow(NewLessonCollidesWithExistingOnesException.class).when(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDateOfLesson()), eq(individualLessonRequestStub.getEndDateOfLesson()), eq(tutorEntityStub.getEmailAddress()));
 
         //when
         try {
@@ -196,7 +195,7 @@ public class IndividualLessonValidatorServiceTest {
             verify(subdomainServiceMock).readSubdomainInformation(eq(individualLessonRequestStub.getSubdomainAlias()));
             verify(organizationRepositoryMock).findById(eq(subdomainStub.getEmailAddress()));
             verify(tutorRepositoryMock).findById(eq(individualLessonRequestStub.getTutorId()));
-            verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDateOfLesson()), eq(individualLessonRequestStub.getEndDateOfLesson()), eq(tutorEntityStub.getEmailAddress()), eq(organizationEntityStub.getEmailAddress()));
+            verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDateOfLesson()), eq(individualLessonRequestStub.getEndDateOfLesson()), eq(tutorEntityStub.getEmailAddress()));
             throw e;
         }
     }
@@ -222,7 +221,7 @@ public class IndividualLessonValidatorServiceTest {
         verify(subdomainServiceMock).readSubdomainInformation(eq(individualLessonRequestStub.getSubdomainAlias()));
         verify(organizationRepositoryMock).findById(eq(subdomainStub.getEmailAddress()));
         verify(tutorRepositoryMock).findById(eq(individualLessonRequestStub.getTutorId()));
-        verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDateOfLesson()), eq(individualLessonRequestStub.getEndDateOfLesson()), eq(tutorEntityStub.getEmailAddress()), eq(organizationEntityStub.getEmailAddress()));
+        verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDateOfLesson()), eq(individualLessonRequestStub.getEndDateOfLesson()), eq(tutorEntityStub.getEmailAddress()));
         verify(lessonFileValidatorServiceMock).validateIfFileExists(anyString());
         verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(eq(individualLessonRequestStub.getTutorId()), anyString());
         verify(studentRepositoryMock).findById(eq(individualLessonRequestStub.getStudentId()));

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface LessonCollisionValidatorService {
-    void validateIfNewLessonDoesNotCollideWithExistingOnes(LocalDateTime startDateOfLesson, LocalDateTime endDateOfLesson, String tutorEmailAddress, String organizationEmailAddress);
+    void validateIfNewLessonDoesNotCollideWithExistingOnes(LocalDateTime startDateOfLesson, LocalDateTime endDateOfLesson, String tutorEmailAddress);
 
-    void validateIfScheduledLessonsDoesNotCollideWithExistingOnes(List<LessonDates> generatedLessonsDates, String tutorEmailAddress, String organizationEmailAddress);
+    void validateIfScheduledLessonsDoesNotCollideWithExistingOnes(List<LessonDates> generatedLessonsDates, String tutorEmailAddress);
 }

@@ -36,7 +36,9 @@ public interface DefaultTestValues {
     String STUDENT_EMAIL_ADDRESS_STUB = "marcin.b@gmail.com";
 
     //group
-    String GROUP_ID_STUB = "English C2";
+    String GROUP_ID_STUB = "c3fe86e3-a498-4880-9d15-3d2516951493";
+    String GROUP_NAME_STUB = "English C2";
+    String GROUP_DESCRIPTION_STUB = "Group description";
 
     //token
     String TOKEN_VALUE_STUB = "tokenValueStub";

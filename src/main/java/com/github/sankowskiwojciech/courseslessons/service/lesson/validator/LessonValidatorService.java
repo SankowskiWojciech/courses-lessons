@@ -33,8 +33,7 @@ public abstract class LessonValidatorService {
         Subdomain subdomain = subdomainService.readSubdomainInformation(lessonRequest.getSubdomainAlias());
         OrganizationEntity organizationEntity = readOrganizationEntityIfSubdomainIsOrganization(subdomain);
         TutorEntity tutorEntity = readTutor(lessonRequest.getTutorId());
-        String organizationEmailAddress = organizationEntity != null ? organizationEntity.getEmailAddress() : null;
-        lessonCollisionValidatorService.validateIfNewLessonDoesNotCollideWithExistingOnes(lessonRequest.getStartDateOfLesson(), lessonRequest.getEndDateOfLesson(), tutorEntity.getEmailAddress(), organizationEmailAddress);
+        lessonCollisionValidatorService.validateIfNewLessonDoesNotCollideWithExistingOnes(lessonRequest.getStartDateOfLesson(), lessonRequest.getEndDateOfLesson(), tutorEntity.getEmailAddress());
         validateFilesIds(lessonRequest.getFilesIds(), lessonRequest.getTutorId());
         return LessonRequestAndExternalEntitiesToLessonImpl.transform(lessonRequest, organizationEntity, tutorEntity);
     }

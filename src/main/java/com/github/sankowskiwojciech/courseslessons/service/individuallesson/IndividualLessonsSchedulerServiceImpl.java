@@ -47,8 +47,7 @@ public class IndividualLessonsSchedulerServiceImpl implements IndividualLessonsS
     }
 
     private List<IndividualLessonResponse> scheduleLessons(IndividualLessonsSchedule individualLessonsSchedule, List<LessonDates> generatedLessonsDates) {
-        String organizationEmailAddress = individualLessonsSchedule.getOrganizationEntity() != null ? individualLessonsSchedule.getOrganizationEntity().getEmailAddress() : null;
-        lessonCollisionValidatorService.validateIfScheduledLessonsDoesNotCollideWithExistingOnes(generatedLessonsDates, individualLessonsSchedule.getTutorEntity().getEmailAddress(), organizationEmailAddress);
+        lessonCollisionValidatorService.validateIfScheduledLessonsDoesNotCollideWithExistingOnes(generatedLessonsDates, individualLessonsSchedule.getTutorEntity().getEmailAddress());
         List<IndividualLessonEntity> individualLessonEntities = IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLessonEntity.getInstance().apply(individualLessonsSchedule, generatedLessonsDates);
         individualLessonRepository.saveAll(individualLessonEntities);
         return individualLessonEntities.stream().map(individualLessonEntity -> IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse.getInstance().apply(individualLessonEntity, Collections.emptyList())).collect(Collectors.toList());

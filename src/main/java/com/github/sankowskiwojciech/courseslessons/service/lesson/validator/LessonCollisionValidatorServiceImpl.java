@@ -17,18 +17,18 @@ public class LessonCollisionValidatorServiceImpl implements LessonCollisionValid
     private final IndividualLessonRepository individualLessonRepository;
 
     @Override
-    public void validateIfNewLessonDoesNotCollideWithExistingOnes(LocalDateTime startDateOfLesson, LocalDateTime endDateOfLesson, String tutorEmailAddress, String organizationEmailAddress) {
-        List<IndividualLessonEntity> individualLessonEntities = individualLessonRepository.findAllLessonsWhichCanCollideWithNewLesson(startDateOfLesson, endDateOfLesson, tutorEmailAddress, organizationEmailAddress);
+    public void validateIfNewLessonDoesNotCollideWithExistingOnes(LocalDateTime startDateOfLesson, LocalDateTime endDateOfLesson, String tutorEmailAddress) {
+        List<IndividualLessonEntity> individualLessonEntities = individualLessonRepository.findAllLessonsWhichCanCollideWithNewLesson(startDateOfLesson, endDateOfLesson, tutorEmailAddress);
         if (!individualLessonEntities.isEmpty()) {
             throw new NewLessonCollidesWithExistingOnesException();
         }
     }
 
     @Override
-    public void validateIfScheduledLessonsDoesNotCollideWithExistingOnes(List<LessonDates> generatedLessonsDates, String tutorEmailAddress, String organizationEmailAddress) {
+    public void validateIfScheduledLessonsDoesNotCollideWithExistingOnes(List<LessonDates> generatedLessonsDates, String tutorEmailAddress) {
         LocalDateTime startDateOfLessons = generatedLessonsDates.get(0).getStartDate().toLocalDate().atStartOfDay();
         LocalDateTime endDateOfLessons = generatedLessonsDates.get(generatedLessonsDates.size() - 1).getStartDate().toLocalDate().atStartOfDay().plusDays(1);
-        List<IndividualLessonEntity> lessonsWhichCanCollideWithNewLessons = individualLessonRepository.findAllLessonsInRangeForTutor(startDateOfLessons, endDateOfLessons, tutorEmailAddress, organizationEmailAddress);
+        List<IndividualLessonEntity> lessonsWhichCanCollideWithNewLessons = individualLessonRepository.findAllLessonsInRangeForTutor(startDateOfLessons, endDateOfLessons, tutorEmailAddress);
         generatedLessonsDates.forEach(generatedLessonDates ->
                 lessonsWhichCanCollideWithNewLessons.forEach(individualLessonEntity -> {
                     if (generatedLessonDates.getStartDate().isBefore(individualLessonEntity.getEndDateOfLesson()) && generatedLessonDates.getEndDate().isAfter(individualLessonEntity.getStartDateOfLesson())) {

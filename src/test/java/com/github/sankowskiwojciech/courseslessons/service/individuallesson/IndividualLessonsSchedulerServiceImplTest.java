@@ -20,12 +20,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 public class IndividualLessonsSchedulerServiceImplTest {
 
@@ -55,7 +51,7 @@ public class IndividualLessonsSchedulerServiceImplTest {
 
         //then
         verify(lessonsDatesGeneratorServiceMock).generateLessonsDatesWithFixedBeginningDateAndEndDate(eq(individualLessonsScheduleStub.getBeginningDate()), isA(LocalDate.class), eq(individualLessonsScheduleStub.getLessonsDaysOfWeekWithTimes()));
-        verify(lessonCollisionValidatorServiceMock).validateIfScheduledLessonsDoesNotCollideWithExistingOnes(eq(lessonsDatesStub), eq(individualLessonsScheduleStub.getTutorEntity().getEmailAddress()), eq(individualLessonsScheduleStub.getOrganizationEntity().getEmailAddress()));
+        verify(lessonCollisionValidatorServiceMock).validateIfScheduledLessonsDoesNotCollideWithExistingOnes(eq(lessonsDatesStub), eq(individualLessonsScheduleStub.getTutorEntity().getEmailAddress()));
         verify(individualLessonRepositoryMock).saveAll(anyList());
 
         assertNotNull(individualLessonResponses);
@@ -78,7 +74,7 @@ public class IndividualLessonsSchedulerServiceImplTest {
 
         //then
         verify(lessonsDatesGeneratorServiceMock).generateLessonsDatesWithFixedBeginningDateAndEndDate(eq(individualLessonsScheduleStub.getBeginningDate()), eq(individualLessonsScheduleStub.getEndDate()), eq(individualLessonsScheduleStub.getLessonsDaysOfWeekWithTimes()));
-        verify(lessonCollisionValidatorServiceMock).validateIfScheduledLessonsDoesNotCollideWithExistingOnes(eq(lessonsDatesStub), eq(individualLessonsScheduleStub.getTutorEntity().getEmailAddress()), eq(individualLessonsScheduleStub.getOrganizationEntity().getEmailAddress()));
+        verify(lessonCollisionValidatorServiceMock).validateIfScheduledLessonsDoesNotCollideWithExistingOnes(eq(lessonsDatesStub), eq(individualLessonsScheduleStub.getTutorEntity().getEmailAddress()));
         verify(individualLessonRepositoryMock).saveAll(anyList());
 
         assertNotNull(individualLessonResponses);
@@ -101,7 +97,7 @@ public class IndividualLessonsSchedulerServiceImplTest {
 
         //then
         verify(lessonsDatesGeneratorServiceMock).generateLessonsDatesForFixedDurationLessons(eq(individualLessonsScheduleStub.getBeginningDate()), eq(individualLessonsScheduleStub.getAllLessonsDurationInMinutes()), eq(individualLessonsScheduleStub.getLessonsDaysOfWeekWithTimes()));
-        verify(lessonCollisionValidatorServiceMock).validateIfScheduledLessonsDoesNotCollideWithExistingOnes(eq(lessonsDatesStub), eq(individualLessonsScheduleStub.getTutorEntity().getEmailAddress()), eq(individualLessonsScheduleStub.getOrganizationEntity().getEmailAddress()));
+        verify(lessonCollisionValidatorServiceMock).validateIfScheduledLessonsDoesNotCollideWithExistingOnes(eq(lessonsDatesStub), eq(individualLessonsScheduleStub.getTutorEntity().getEmailAddress()));
         verify(individualLessonRepositoryMock).saveAll(anyList());
 
         assertNotNull(individualLessonResponses);
