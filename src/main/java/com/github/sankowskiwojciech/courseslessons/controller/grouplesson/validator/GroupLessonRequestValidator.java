@@ -9,20 +9,19 @@ import org.apache.commons.lang3.StringUtils;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GroupLessonRequestValidator {
-
     public static void validateCreateGroupLessonRequest(GroupLessonRequest groupLessonRequest) {
         validateIfMandatoryFieldsAreNotMissing(groupLessonRequest);
         validateIfStartDateAndEndDateOfLessonAreCorrect(groupLessonRequest);
     }
 
     private static void validateIfMandatoryFieldsAreNotMissing(GroupLessonRequest groupLessonRequest) {
-        if (groupLessonRequest == null || groupLessonRequest.getStartDateOfLesson() == null || groupLessonRequest.getEndDateOfLesson() == null || StringUtils.isAnyBlank(groupLessonRequest.getTitle(), groupLessonRequest.getSubdomainAlias(), groupLessonRequest.getTutorId(), groupLessonRequest.getGroupId())) {
+        if (groupLessonRequest == null || groupLessonRequest.getStartDate() == null || groupLessonRequest.getEndDate() == null || StringUtils.isAnyBlank(groupLessonRequest.getTitle(), groupLessonRequest.getSubdomainAlias(), groupLessonRequest.getTutorId(), groupLessonRequest.getGroupId())) {
             throw new InvalidRequestBodyException();
         }
     }
 
     private static void validateIfStartDateAndEndDateOfLessonAreCorrect(GroupLessonRequest groupLessonRequest) {
-        if (groupLessonRequest.getStartDateOfLesson().isAfter(groupLessonRequest.getEndDateOfLesson())) {
+        if (groupLessonRequest.getStartDate().isAfter(groupLessonRequest.getEndDate())) {
             throw new InvalidLessonDatesException();
         }
     }

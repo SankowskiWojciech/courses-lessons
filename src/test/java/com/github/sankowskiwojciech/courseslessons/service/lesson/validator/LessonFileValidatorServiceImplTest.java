@@ -1,7 +1,9 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.validator;
 
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileRepository;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.file.*;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileRepository;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.file.FileCorruptedException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.file.FileNotFoundException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.file.InvalidFileFormatException;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
 import com.github.sankowskiwojciech.courseslessons.stub.MultipartFileStub;
 import org.apache.commons.io.FilenameUtils;
@@ -18,21 +20,25 @@ import java.io.InputStream;
 import java.util.Set;
 
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILE_ID_STUB;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class LessonFileValidatorServiceImplTest {
 
     private final Detector detectorMock = mock(Detector.class);
     private final Set<String> validFileMIMETypesMock = mock(Set.class);
-    private final LessonFileRepository lessonFileRepositoryMock = mock(LessonFileRepository.class);
-    private final LessonFileValidatorService testee = new LessonFileValidatorServiceImpl(detectorMock, validFileMIMETypesMock, lessonFileRepositoryMock);
+    private final FileRepository fileRepositoryMock = mock(FileRepository.class);
+    private final LessonFileValidatorService testee = new LessonFileValidatorServiceImpl(detectorMock, validFileMIMETypesMock, fileRepositoryMock);
 
     @Before
     public void reset() {
-        Mockito.reset(detectorMock, validFileMIMETypesMock, lessonFileRepositoryMock);
+        Mockito.reset(detectorMock, validFileMIMETypesMock, fileRepositoryMock);
     }
 
     @Test(expected = FileCorruptedException.class)
@@ -89,7 +95,7 @@ public class LessonFileValidatorServiceImplTest {
         verify(validFileMIMETypesMock).contains(eq(mediaTypeStub.toString()));
 
         assertNotNull(lessonFile);
-        assertNull(lessonFile.getFileId());
+        assertNull(lessonFile.getId());
         assertNull(lessonFile.getCreatedBy());
         assertNull(lessonFile.getCreationDateTime());
         assertEquals(multipartFileStub.getOriginalFilename(), lessonFile.getName());
@@ -103,7 +109,7 @@ public class LessonFileValidatorServiceImplTest {
         String fileId = FILE_ID_STUB;
         boolean doesFileExist = false;
 
-        when(lessonFileRepositoryMock.existsById(eq(fileId))).thenReturn(doesFileExist);
+        when(fileRepositoryMock.existsById(eq(fileId))).thenReturn(doesFileExist);
 
         //when
         try {
@@ -111,7 +117,7 @@ public class LessonFileValidatorServiceImplTest {
         } catch (FileNotFoundException e) {
 
             //then exception is thrown
-            verify(lessonFileRepositoryMock).existsById(eq(fileId));
+            verify(fileRepositoryMock).existsById(eq(fileId));
             throw e;
         }
     }
@@ -122,12 +128,12 @@ public class LessonFileValidatorServiceImplTest {
         String fileId = FILE_ID_STUB;
         boolean doesFileExist = true;
 
-        when(lessonFileRepositoryMock.existsById(eq(fileId))).thenReturn(doesFileExist);
+        when(fileRepositoryMock.existsById(eq(fileId))).thenReturn(doesFileExist);
 
         //when
         testee.validateIfFileExists(fileId);
 
         //then nothing happens
-        verify(lessonFileRepositoryMock).existsById(eq(fileId));
+        verify(fileRepositoryMock).existsById(eq(fileId));
     }
 }

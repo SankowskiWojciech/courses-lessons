@@ -20,11 +20,11 @@ public class DayOfWeekWithTimesStub {
     }
 
     public static DayOfWeekWithTimes createValid() {
-        LocalTime currentTime = LocalTime.now();
+        LocalTime startTime = LocalTime.of(10, 0);
         return DayOfWeekWithTimes.builder()
                 .dayOfWeek(DayOfWeek.MONDAY)
-                .startTime(currentTime)
-                .endTime(currentTime.plusHours(2))
+                .startTime(startTime)
+                .endTime(startTime.plusHours(2))
                 .build();
     }
 

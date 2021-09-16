@@ -1,6 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.transformer;
 
-import com.github.sankowskiwojciech.coursescorelib.model.db.lessonfile.LessonFileEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
 import com.github.sankowskiwojciech.courseslessons.stub.LessonFileStub;
 import org.junit.Test;
@@ -20,14 +20,14 @@ public class LessonFileAndUserIdToLessonFileEntityTest {
         String userId = TUTOR_EMAIL_ADDRESS_STUB;
 
         //when
-        LessonFileEntity lessonFileEntity = testee.apply(lessonFileStub, userId);
+        FileEntity fileEntity = testee.apply(lessonFileStub, userId);
 
         //then
-        assertNotNull(lessonFileEntity);
-        assertEquals(lessonFileStub.getName(), lessonFileEntity.getName());
-        assertEquals(lessonFileStub.getExtension(), lessonFileEntity.getExtension());
-        assertEquals(lessonFileStub.getContent(), lessonFileEntity.getContent());
-        assertEquals(userId, lessonFileEntity.getCreatedBy());
-        assertNotNull(lessonFileEntity.getCreationDateTime());
+        assertNotNull(fileEntity);
+        assertEquals(lessonFileStub.getName(), fileEntity.getName());
+        assertEquals(lessonFileStub.getExtension(), fileEntity.getExtension());
+        assertEquals(lessonFileStub.getContent(), fileEntity.getContent());
+        assertEquals(userId, fileEntity.getCreatedBy());
+        assertNotNull(fileEntity.getCreationDateTime());
     }
 }

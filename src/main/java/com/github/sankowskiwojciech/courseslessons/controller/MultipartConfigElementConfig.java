@@ -12,7 +12,6 @@ import javax.servlet.MultipartConfigElement;
 @Configuration
 @Component
 public class MultipartConfigElementConfig {
-
     private static final DataSize FILE_UPLOAD_MAX_SIZE = DataSize.of(50, DataUnit.MEGABYTES);
 
     @Bean

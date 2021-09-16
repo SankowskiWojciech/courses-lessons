@@ -2,7 +2,9 @@ package com.github.sankowskiwojciech.courseslessons.controller.individuallesson;
 
 import com.github.sankowskiwojciech.coursescorelib.model.account.AccountInfo;
 import com.github.sankowskiwojciech.coursescorelib.model.db.token.TokenEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.*;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
+import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequest;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonsScheduleRequest;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequestParams;
@@ -16,7 +18,14 @@ import com.github.sankowskiwojciech.courseslessons.service.individuallesson.vali
 import com.github.sankowskiwojciech.courseslessons.service.tokenvalidation.TokenValidationService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,7 +34,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/lessons/individual")
 public class IndividualLessonController {
-
     private final TokenValidationService tokenValidationService;
     private final IndividualLessonValidatorService individualLessonValidatorService;
     private final IndividualLessonService individualLessonService;

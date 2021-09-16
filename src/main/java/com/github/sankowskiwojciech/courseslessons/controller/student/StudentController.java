@@ -22,7 +22,6 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/students")
 public class StudentController {
-
     private final TokenValidationService tokenValidationService;
     private final SubdomainService subdomainService;
     private final StudentService studentService;

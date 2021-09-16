@@ -35,13 +35,13 @@ public class IndividualLessonsSchedulerServiceImpl implements IndividualLessonsS
         switch (individualLessonsSchedule.getScheduleType()) {
             case ONE_YEAR_LENGTH_LESSONS:
                 LocalDate lessonsEndDate = individualLessonsSchedule.getBeginningDate().plusYears(MAX_LESSONS_DURATION_IN_YEARS);
-                generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesWithFixedBeginningDateAndEndDate(individualLessonsSchedule.getBeginningDate(), lessonsEndDate, individualLessonsSchedule.getLessonsDaysOfWeekWithTimes());
+                generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesWithFixedBeginningDateAndEndDate(individualLessonsSchedule.getBeginningDate(), lessonsEndDate, individualLessonsSchedule.getDaysOfWeekWithTimes());
                 return scheduleLessons(individualLessonsSchedule, generatedLessonsDates);
             case FIXED_DATES_LESSONS:
-                generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesWithFixedBeginningDateAndEndDate(individualLessonsSchedule.getBeginningDate(), individualLessonsSchedule.getEndDate(), individualLessonsSchedule.getLessonsDaysOfWeekWithTimes());
+                generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesWithFixedBeginningDateAndEndDate(individualLessonsSchedule.getBeginningDate(), individualLessonsSchedule.getEndDate(), individualLessonsSchedule.getDaysOfWeekWithTimes());
                 return scheduleLessons(individualLessonsSchedule, generatedLessonsDates);
             default:
-                generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesForFixedDurationLessons(individualLessonsSchedule.getBeginningDate(), individualLessonsSchedule.getAllLessonsDurationInMinutes(), individualLessonsSchedule.getLessonsDaysOfWeekWithTimes());
+                generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesForFixedDurationLessons(individualLessonsSchedule.getBeginningDate(), individualLessonsSchedule.getAllLessonsDurationInMinutes(), individualLessonsSchedule.getDaysOfWeekWithTimes());
                 return scheduleLessons(individualLessonsSchedule, generatedLessonsDates);
         }
     }

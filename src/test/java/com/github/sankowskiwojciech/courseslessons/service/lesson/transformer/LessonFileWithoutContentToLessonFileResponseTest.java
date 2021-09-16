@@ -1,6 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.transformer;
 
-import com.github.sankowskiwojciech.coursescorelib.model.db.lessonfile.LessonFileWithoutContent;
+import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
 import com.github.sankowskiwojciech.courseslessons.stub.LessonFileWithoutContentStub;
 import org.junit.Test;
@@ -15,17 +15,17 @@ public class LessonFileWithoutContentToLessonFileResponseTest {
     @Test
     public void shouldTransformCorrectly() {
         //given
-        LessonFileWithoutContent lessonFileWithoutContentStub = LessonFileWithoutContentStub.create();
+        FileWithoutContent fileWithoutContentStub = LessonFileWithoutContentStub.create();
 
         //when
-        LessonFileResponse lessonFileResponse = testee.apply(lessonFileWithoutContentStub);
+        LessonFileResponse lessonFileResponse = testee.apply(fileWithoutContentStub);
 
         //then
         assertNotNull(lessonFileResponse);
-        assertEquals(lessonFileWithoutContentStub.getFileId(), lessonFileResponse.getFileId());
-        assertEquals(lessonFileWithoutContentStub.getName(), lessonFileResponse.getName());
-        assertEquals(lessonFileWithoutContentStub.getExtension(), lessonFileResponse.getExtension());
-        assertEquals(lessonFileWithoutContentStub.getCreatedBy(), lessonFileResponse.getCreatedBy());
-        assertEquals(lessonFileWithoutContentStub.getCreationDateTime(), lessonFileResponse.getCreationDateTime());
+        assertEquals(fileWithoutContentStub.getId(), lessonFileResponse.getId());
+        assertEquals(fileWithoutContentStub.getName(), lessonFileResponse.getName());
+        assertEquals(fileWithoutContentStub.getExtension(), lessonFileResponse.getExtension());
+        assertEquals(fileWithoutContentStub.getCreatedBy(), lessonFileResponse.getCreatedBy());
+        assertEquals(fileWithoutContentStub.getCreationDateTime(), lessonFileResponse.getCreationDateTime());
     }
 }

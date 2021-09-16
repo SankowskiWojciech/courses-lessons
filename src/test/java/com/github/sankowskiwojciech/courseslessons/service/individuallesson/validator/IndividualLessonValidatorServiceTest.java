@@ -1,6 +1,8 @@
 package com.github.sankowskiwojciech.courseslessons.service.individuallesson.validator;
 
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.*;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.OrganizationRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.StudentRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.TutorRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
@@ -16,8 +18,15 @@ import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.reques
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.SubdomainType;
 import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
-import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.*;
-import com.github.sankowskiwojciech.courseslessons.stub.*;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileAccessPermissionValidatorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
+import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonRequestStub;
+import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonsScheduleRequestStub;
+import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.SubdomainStub;
+import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -27,7 +36,12 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 public class IndividualLessonValidatorServiceTest {
 
@@ -184,7 +198,7 @@ public class IndividualLessonValidatorServiceTest {
         when(subdomainServiceMock.readSubdomainInformation(eq(individualLessonRequestStub.getSubdomainAlias()))).thenReturn(subdomainStub);
         when(organizationRepositoryMock.findById(eq(subdomainStub.getEmailAddress()))).thenReturn(Optional.of(organizationEntityStub));
         when(tutorRepositoryMock.findById(eq(individualLessonRequestStub.getTutorId()))).thenReturn(Optional.of(tutorEntityStub));
-        doThrow(NewLessonCollidesWithExistingOnesException.class).when(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDateOfLesson()), eq(individualLessonRequestStub.getEndDateOfLesson()), eq(tutorEntityStub.getEmailAddress()));
+        doThrow(NewLessonCollidesWithExistingOnesException.class).when(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDate()), eq(individualLessonRequestStub.getEndDate()), eq(tutorEntityStub.getEmailAddress()));
 
         //when
         try {
@@ -195,7 +209,7 @@ public class IndividualLessonValidatorServiceTest {
             verify(subdomainServiceMock).readSubdomainInformation(eq(individualLessonRequestStub.getSubdomainAlias()));
             verify(organizationRepositoryMock).findById(eq(subdomainStub.getEmailAddress()));
             verify(tutorRepositoryMock).findById(eq(individualLessonRequestStub.getTutorId()));
-            verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDateOfLesson()), eq(individualLessonRequestStub.getEndDateOfLesson()), eq(tutorEntityStub.getEmailAddress()));
+            verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDate()), eq(individualLessonRequestStub.getEndDate()), eq(tutorEntityStub.getEmailAddress()));
             throw e;
         }
     }
@@ -221,7 +235,7 @@ public class IndividualLessonValidatorServiceTest {
         verify(subdomainServiceMock).readSubdomainInformation(eq(individualLessonRequestStub.getSubdomainAlias()));
         verify(organizationRepositoryMock).findById(eq(subdomainStub.getEmailAddress()));
         verify(tutorRepositoryMock).findById(eq(individualLessonRequestStub.getTutorId()));
-        verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDateOfLesson()), eq(individualLessonRequestStub.getEndDateOfLesson()), eq(tutorEntityStub.getEmailAddress()));
+        verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(individualLessonRequestStub.getStartDate()), eq(individualLessonRequestStub.getEndDate()), eq(tutorEntityStub.getEmailAddress()));
         verify(lessonFileValidatorServiceMock).validateIfFileExists(anyString());
         verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(eq(individualLessonRequestStub.getTutorId()), anyString());
         verify(studentRepositoryMock).findById(eq(individualLessonRequestStub.getStudentId()));
@@ -261,8 +275,8 @@ public class IndividualLessonValidatorServiceTest {
     private void assertIndividualLesson(IndividualLesson individualLesson, IndividualLessonRequest individualLessonRequest, OrganizationEntity organizationEntity, TutorEntity tutorEntity, StudentEntity studentEntity) {
         assertNotNull(individualLesson);
         assertEquals(individualLessonRequest.getTitle(), individualLesson.getTitle());
-        assertEquals(individualLessonRequest.getStartDateOfLesson(), individualLesson.getStartDateOfLesson());
-        assertEquals(individualLessonRequest.getEndDateOfLesson(), individualLesson.getEndDateOfLesson());
+        assertEquals(individualLessonRequest.getStartDate(), individualLesson.getStartDate());
+        assertEquals(individualLessonRequest.getEndDate(), individualLesson.getEndDate());
         assertEquals(individualLessonRequest.getDescription(), individualLesson.getDescription());
         assertEquals(organizationEntity, individualLesson.getOrganizationEntity());
         assertEquals(tutorEntity, individualLesson.getTutorEntity());

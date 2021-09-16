@@ -5,7 +5,10 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntit
 import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonsScheduleRequest;
-import com.github.sankowskiwojciech.courseslessons.stub.*;
+import com.github.sankowskiwojciech.courseslessons.stub.LessonsScheduleRequestStub;
+import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -33,9 +36,9 @@ public class LessonsScheduleRequestAndExternalEntitiesToLessonsScheduleTest {
         assertEquals(lessonsScheduleRequestStub.getBeginningDate(), lessonsSchedule.getBeginningDate());
         assertEquals(lessonsScheduleRequestStub.getEndDate(), lessonsSchedule.getEndDate());
         assertEquals(lessonsScheduleRequestStub.getAllLessonsDurationInMinutes(), lessonsSchedule.getAllLessonsDurationInMinutes());
-        assertEquals(lessonsScheduleRequestStub.getLessonsDaysOfWeekWithTimes(), lessonsSchedule.getLessonsDaysOfWeekWithTimes());
+        assertEquals(lessonsScheduleRequestStub.getDaysOfWeekWithTimes(), lessonsSchedule.getDaysOfWeekWithTimes());
         assertEquals(lessonsScheduleRequestStub.getScheduleType(), lessonsSchedule.getScheduleType());
-        assertEquals(lessonsScheduleRequestStub.getLessonsTitles(), lessonsSchedule.getLessonsTitles());
+        assertEquals(lessonsScheduleRequestStub.getTitles(), lessonsSchedule.getTitles());
         assertEquals(organizationEntityStub, lessonsSchedule.getOrganizationEntity());
         assertEquals(tutorEntityStub, lessonsSchedule.getTutorEntity());
     }

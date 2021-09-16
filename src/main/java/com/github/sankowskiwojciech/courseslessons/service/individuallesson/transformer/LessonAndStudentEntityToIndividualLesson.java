@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class LessonAndStudentEntityToIndividualLesson {
 
     public static IndividualLesson transform(Lesson lesson, StudentEntity studentEntity) {
-        return new IndividualLesson(lesson.getTitle(), lesson.getStartDateOfLesson(), lesson.getEndDateOfLesson(), lesson.getDescription(), lesson.getOrganizationEntity(), lesson.getTutorEntity(), lesson.getFilesIds(), studentEntity);
+        return new IndividualLesson(lesson.getTitle(), lesson.getStartDate(), lesson.getEndDate(), lesson.getDescription(), lesson.getOrganizationEntity(), lesson.getTutorEntity(), lesson.getFilesIds(), studentEntity);
     }
 }

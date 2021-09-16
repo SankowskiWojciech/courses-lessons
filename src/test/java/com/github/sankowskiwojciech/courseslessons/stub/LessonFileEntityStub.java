@@ -1,6 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.stub;
 
-import com.github.sankowskiwojciech.coursescorelib.model.db.lessonfile.LessonFileEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -13,9 +13,9 @@ import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILE
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LessonFileEntityStub {
-    public static LessonFileEntity create() {
-        return LessonFileEntity.builder()
-                .fileId(FILE_ID_STUB)
+    public static FileEntity create() {
+        return FileEntity.builder()
+                .id(FILE_ID_STUB)
                 .name(FILE_NAME_STUB)
                 .extension(FILE_EXTENSION_STUB)
                 .content(FILE_CONTENT_STUB)

@@ -1,8 +1,8 @@
 package com.github.sankowskiwojciech.courseslessons.service;
 
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonFileRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonRepository;
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileAccessRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.OrganizationRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.SubdomainRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.TutorRepository;
@@ -22,7 +22,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ServiceConfig {
-
     @Autowired
     private SubdomainRepository subdomainRepository;
 
@@ -33,27 +32,27 @@ public class ServiceConfig {
     private TutorRepository tutorRepository;
 
     @Autowired
-    private LessonFileRepository lessonFileRepository;
+    private FileRepository fileRepository;
 
     @Autowired
     private IndividualLessonRepository individualLessonRepository;
 
     @Autowired
-    private IndividualLessonFileRepository individualLessonFileRepository;
+    private LessonFileAccessRepository lessonFileAccessRepository;
 
     @Bean
     public IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider() {
-        return new IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider(individualLessonFileRepository, lessonFileRepository);
+        return new IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider(lessonFileAccessRepository, fileRepository);
     }
 
     @Bean
     public LessonFileValidatorService lessonFileValidatorService() {
-        return new LessonFileValidatorServiceImpl(createDetector(), ValidFileMIMETypes.VALID_FILE_MIME_TYPES, lessonFileRepository);
+        return new LessonFileValidatorServiceImpl(createDetector(), ValidFileMIMETypes.VALID_FILE_MIME_TYPES, fileRepository);
     }
 
     @Bean
     public IndividualLessonService individualLessonService() {
-        return new IndividualLessonServiceImpl(individualLessonRepository, individualLessonFileRepository, lessonFileRepository, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider());
+        return new IndividualLessonServiceImpl(individualLessonRepository, lessonFileAccessRepository, fileRepository, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider());
     }
 
     @Bean

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class LessonScheduleAndStudentEntityToIndividualLessonSchedule {
 
     public static IndividualLessonsSchedule transform(LessonsSchedule lessonSchedule, StudentEntity studentEntity) {
-        return new IndividualLessonsSchedule(lessonSchedule.getBeginningDate(), lessonSchedule.getEndDate(), lessonSchedule.getScheduleType(), lessonSchedule.getAllLessonsDurationInMinutes(), lessonSchedule.getLessonsDaysOfWeekWithTimes(), lessonSchedule.getLessonsTitles(), lessonSchedule.getOrganizationEntity(), lessonSchedule.getTutorEntity(), studentEntity);
+        return new IndividualLessonsSchedule(lessonSchedule.getBeginningDate(), lessonSchedule.getEndDate(), lessonSchedule.getScheduleType(), lessonSchedule.getAllLessonsDurationInMinutes(), lessonSchedule.getDaysOfWeekWithTimes(), lessonSchedule.getTitles(), lessonSchedule.getOrganizationEntity(), lessonSchedule.getTutorEntity(), studentEntity);
     }
 }

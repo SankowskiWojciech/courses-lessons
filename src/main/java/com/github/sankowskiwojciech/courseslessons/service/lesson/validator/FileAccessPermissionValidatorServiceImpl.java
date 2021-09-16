@@ -1,8 +1,12 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.validator;
 
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.*;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileAccessRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.StudentRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.TutorRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonFileEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAccessEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToAccessFileException;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToCreateFileException;
 import lombok.AllArgsConstructor;
@@ -17,9 +21,9 @@ public class FileAccessPermissionValidatorServiceImpl implements FileAccessPermi
 
     private final TutorRepository tutorRepository;
     private final StudentRepository studentRepository;
-    private final IndividualLessonFileRepository individualLessonFileRepository;
+    private final LessonFileAccessRepository lessonFileAccessRepository;
     private final IndividualLessonRepository individualLessonRepository;
-    private final LessonFileRepository lessonFileRepository;
+    private final FileRepository fileRepository;
 
     @Override
     public void validateIfUserIsAllowedToCreateFile(String userId) {
@@ -30,10 +34,10 @@ public class FileAccessPermissionValidatorServiceImpl implements FileAccessPermi
 
     @Override
     public void validateIfUserIsAllowedToAccessFile(String userId, String fileId) {
-        if (!lessonFileRepository.getFileOwnerId(fileId).equals(userId)) {
-            List<IndividualLessonFileEntity> lessonsWhichFileBelongsTo = individualLessonFileRepository.findAllByFileId(fileId);
-            List<String> lessonsIdsWhichFileBelongsTo = lessonsWhichFileBelongsTo.stream().map(IndividualLessonFileEntity::getLessonId).collect(Collectors.toList());
-            List<IndividualLessonEntity> lessonsFoundByUserIdAndLessonsIds = individualLessonRepository.findAllByUserIdAndLessonsIds(userId, lessonsIdsWhichFileBelongsTo);
+        if (!fileRepository.getFileOwnerIdByFileId(fileId).equals(userId)) {
+            List<LessonFileAccessEntity> lessonsWhichFileBelongsTo = lessonFileAccessRepository.findAllByFileId(fileId);
+            List<String> lessonsIdsWhichFileBelongsTo = lessonsWhichFileBelongsTo.stream().map(LessonFileAccessEntity::getLessonId).collect(Collectors.toList());
+            List<IndividualLessonEntity> lessonsFoundByUserIdAndLessonsIds = individualLessonRepository.findAllByUserIdAndLessonIdIn(userId, lessonsIdsWhichFileBelongsTo);
             if (lessonsFoundByUserIdAndLessonsIds.isEmpty()) {
                 throw new UserNotAllowedToAccessFileException();
             }

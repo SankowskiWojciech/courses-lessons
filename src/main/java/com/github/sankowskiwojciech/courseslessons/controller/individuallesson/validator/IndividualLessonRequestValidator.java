@@ -9,20 +9,19 @@ import org.apache.commons.lang3.StringUtils;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class IndividualLessonRequestValidator {
-
     public static void validateCreateIndividualLessonRequest(IndividualLessonRequest individualLessonRequest) {
         validateIfMandatoryFieldsAreNotMissing(individualLessonRequest);
         validateIfStartDateAndEndDateOfLessonAreCorrect(individualLessonRequest);
     }
 
     private static void validateIfMandatoryFieldsAreNotMissing(IndividualLessonRequest individualLessonRequest) {
-        if (individualLessonRequest == null || individualLessonRequest.getStartDateOfLesson() == null || individualLessonRequest.getEndDateOfLesson() == null || StringUtils.isAnyBlank(individualLessonRequest.getTitle(), individualLessonRequest.getSubdomainAlias(), individualLessonRequest.getTutorId(), individualLessonRequest.getStudentId())) {
+        if (individualLessonRequest == null || individualLessonRequest.getStartDate() == null || individualLessonRequest.getEndDate() == null || StringUtils.isAnyBlank(individualLessonRequest.getTitle(), individualLessonRequest.getSubdomainAlias(), individualLessonRequest.getTutorId(), individualLessonRequest.getStudentId())) {
             throw new InvalidRequestBodyException();
         }
     }
 
     private static void validateIfStartDateAndEndDateOfLessonAreCorrect(IndividualLessonRequest individualLessonRequest) {
-        if (individualLessonRequest.getStartDateOfLesson().isAfter(individualLessonRequest.getEndDateOfLesson())) {
+        if (individualLessonRequest.getStartDate().isAfter(individualLessonRequest.getEndDate())) {
             throw new InvalidLessonDatesException();
         }
     }

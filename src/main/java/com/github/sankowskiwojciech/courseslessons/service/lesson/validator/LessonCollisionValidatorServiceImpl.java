@@ -31,7 +31,7 @@ public class LessonCollisionValidatorServiceImpl implements LessonCollisionValid
         List<IndividualLessonEntity> lessonsWhichCanCollideWithNewLessons = individualLessonRepository.findAllLessonsInRangeForTutor(startDateOfLessons, endDateOfLessons, tutorEmailAddress);
         generatedLessonsDates.forEach(generatedLessonDates ->
                 lessonsWhichCanCollideWithNewLessons.forEach(individualLessonEntity -> {
-                    if (generatedLessonDates.getStartDate().isBefore(individualLessonEntity.getEndDateOfLesson()) && generatedLessonDates.getEndDate().isAfter(individualLessonEntity.getStartDateOfLesson())) {
+                    if (generatedLessonDates.getStartDate().isBefore(individualLessonEntity.getEndDate()) && generatedLessonDates.getEndDate().isAfter(individualLessonEntity.getStartDate())) {
                         throw new NewLessonCollidesWithExistingOnesException();
                     }
                 })

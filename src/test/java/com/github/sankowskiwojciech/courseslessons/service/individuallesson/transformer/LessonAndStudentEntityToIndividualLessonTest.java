@@ -3,7 +3,10 @@ package com.github.sankowskiwojciech.courseslessons.service.individuallesson.tra
 import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.Lesson;
-import com.github.sankowskiwojciech.courseslessons.stub.*;
+import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonStub;
+import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,8 +26,8 @@ public class LessonAndStudentEntityToIndividualLessonTest {
         //then
         assertNotNull(individualLesson);
         assertEquals(lessonStub.getTitle(), individualLesson.getTitle());
-        assertEquals(lessonStub.getStartDateOfLesson(), individualLesson.getStartDateOfLesson());
-        assertEquals(lessonStub.getEndDateOfLesson(), individualLesson.getEndDateOfLesson());
+        assertEquals(lessonStub.getStartDate(), individualLesson.getStartDate());
+        assertEquals(lessonStub.getEndDate(), individualLesson.getEndDate());
         assertEquals(lessonStub.getDescription(), individualLesson.getDescription());
         assertEquals(lessonStub.getOrganizationEntity(), individualLesson.getOrganizationEntity());
         assertEquals(lessonStub.getTutorEntity(), individualLesson.getTutorEntity());

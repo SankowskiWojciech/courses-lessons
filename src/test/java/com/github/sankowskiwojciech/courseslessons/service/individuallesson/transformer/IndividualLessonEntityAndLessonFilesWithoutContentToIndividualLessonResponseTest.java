@@ -1,9 +1,13 @@
 package com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer;
 
+import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.db.lessonfile.LessonFileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
-import com.github.sankowskiwojciech.courseslessons.stub.*;
+import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.LessonFileWithoutContentStub;
+import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 
@@ -21,7 +25,7 @@ public class IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLesso
     public void shouldTransformCorrectlyWhenSubdomainIsOrganization() {
         //given
         IndividualLessonEntity individualLessonEntityStub = IndividualLessonEntityStub.createWithExternalEntities(OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
-        List<LessonFileWithoutContent> lessonFilesWithoutContent = Lists.newArrayList(
+        List<FileWithoutContent> lessonFilesWithoutContent = Lists.newArrayList(
                 LessonFileWithoutContentStub.createWithFileId(UUID.randomUUID().toString()),
                 LessonFileWithoutContentStub.createWithFileId(UUID.randomUUID().toString())
         );
@@ -31,10 +35,10 @@ public class IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLesso
 
         //then
         assertNotNull(individualLessonResponse);
-        assertEquals(individualLessonEntityStub.getLessonId(), individualLessonResponse.getLessonId());
+        assertEquals(individualLessonEntityStub.getId(), individualLessonResponse.getId());
         assertEquals(individualLessonEntityStub.getTitle(), individualLessonResponse.getTitle());
-        assertEquals(individualLessonEntityStub.getStartDateOfLesson(), individualLessonResponse.getStartDateOfLesson());
-        assertEquals(individualLessonEntityStub.getEndDateOfLesson(), individualLessonResponse.getEndDateOfLesson());
+        assertEquals(individualLessonEntityStub.getStartDate(), individualLessonResponse.getStartDate());
+        assertEquals(individualLessonEntityStub.getEndDate(), individualLessonResponse.getEndDate());
         assertEquals(individualLessonEntityStub.getDescription(), individualLessonResponse.getDescription());
         assertEquals(individualLessonEntityStub.getOrganizationEntity().getAlias(), individualLessonResponse.getSubdomainName());
         assertEquals(individualLessonEntityStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorEmailAddress());
@@ -47,7 +51,7 @@ public class IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLesso
     public void shouldTransformCorrectlyWhenSubdomainIsTutor() {
         //given
         IndividualLessonEntity individualLessonEntityStub = IndividualLessonEntityStub.createWithExternalEntities(null, TutorEntityStub.create(), StudentEntityStub.create());
-        List<LessonFileWithoutContent> lessonFilesWithoutContent = Lists.newArrayList(
+        List<FileWithoutContent> lessonFilesWithoutContent = Lists.newArrayList(
                 LessonFileWithoutContentStub.createWithFileId(UUID.randomUUID().toString()),
                 LessonFileWithoutContentStub.createWithFileId(UUID.randomUUID().toString())
         );
@@ -57,10 +61,10 @@ public class IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLesso
 
         //then
         assertNotNull(individualLessonResponse);
-        assertEquals(individualLessonEntityStub.getLessonId(), individualLessonResponse.getLessonId());
+        assertEquals(individualLessonEntityStub.getId(), individualLessonResponse.getId());
         assertEquals(individualLessonEntityStub.getTitle(), individualLessonResponse.getTitle());
-        assertEquals(individualLessonEntityStub.getStartDateOfLesson(), individualLessonResponse.getStartDateOfLesson());
-        assertEquals(individualLessonEntityStub.getEndDateOfLesson(), individualLessonResponse.getEndDateOfLesson());
+        assertEquals(individualLessonEntityStub.getStartDate(), individualLessonResponse.getStartDate());
+        assertEquals(individualLessonEntityStub.getEndDate(), individualLessonResponse.getEndDate());
         assertEquals(individualLessonEntityStub.getDescription(), individualLessonResponse.getDescription());
         assertEquals(individualLessonEntityStub.getTutorEntity().getAlias(), individualLessonResponse.getSubdomainName());
         assertEquals(individualLessonEntityStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorEmailAddress());

@@ -9,53 +9,40 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.*;
+import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.INDIVIDUAL_LESSON_ID_STUB;
+import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.LESSON_DESCRIPTION_STUB;
+import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.LESSON_TITLE_STUB;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class IndividualLessonEntityStub {
 
     public static IndividualLessonEntity createWithExternalEntities(OrganizationEntity organizationEntity, TutorEntity tutorEntity, StudentEntity studentEntity) {
-        final LocalDateTime currentDateTime = LocalDateTime.now();
-        return IndividualLessonEntity.builder()
-                .lessonId(INDIVIDUAL_LESSON_ID_STUB)
-                .title(LESSON_TITLE_STUB)
-                .startDateOfLesson(currentDateTime.plusHours(1))
-                .endDateOfLesson(currentDateTime.plusHours(3))
-                .description(LESSON_DESCRIPTION_STUB)
-                .organizationEntity(organizationEntity)
-                .tutorEntity(tutorEntity)
-                .studentEntity(studentEntity)
-                .creationDateTime(currentDateTime)
-                .build();
+        final IndividualLessonEntity entity = create(INDIVIDUAL_LESSON_ID_STUB);
+        entity.setOrganizationEntity(organizationEntity);
+        entity.setTutorEntity(tutorEntity);
+        entity.setStudentEntity(studentEntity);
+        return entity;
     }
 
     public static IndividualLessonEntity createWithDatesOfLesson(LocalDateTime startDateOfLesson, LocalDateTime endDateOfLesson) {
-        final LocalDateTime currentDateTime = LocalDateTime.now();
-        return IndividualLessonEntity.builder()
-                .lessonId(INDIVIDUAL_LESSON_ID_STUB)
-                .title(LESSON_TITLE_STUB)
-                .startDateOfLesson(startDateOfLesson)
-                .endDateOfLesson(endDateOfLesson)
-                .description(LESSON_DESCRIPTION_STUB)
-                .organizationEntity(OrganizationEntityStub.create())
-                .tutorEntity(TutorEntityStub.create())
-                .studentEntity(StudentEntityStub.create())
-                .creationDateTime(currentDateTime.minusMonths(2))
-                .build();
+        final IndividualLessonEntity entity = create(INDIVIDUAL_LESSON_ID_STUB);
+        entity.setStartDate(startDateOfLesson);
+        entity.setEndDate(endDateOfLesson);
+        return entity;
     }
 
     public static IndividualLessonEntity create(String lessonId) {
         final LocalDateTime currentDateTime = LocalDateTime.now();
-        return IndividualLessonEntity.builder()
-                .lessonId(lessonId)
-                .title(LESSON_TITLE_STUB)
-                .startDateOfLesson(LocalDateTime.now())
-                .endDateOfLesson(LocalDateTime.now().plusHours(2))
-                .description(LESSON_DESCRIPTION_STUB)
-                .organizationEntity(OrganizationEntityStub.create())
-                .tutorEntity(TutorEntityStub.create())
-                .studentEntity(StudentEntityStub.create())
-                .creationDateTime(currentDateTime.minusMonths(2))
-                .build();
+        IndividualLessonEntity entity = new IndividualLessonEntity();
+        entity.setId(lessonId);
+        entity.setTitle(LESSON_TITLE_STUB);
+        entity.setStartDate(LocalDateTime.now());
+        entity.setEndDate(LocalDateTime.now().plusHours(2));
+        entity.setDescription(LESSON_DESCRIPTION_STUB);
+        entity.setOrganizationEntity(OrganizationEntityStub.create());
+        entity.setTutorEntity(TutorEntityStub.create());
+        entity.setStudentEntity(StudentEntityStub.create());
+        entity.setCreationDateTime(currentDateTime.minusMonths(2));
+        return entity;
     }
 }

@@ -1,15 +1,25 @@
 package com.github.sankowskiwojciech.courseslessons.service.individuallesson;
 
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.*;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileAccessRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.account.AccountInfo;
+import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonFileEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.db.lessonfile.LessonFileWithoutContent;
+import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAccessEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequestParams;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider;
-import com.github.sankowskiwojciech.courseslessons.stub.*;
+import com.github.sankowskiwojciech.courseslessons.stub.AccountInfoStub;
+import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonFileEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonStub;
+import com.github.sankowskiwojciech.courseslessons.stub.LessonFileWithoutContentStub;
+import com.github.sankowskiwojciech.courseslessons.stub.LessonRequestParamsStub;
+import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.junit.Before;
@@ -17,24 +27,33 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.INDIVIDUAL_LESSON_ID_STUB;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anySet;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class IndividualLessonServiceImplTest {
 
     private final IndividualLessonRepository individualLessonRepositoryMock = mock(IndividualLessonRepository.class);
-    private final IndividualLessonFileRepository individualLessonFileRepositoryMock = mock(IndividualLessonFileRepository.class);
-    private final LessonFileRepository lessonFileRepositoryMock = mock(LessonFileRepository.class);
+    private final LessonFileAccessRepository lessonFileAccessRepositoryMock = mock(LessonFileAccessRepository.class);
+    private final FileRepository fileRepositoryMock = mock(FileRepository.class);
     private final IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock = mock(IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider.class);
-    private final IndividualLessonService testee = new IndividualLessonServiceImpl(individualLessonRepositoryMock, individualLessonFileRepositoryMock, lessonFileRepositoryMock, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock);
+    private final IndividualLessonService testee = new IndividualLessonServiceImpl(individualLessonRepositoryMock, lessonFileAccessRepositoryMock, fileRepositoryMock, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock);
 
     @Before
     public void reset() {
-        Mockito.reset(individualLessonRepositoryMock, individualLessonFileRepositoryMock, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock, lessonFileRepositoryMock);
+        Mockito.reset(individualLessonRepositoryMock, lessonFileAccessRepositoryMock, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock, fileRepositoryMock);
     }
 
     @Test
@@ -42,27 +61,27 @@ public class IndividualLessonServiceImplTest {
         //given
         IndividualLesson individualLessonStub = IndividualLessonStub.createWithExternalEntities(OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
         IndividualLessonEntity individualLessonEntityStub = IndividualLessonEntityStub.create(INDIVIDUAL_LESSON_ID_STUB);
-        List<IndividualLessonFileEntity> individualLessonFileEntitiesStub = Lists.newArrayList(
-                IndividualLessonFileEntityStub.create(individualLessonEntityStub.getLessonId(), UUID.randomUUID().toString())
+        List<LessonFileAccessEntity> individualLessonFileEntitiesStub = Lists.newArrayList(
+                IndividualLessonFileEntityStub.create(individualLessonEntityStub.getId(), UUID.randomUUID().toString())
         );
-        List<LessonFileWithoutContent> lessonFilesWithoutContent = Lists.newArrayList(LessonFileWithoutContentStub.createWithFileId(UUID.randomUUID().toString()));
+        List<FileWithoutContent> lessonFilesWithoutContent = Lists.newArrayList(LessonFileWithoutContentStub.createWithFileId(UUID.randomUUID().toString()));
 
         when(individualLessonRepositoryMock.save(any(IndividualLessonEntity.class))).thenReturn(individualLessonEntityStub);
-        when(individualLessonFileRepositoryMock.saveAll(anyList())).thenReturn(individualLessonFileEntitiesStub);
-        when(lessonFileRepositoryMock.findAllByFileIdIn(anySet())).thenReturn(lessonFilesWithoutContent);
+        when(lessonFileAccessRepositoryMock.saveAll(anyList())).thenReturn(individualLessonFileEntitiesStub);
+        when(fileRepositoryMock.findAllByIdIn(anySet())).thenReturn(lessonFilesWithoutContent);
 
         //when
         IndividualLessonResponse individualLessonResponse = testee.createIndividualLesson(individualLessonStub);
 
         //then
         verify(individualLessonRepositoryMock).save(any(IndividualLessonEntity.class));
-        verify(individualLessonFileRepositoryMock).saveAll(anyList());
-        verify(lessonFileRepositoryMock).findAllByFileIdIn(anySet());
+        verify(lessonFileAccessRepositoryMock).saveAll(anyList());
+        verify(fileRepositoryMock).findAllByIdIn(anySet());
 
         assertNotNull(individualLessonResponse);
         assertEquals(individualLessonStub.getTitle(), individualLessonResponse.getTitle());
-        assertEquals(individualLessonStub.getStartDateOfLesson(), individualLessonResponse.getStartDateOfLesson());
-        assertEquals(individualLessonStub.getEndDateOfLesson(), individualLessonResponse.getEndDateOfLesson());
+        assertEquals(individualLessonStub.getStartDate(), individualLessonResponse.getStartDate());
+        assertEquals(individualLessonStub.getEndDate(), individualLessonResponse.getEndDate());
         assertEquals(individualLessonStub.getDescription(), individualLessonResponse.getDescription());
         assertEquals(individualLessonStub.getOrganizationEntity().getAlias(), individualLessonResponse.getSubdomainName());
         assertEquals(individualLessonStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorEmailAddress());
@@ -93,8 +112,8 @@ public class IndividualLessonServiceImplTest {
         assertEquals(1, individualLessonResponseList.size());
         IndividualLessonResponse individualLessonResponse = individualLessonResponseList.stream().findFirst().get();
         assertEquals(individualLessonEntityStub.getTitle(), individualLessonResponse.getTitle());
-        assertEquals(individualLessonEntityStub.getStartDateOfLesson(), individualLessonResponse.getStartDateOfLesson());
-        assertEquals(individualLessonEntityStub.getEndDateOfLesson(), individualLessonResponse.getEndDateOfLesson());
+        assertEquals(individualLessonEntityStub.getStartDate(), individualLessonResponse.getStartDate());
+        assertEquals(individualLessonEntityStub.getEndDate(), individualLessonResponse.getEndDate());
         assertEquals(individualLessonEntityStub.getDescription(), individualLessonResponse.getDescription());
         assertEquals(individualLessonEntityStub.getOrganizationEntity().getAlias(), individualLessonResponse.getSubdomainName());
         assertEquals(individualLessonEntityStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorEmailAddress());

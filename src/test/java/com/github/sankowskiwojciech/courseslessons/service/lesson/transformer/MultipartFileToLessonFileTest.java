@@ -8,7 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class MultipartFileToLessonFileTest {
 
@@ -24,7 +26,7 @@ public class MultipartFileToLessonFileTest {
 
         //then
         assertNotNull(lessonFile);
-        assertNull(lessonFile.getFileId());
+        assertNull(lessonFile.getId());
         assertNull(lessonFile.getCreatedBy());
         assertNull(lessonFile.getCreationDateTime());
         assertEquals(multipartFileStub.getOriginalFilename(), lessonFile.getName());

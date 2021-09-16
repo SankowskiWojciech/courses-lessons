@@ -46,14 +46,14 @@ public class IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLess
     private void assertIndividualLessonEntities(List<IndividualLessonEntity> individualLessonEntitiesResult, List<LessonDates> lessonDatesStub, IndividualLessonsSchedule individualLessonsScheduleStub) {
         assertNotNull(individualLessonEntitiesResult);
         assertEquals(lessonDatesStub.size(), individualLessonEntitiesResult.size());
-        List<String> lessonsTitles = individualLessonsScheduleStub.getLessonsTitles();
+        List<String> lessonsTitles = individualLessonsScheduleStub.getTitles();
         for (int i = 0; i < lessonDatesStub.size(); i++) {
             IndividualLessonEntity individualLessonEntityResult = individualLessonEntitiesResult.get(i);
             LessonDates expectedLessonDates = lessonDatesStub.get(i);
             String expectedLessonTitle = i < lessonsTitles.size() ? lessonsTitles.get(i) : getDefaultLessonTitle(individualLessonEntityResult.getStudentEntity().getFullName());
             assertEquals(expectedLessonTitle, individualLessonEntityResult.getTitle());
-            assertEquals(expectedLessonDates.getStartDate(), individualLessonEntityResult.getStartDateOfLesson());
-            assertEquals(expectedLessonDates.getEndDate(), individualLessonEntityResult.getEndDateOfLesson());
+            assertEquals(expectedLessonDates.getStartDate(), individualLessonEntityResult.getStartDate());
+            assertEquals(expectedLessonDates.getEndDate(), individualLessonEntityResult.getEndDate());
             assertEquals(individualLessonsScheduleStub.getOrganizationEntity(), individualLessonEntityResult.getOrganizationEntity());
             assertEquals(individualLessonsScheduleStub.getTutorEntity(), individualLessonEntityResult.getTutorEntity());
             assertEquals(individualLessonsScheduleStub.getStudentEntity(), individualLessonEntityResult.getStudentEntity());

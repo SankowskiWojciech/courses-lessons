@@ -15,7 +15,7 @@ import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILE
 public class LessonFileStub {
     public static LessonFile create() {
         return LessonFile.builder()
-                .fileId(FILE_ID_STUB)
+                .id(FILE_ID_STUB)
                 .name(FILE_NAME_STUB)
                 .extension(FILE_EXTENSION_STUB)
                 .content(FILE_CONTENT_STUB)

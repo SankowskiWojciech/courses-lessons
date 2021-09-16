@@ -28,8 +28,8 @@ public class LessonScheduleAndStudentEntityToIndividualLessonScheduleTest {
         assertEquals(lessonsScheduleStub.getEndDate(), individualLessonsSchedule.getEndDate());
         assertEquals(lessonsScheduleStub.getScheduleType(), individualLessonsSchedule.getScheduleType());
         assertEquals(lessonsScheduleStub.getAllLessonsDurationInMinutes(), individualLessonsSchedule.getAllLessonsDurationInMinutes());
-        assertEquals(lessonsScheduleStub.getLessonsDaysOfWeekWithTimes(), individualLessonsSchedule.getLessonsDaysOfWeekWithTimes());
-        assertEquals(lessonsScheduleStub.getLessonsTitles(), individualLessonsSchedule.getLessonsTitles());
+        assertEquals(lessonsScheduleStub.getDaysOfWeekWithTimes(), individualLessonsSchedule.getDaysOfWeekWithTimes());
+        assertEquals(lessonsScheduleStub.getTitles(), individualLessonsSchedule.getTitles());
         assertEquals(lessonsScheduleStub.getOrganizationEntity(), individualLessonsSchedule.getOrganizationEntity());
         assertEquals(lessonsScheduleStub.getTutorEntity(), individualLessonsSchedule.getTutorEntity());
         assertEquals(studentEntityStub, individualLessonsSchedule.getStudentEntity());

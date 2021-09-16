@@ -23,18 +23,17 @@ public class IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLess
     public List<IndividualLessonEntity> apply(IndividualLessonsSchedule individualLessonsSchedule, List<LessonDates> lessonsDates) {
         LocalDateTime currentDateTime = LocalDateTime.now();
         List<IndividualLessonEntity> individualLessonEntities = new ArrayList<>();
-        List<String> lessonsTitles = individualLessonsSchedule.getLessonsTitles();
+        List<String> lessonsTitles = individualLessonsSchedule.getTitles();
         for (int i = 0; i < lessonsDates.size(); i++) {
-            IndividualLessonEntity individualLessonEntity = IndividualLessonEntity.builder()
-                    .title(lessonsTitles != null && i < lessonsTitles.size() ? lessonsTitles.get(i) : getDefaultLessonTitle(individualLessonsSchedule.getStudentEntity().getFullName()))
-                    .startDateOfLesson(lessonsDates.get(i).getStartDate())
-                    .endDateOfLesson(lessonsDates.get(i).getEndDate())
-                    .organizationEntity(individualLessonsSchedule.getOrganizationEntity())
-                    .tutorEntity(individualLessonsSchedule.getTutorEntity())
-                    .studentEntity(individualLessonsSchedule.getStudentEntity())
-                    .creationDateTime(currentDateTime)
-                    .build();
-            individualLessonEntities.add(individualLessonEntity);
+            IndividualLessonEntity entity = new IndividualLessonEntity();
+            entity.setTitle(lessonsTitles != null && i < lessonsTitles.size() ? lessonsTitles.get(i) : getDefaultLessonTitle(individualLessonsSchedule.getStudentEntity().getFullName()));
+            entity.setStartDate(lessonsDates.get(i).getStartDate());
+            entity.setEndDate(lessonsDates.get(i).getEndDate());
+            entity.setOrganizationEntity(individualLessonsSchedule.getOrganizationEntity());
+            entity.setTutorEntity(individualLessonsSchedule.getTutorEntity());
+            entity.setStudentEntity(individualLessonsSchedule.getStudentEntity());
+            entity.setCreationDateTime(currentDateTime);
+            individualLessonEntities.add(entity);
         }
         return individualLessonEntities;
     }

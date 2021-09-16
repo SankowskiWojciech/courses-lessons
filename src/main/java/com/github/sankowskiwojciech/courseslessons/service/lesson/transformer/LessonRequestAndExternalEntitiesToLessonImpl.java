@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 public class LessonRequestAndExternalEntitiesToLessonImpl {
 
     public static Lesson transform(LessonRequest lessonRequest, OrganizationEntity organizationEntity, TutorEntity tutorEntity) {
-        return new Lesson(lessonRequest.getTitle(), lessonRequest.getStartDateOfLesson(), lessonRequest.getEndDateOfLesson(), lessonRequest.getDescription(), organizationEntity, tutorEntity, lessonRequest.getFilesIds());
+        return new Lesson(lessonRequest.getTitle(), lessonRequest.getStartDate(), lessonRequest.getEndDate(), lessonRequest.getDescription(), organizationEntity, tutorEntity, lessonRequest.getFilesIds());
     }
 }
