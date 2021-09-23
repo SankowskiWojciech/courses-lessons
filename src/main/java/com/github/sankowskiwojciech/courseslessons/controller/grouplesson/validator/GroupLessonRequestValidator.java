@@ -1,28 +1,22 @@
 package com.github.sankowskiwojciech.courseslessons.controller.grouplesson.validator;
 
 import com.github.sankowskiwojciech.coursescorelib.model.exception.InvalidRequestBodyException;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.lesson.InvalidLessonDatesException;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.request.GroupLessonRequest;
+import com.github.sankowskiwojciech.courseslessons.controller.lesson.validator.LessonRequestValidator;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GroupLessonRequestValidator {
-    public static void validateCreateGroupLessonRequest(GroupLessonRequest groupLessonRequest) {
-        validateIfMandatoryFieldsAreNotMissing(groupLessonRequest);
-        validateIfStartDateAndEndDateOfLessonAreCorrect(groupLessonRequest);
+    public static void validateCreateGroupLessonRequest(GroupLessonRequest request) {
+        LessonRequestValidator.validateLessonRequest(request);
+        validateIfMandatoryFieldsAreNotMissing(request);
     }
 
-    private static void validateIfMandatoryFieldsAreNotMissing(GroupLessonRequest groupLessonRequest) {
-        if (groupLessonRequest == null || groupLessonRequest.getStartDate() == null || groupLessonRequest.getEndDate() == null || StringUtils.isAnyBlank(groupLessonRequest.getTitle(), groupLessonRequest.getSubdomainAlias(), groupLessonRequest.getTutorId(), groupLessonRequest.getGroupId())) {
+    private static void validateIfMandatoryFieldsAreNotMissing(GroupLessonRequest request) {
+        if (StringUtils.isBlank(request.getGroupId())) {
             throw new InvalidRequestBodyException();
-        }
-    }
-
-    private static void validateIfStartDateAndEndDateOfLessonAreCorrect(GroupLessonRequest groupLessonRequest) {
-        if (groupLessonRequest.getStartDate().isAfter(groupLessonRequest.getEndDate())) {
-            throw new InvalidLessonDatesException();
         }
     }
 }
