@@ -14,11 +14,11 @@ public class LessonFileAndUserIdToLessonFileEntity implements BiFunction<LessonF
     private static final LessonFileAndUserIdToLessonFileEntity INSTANCE = new LessonFileAndUserIdToLessonFileEntity();
 
     @Override
-    public FileEntity apply(LessonFile lessonFile, String userId) {
+    public FileEntity apply(LessonFile file, String userId) {
         return FileEntity.builder()
-                .name(lessonFile.getName())
-                .extension(lessonFile.getExtension())
-                .content(lessonFile.getContent())
+                .name(file.getName())
+                .extension(file.getExtension())
+                .content(file.getContent())
                 .createdBy(userId)
                 .creationDateTime(LocalDateTime.now())
                 .build();

@@ -32,16 +32,16 @@ public class IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEnt
         if (CollectionUtils.isEmpty(lessonsIds)) {
             return Collections.emptyMap();
         }
-        List<LessonFileAccessEntity> individualLessonFileEntities = lessonFileAccessRepository.findAllByLessonIdIn(lessonsIds);
-        Map<String, FileWithoutContent> lessonFilesWithoutContentMap = getLessonFilesWithoutContent(individualLessonFileEntities);
+        List<LessonFileAccessEntity> lessonFileAccessList = lessonFileAccessRepository.findAllByLessonIdIn(lessonsIds);
+        Map<String, FileWithoutContent> lessonFilesWithoutContentMap = getLessonFilesWithoutContent(lessonFileAccessList);
         Map<String, List<FileWithoutContent>> individualLessonFilesWithoutContent = new HashMap<>();
-        individualLessonFileEntities.forEach(individualLessonFileEntity -> {
-            if (individualLessonFilesWithoutContent.containsKey(individualLessonFileEntity.getLessonId())) {
-                individualLessonFilesWithoutContent.get(individualLessonFileEntity.getLessonId()).add(lessonFilesWithoutContentMap.get(individualLessonFileEntity.getFileId()));
+        lessonFileAccessList.forEach(lessonFileAccess -> {
+            if (individualLessonFilesWithoutContent.containsKey(lessonFileAccess.getLessonId())) {
+                individualLessonFilesWithoutContent.get(lessonFileAccess.getLessonId()).add(lessonFilesWithoutContentMap.get(lessonFileAccess.getFileId()));
             } else {
                 List<FileWithoutContent> lessonFilesWithoutContent = new ArrayList<>();
-                lessonFilesWithoutContent.add(lessonFilesWithoutContentMap.get(individualLessonFileEntity.getFileId()));
-                individualLessonFilesWithoutContent.put(individualLessonFileEntity.getLessonId(), lessonFilesWithoutContent);
+                lessonFilesWithoutContent.add(lessonFilesWithoutContentMap.get(lessonFileAccess.getFileId()));
+                individualLessonFilesWithoutContent.put(lessonFileAccess.getLessonId(), lessonFilesWithoutContent);
             }
         });
         return individualLessonFilesWithoutContent;
@@ -51,8 +51,8 @@ public class IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEnt
         Set<String> filesIds = individualLessonFileEntities.stream()
                 .map(LessonFileAccessEntity::getFileId)
                 .collect(Collectors.toSet());
-        List<FileWithoutContent> lessonFilesWithoutContent = fileRepository.findAllByIdIn(filesIds);
-        return lessonFilesWithoutContent.stream()
-                .collect(Collectors.toMap(FileWithoutContent::getId, lessonFileWithoutContent -> lessonFileWithoutContent));
+        List<FileWithoutContent> files = fileRepository.findAllByIdIn(filesIds);
+        return files.stream()
+                .collect(Collectors.toMap(FileWithoutContent::getId, file -> file));
     }
 }

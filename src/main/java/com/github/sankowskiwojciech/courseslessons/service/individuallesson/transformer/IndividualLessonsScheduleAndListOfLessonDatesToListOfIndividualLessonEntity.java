@@ -20,22 +20,22 @@ public class IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLess
     private static final IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLessonEntity INSTANCE = new IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLessonEntity();
 
     @Override
-    public List<IndividualLessonEntity> apply(IndividualLessonsSchedule individualLessonsSchedule, List<LessonDates> lessonsDates) {
+    public List<IndividualLessonEntity> apply(IndividualLessonsSchedule schedule, List<LessonDates> dates) {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        List<IndividualLessonEntity> individualLessonEntities = new ArrayList<>();
-        List<String> lessonsTitles = individualLessonsSchedule.getTitles();
-        for (int i = 0; i < lessonsDates.size(); i++) {
+        List<IndividualLessonEntity> lessons = new ArrayList<>();
+        List<String> titles = schedule.getTitles();
+        for (int i = 0; i < dates.size(); i++) {
             IndividualLessonEntity entity = new IndividualLessonEntity();
-            entity.setTitle(lessonsTitles != null && i < lessonsTitles.size() ? lessonsTitles.get(i) : getDefaultLessonTitle(individualLessonsSchedule.getStudentEntity().getFullName()));
-            entity.setStartDate(lessonsDates.get(i).getStartDate());
-            entity.setEndDate(lessonsDates.get(i).getEndDate());
-            entity.setOrganizationEntity(individualLessonsSchedule.getOrganizationEntity());
-            entity.setTutorEntity(individualLessonsSchedule.getTutorEntity());
-            entity.setStudentEntity(individualLessonsSchedule.getStudentEntity());
+            entity.setTitle(titles != null && i < titles.size() ? titles.get(i) : getDefaultLessonTitle(schedule.getStudentEntity().getFullName()));
+            entity.setStartDate(dates.get(i).getStartDate());
+            entity.setEndDate(dates.get(i).getEndDate());
+            entity.setOrganizationEntity(schedule.getOrganizationEntity());
+            entity.setTutorEntity(schedule.getTutorEntity());
+            entity.setStudentEntity(schedule.getStudentEntity());
             entity.setCreationDateTime(currentDateTime);
-            individualLessonEntities.add(entity);
+            lessons.add(entity);
         }
-        return individualLessonEntities;
+        return lessons;
     }
 
     private String getDefaultLessonTitle(String studentFullName) {

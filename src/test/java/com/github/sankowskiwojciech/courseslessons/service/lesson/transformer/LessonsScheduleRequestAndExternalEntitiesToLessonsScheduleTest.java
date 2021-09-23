@@ -1,13 +1,11 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.transformer;
 
 import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonsScheduleRequest;
 import com.github.sankowskiwojciech.courseslessons.stub.LessonsScheduleRequestStub;
 import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
 import org.junit.Test;
 
@@ -23,23 +21,22 @@ public class LessonsScheduleRequestAndExternalEntitiesToLessonsScheduleTest {
         //given
         final LocalDate beginningDateStub = LocalDate.now();
         final LocalDate endDateStub = beginningDateStub.plusMonths(3);
-        LessonsScheduleRequest lessonsScheduleRequestStub = LessonsScheduleRequestStub.createWithScheduleTypeFixedDatesLessons(beginningDateStub, endDateStub);
-        OrganizationEntity organizationEntityStub = OrganizationEntityStub.create();
-        TutorEntity tutorEntityStub = TutorEntityStub.create();
-        StudentEntity studentEntityStub = StudentEntityStub.create();
+        LessonsScheduleRequest requestStub = LessonsScheduleRequestStub.createWithScheduleTypeFixedDatesLessons(beginningDateStub, endDateStub);
+        OrganizationEntity organizationStub = OrganizationEntityStub.create();
+        TutorEntity tutorStub = TutorEntityStub.create();
 
         //when
-        LessonsSchedule lessonsSchedule = LessonsScheduleRequestAndExternalEntitiesToLessonsSchedule.transform(lessonsScheduleRequestStub, organizationEntityStub, tutorEntityStub);
+        LessonsSchedule schedule = LessonsScheduleRequestAndExternalEntitiesToLessonsSchedule.transform(requestStub, organizationStub, tutorStub);
 
         //then
-        assertNotNull(lessonsSchedule);
-        assertEquals(lessonsScheduleRequestStub.getBeginningDate(), lessonsSchedule.getBeginningDate());
-        assertEquals(lessonsScheduleRequestStub.getEndDate(), lessonsSchedule.getEndDate());
-        assertEquals(lessonsScheduleRequestStub.getAllLessonsDurationInMinutes(), lessonsSchedule.getAllLessonsDurationInMinutes());
-        assertEquals(lessonsScheduleRequestStub.getDaysOfWeekWithTimes(), lessonsSchedule.getDaysOfWeekWithTimes());
-        assertEquals(lessonsScheduleRequestStub.getScheduleType(), lessonsSchedule.getScheduleType());
-        assertEquals(lessonsScheduleRequestStub.getTitles(), lessonsSchedule.getTitles());
-        assertEquals(organizationEntityStub, lessonsSchedule.getOrganizationEntity());
-        assertEquals(tutorEntityStub, lessonsSchedule.getTutorEntity());
+        assertNotNull(schedule);
+        assertEquals(requestStub.getBeginningDate(), schedule.getBeginningDate());
+        assertEquals(requestStub.getEndDate(), schedule.getEndDate());
+        assertEquals(requestStub.getAllLessonsDurationInMinutes(), schedule.getAllLessonsDurationInMinutes());
+        assertEquals(requestStub.getDaysOfWeekWithTimes(), schedule.getDaysOfWeekWithTimes());
+        assertEquals(requestStub.getScheduleType(), schedule.getScheduleType());
+        assertEquals(requestStub.getTitles(), schedule.getTitles());
+        assertEquals(organizationStub, schedule.getOrganizationEntity());
+        assertEquals(tutorStub, schedule.getTutorEntity());
     }
 }

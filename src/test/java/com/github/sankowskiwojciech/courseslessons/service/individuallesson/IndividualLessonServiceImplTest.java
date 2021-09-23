@@ -59,66 +59,66 @@ public class IndividualLessonServiceImplTest {
     @Test
     public void shouldCreateIndividualLessonCorrectly() {
         //given
-        IndividualLesson individualLessonStub = IndividualLessonStub.createWithExternalEntities(OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
-        IndividualLessonEntity individualLessonEntityStub = IndividualLessonEntityStub.create(INDIVIDUAL_LESSON_ID_STUB);
-        List<LessonFileAccessEntity> individualLessonFileEntitiesStub = Lists.newArrayList(
-                IndividualLessonFileEntityStub.create(individualLessonEntityStub.getId(), UUID.randomUUID().toString())
+        IndividualLesson lessonStub = IndividualLessonStub.createWithExternalEntities(OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
+        IndividualLessonEntity entityStub = IndividualLessonEntityStub.create(INDIVIDUAL_LESSON_ID_STUB);
+        List<LessonFileAccessEntity> lessonFileAccessStub = Lists.newArrayList(
+                IndividualLessonFileEntityStub.create(entityStub.getId(), UUID.randomUUID().toString())
         );
-        List<FileWithoutContent> lessonFilesWithoutContent = Lists.newArrayList(LessonFileWithoutContentStub.createWithFileId(UUID.randomUUID().toString()));
+        List<FileWithoutContent> filesWithoutContent = Lists.newArrayList(LessonFileWithoutContentStub.createWithFileId(UUID.randomUUID().toString()));
 
-        when(individualLessonRepositoryMock.save(any(IndividualLessonEntity.class))).thenReturn(individualLessonEntityStub);
-        when(lessonFileAccessRepositoryMock.saveAll(anyList())).thenReturn(individualLessonFileEntitiesStub);
-        when(fileRepositoryMock.findAllByIdIn(anySet())).thenReturn(lessonFilesWithoutContent);
+        when(individualLessonRepositoryMock.save(any(IndividualLessonEntity.class))).thenReturn(entityStub);
+        when(lessonFileAccessRepositoryMock.saveAll(anyList())).thenReturn(lessonFileAccessStub);
+        when(fileRepositoryMock.findAllByIdIn(anySet())).thenReturn(filesWithoutContent);
 
         //when
-        IndividualLessonResponse individualLessonResponse = testee.createIndividualLesson(individualLessonStub);
+        IndividualLessonResponse response = testee.createIndividualLesson(lessonStub);
 
         //then
         verify(individualLessonRepositoryMock).save(any(IndividualLessonEntity.class));
         verify(lessonFileAccessRepositoryMock).saveAll(anyList());
         verify(fileRepositoryMock).findAllByIdIn(anySet());
 
-        assertNotNull(individualLessonResponse);
-        assertEquals(individualLessonStub.getTitle(), individualLessonResponse.getTitle());
-        assertEquals(individualLessonStub.getStartDate(), individualLessonResponse.getStartDate());
-        assertEquals(individualLessonStub.getEndDate(), individualLessonResponse.getEndDate());
-        assertEquals(individualLessonStub.getDescription(), individualLessonResponse.getDescription());
-        assertEquals(individualLessonStub.getOrganizationEntity().getAlias(), individualLessonResponse.getSubdomainName());
-        assertEquals(individualLessonStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorEmailAddress());
-        assertNotNull(individualLessonResponse.getStudentFullName());
-        assertEquals(individualLessonStub.getStudentEntity().getEmailAddress(), individualLessonResponse.getStudentEmailAddress());
-        assertEquals(individualLessonStub.getFilesIds().size(), individualLessonResponse.getFilesInformation().size());
+        assertNotNull(response);
+        assertEquals(lessonStub.getTitle(), response.getTitle());
+        assertEquals(lessonStub.getStartDate(), response.getStartDate());
+        assertEquals(lessonStub.getEndDate(), response.getEndDate());
+        assertEquals(lessonStub.getDescription(), response.getDescription());
+        assertEquals(lessonStub.getOrganizationEntity().getAlias(), response.getSubdomainName());
+        assertEquals(lessonStub.getTutorEntity().getEmailAddress(), response.getTutorEmailAddress());
+        assertNotNull(response.getStudentFullName());
+        assertEquals(lessonStub.getStudentEntity().getEmailAddress(), response.getStudentEmailAddress());
+        assertEquals(lessonStub.getFilesIds().size(), response.getFilesInformation().size());
     }
 
     @Test
     public void shouldReadIndividualLessonsCorrectly() {
         //given
         AccountInfo accountInfoStub = AccountInfoStub.create();
-        LessonRequestParams lessonRequestParamsStub = LessonRequestParamsStub.create();
-        IndividualLessonEntity individualLessonEntityStub = IndividualLessonEntityStub.createWithDatesOfLesson(LocalDateTime.now().minusHours(1), LocalDateTime.now().plusHours(1));
-        Iterable<IndividualLessonEntity> individualLessonEntitiesStub = Lists.newArrayList(individualLessonEntityStub);
+        LessonRequestParams requestParamsStub = LessonRequestParamsStub.create();
+        IndividualLessonEntity entityStub = IndividualLessonEntityStub.createWithDatesOfLesson(LocalDateTime.now().minusHours(1), LocalDateTime.now().plusHours(1));
+        Iterable<IndividualLessonEntity> entitiesStub = Lists.newArrayList(entityStub);
 
-        when(individualLessonRepositoryMock.findAll(any(BooleanExpression.class))).thenReturn(individualLessonEntitiesStub);
-        when(individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock.apply(eq(individualLessonEntitiesStub))).thenReturn(Collections.emptyMap());
+        when(individualLessonRepositoryMock.findAll(any(BooleanExpression.class))).thenReturn(entitiesStub);
+        when(individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock.apply(eq(entitiesStub))).thenReturn(Collections.emptyMap());
 
         //when
-        List<IndividualLessonResponse> individualLessonResponseList = testee.readIndividualLessons(accountInfoStub, lessonRequestParamsStub);
+        List<IndividualLessonResponse> responseList = testee.readIndividualLessons(accountInfoStub, requestParamsStub);
 
         //then
         verify(individualLessonRepositoryMock).findAll(any(BooleanExpression.class));
-        verify(individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock).apply(eq(individualLessonEntitiesStub));
+        verify(individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock).apply(eq(entitiesStub));
 
-        assertNotNull(individualLessonResponseList);
-        assertEquals(1, individualLessonResponseList.size());
-        IndividualLessonResponse individualLessonResponse = individualLessonResponseList.stream().findFirst().get();
-        assertEquals(individualLessonEntityStub.getTitle(), individualLessonResponse.getTitle());
-        assertEquals(individualLessonEntityStub.getStartDate(), individualLessonResponse.getStartDate());
-        assertEquals(individualLessonEntityStub.getEndDate(), individualLessonResponse.getEndDate());
-        assertEquals(individualLessonEntityStub.getDescription(), individualLessonResponse.getDescription());
-        assertEquals(individualLessonEntityStub.getOrganizationEntity().getAlias(), individualLessonResponse.getSubdomainName());
-        assertEquals(individualLessonEntityStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorEmailAddress());
+        assertNotNull(responseList);
+        assertEquals(1, responseList.size());
+        IndividualLessonResponse individualLessonResponse = responseList.stream().findFirst().get();
+        assertEquals(entityStub.getTitle(), individualLessonResponse.getTitle());
+        assertEquals(entityStub.getStartDate(), individualLessonResponse.getStartDate());
+        assertEquals(entityStub.getEndDate(), individualLessonResponse.getEndDate());
+        assertEquals(entityStub.getDescription(), individualLessonResponse.getDescription());
+        assertEquals(entityStub.getOrganizationEntity().getAlias(), individualLessonResponse.getSubdomainName());
+        assertEquals(entityStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorEmailAddress());
         assertNotNull(individualLessonResponse.getStudentFullName());
-        assertEquals(individualLessonEntityStub.getStudentEntity().getEmailAddress(), individualLessonResponse.getStudentEmailAddress());
+        assertEquals(entityStub.getStudentEntity().getEmailAddress(), individualLessonResponse.getStudentEmailAddress());
         assertTrue(individualLessonResponse.getFilesInformation().isEmpty());
     }
 }

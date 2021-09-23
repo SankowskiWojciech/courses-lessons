@@ -22,7 +22,7 @@ public class LessonsDatesGeneratorServiceImplTest {
     private static final String END_TIME_STUB = "16:00";
     private static final int GENERATED_DATES_FOR_FIXED_BEGINNING_AND_END_DATES_EXPECTED_SIZE = 6;
     private static final int GENERATED_DATES_FOR_FIXED_DURATION_LESSONS_EXPECTED_SIZE = 3;
-    private static final long ALL_LESSONS_DURATION_IN_MINUTES_STUB = 360L;
+    private static final long DURATION_OF_ALL_LESSONS_IN_MINUTES_STUB = 360L;
 
     private final LessonsDatesGeneratorService testee = new LessonsDatesGeneratorServiceImpl();
 
@@ -33,18 +33,18 @@ public class LessonsDatesGeneratorServiceImplTest {
         LocalDate endDateStub = LocalDate.parse(END_DATE_STUB);
         LocalTime startTimeStub = LocalTime.parse(START_TIME_STUB);
         LocalTime endTimeStub = LocalTime.parse(END_TIME_STUB);
-        List<DayOfWeekWithTimes> lessonsDaysOfWeekWithTimes = Lists.newArrayList(
+        List<DayOfWeekWithTimes> daysOfWeekWithTimes = Lists.newArrayList(
                 DayOfWeekWithTimesStub.create(DayOfWeek.MONDAY, startTimeStub, endTimeStub),
                 DayOfWeekWithTimesStub.create(DayOfWeek.WEDNESDAY, startTimeStub, endTimeStub),
                 DayOfWeekWithTimesStub.create(DayOfWeek.FRIDAY, startTimeStub, endTimeStub)
         );
 
         //when
-        List<LessonDates> lessonDates = testee.generateLessonsDatesWithFixedBeginningDateAndEndDate(beginningDateStub, endDateStub, lessonsDaysOfWeekWithTimes);
+        List<LessonDates> dates = testee.generateLessonsDatesWithFixedBeginningDateAndEndDate(beginningDateStub, endDateStub, daysOfWeekWithTimes);
 
         //then
-        assertNotNull(lessonDates);
-        assertEquals(GENERATED_DATES_FOR_FIXED_BEGINNING_AND_END_DATES_EXPECTED_SIZE, lessonDates.size());
+        assertNotNull(dates);
+        assertEquals(GENERATED_DATES_FOR_FIXED_BEGINNING_AND_END_DATES_EXPECTED_SIZE, dates.size());
     }
 
     @Test
@@ -53,18 +53,18 @@ public class LessonsDatesGeneratorServiceImplTest {
         LocalDate beginningDateStub = LocalDate.parse(BEGINNING_DATE_STUB);
         LocalTime startTimeStub = LocalTime.parse(START_TIME_STUB);
         LocalTime endTimeStub = LocalTime.parse(END_TIME_STUB);
-        List<DayOfWeekWithTimes> lessonsDaysOfWeekWithTimes = Lists.newArrayList(
+        List<DayOfWeekWithTimes> daysOfWeekWithTimes = Lists.newArrayList(
                 DayOfWeekWithTimesStub.create(DayOfWeek.MONDAY, startTimeStub, endTimeStub),
                 DayOfWeekWithTimesStub.create(DayOfWeek.WEDNESDAY, startTimeStub, endTimeStub),
                 DayOfWeekWithTimesStub.create(DayOfWeek.FRIDAY, startTimeStub, endTimeStub)
         );
-        long allLessonsDurationInMinutes = ALL_LESSONS_DURATION_IN_MINUTES_STUB;
+        long durationOfAllLessonsInMinutes = DURATION_OF_ALL_LESSONS_IN_MINUTES_STUB;
 
         //when
-        List<LessonDates> lessonDates = testee.generateLessonsDatesForFixedDurationLessons(beginningDateStub, allLessonsDurationInMinutes, lessonsDaysOfWeekWithTimes);
+        List<LessonDates> dates = testee.generateLessonsDatesForFixedDurationLessons(beginningDateStub, durationOfAllLessonsInMinutes, daysOfWeekWithTimes);
 
         //then
-        assertNotNull(lessonDates);
-        assertEquals(GENERATED_DATES_FOR_FIXED_DURATION_LESSONS_EXPECTED_SIZE, lessonDates.size());
+        assertNotNull(dates);
+        assertEquals(GENERATED_DATES_FOR_FIXED_DURATION_LESSONS_EXPECTED_SIZE, dates.size());
     }
 }

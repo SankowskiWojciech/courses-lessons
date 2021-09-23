@@ -6,5 +6,5 @@ import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.Indivi
 import java.util.List;
 
 public interface IndividualLessonsSchedulerService {
-    List<IndividualLessonResponse> scheduleIndividualLessons(IndividualLessonsSchedule individualLessonsSchedule);
+    List<IndividualLessonResponse> scheduleIndividualLessons(IndividualLessonsSchedule schedule);
 }

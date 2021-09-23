@@ -19,18 +19,18 @@ public class MultipartFileToLessonFileTest {
     @Test
     public void shouldReturnLessonFileWhenFileIsCorrect() throws IOException {
         //given
-        MultipartFile multipartFileStub = MultipartFileStub.create();
+        MultipartFile stub = MultipartFileStub.create();
 
         //when
-        LessonFile lessonFile = testee.apply(multipartFileStub);
+        LessonFile file = testee.apply(stub);
 
         //then
-        assertNotNull(lessonFile);
-        assertNull(lessonFile.getId());
-        assertNull(lessonFile.getCreatedBy());
-        assertNull(lessonFile.getCreationDateTime());
-        assertEquals(multipartFileStub.getOriginalFilename(), lessonFile.getName());
-        assertEquals(FilenameUtils.getExtension(multipartFileStub.getOriginalFilename()), lessonFile.getExtension());
-        assertEquals(multipartFileStub.getBytes(), lessonFile.getContent());
+        assertNotNull(file);
+        assertNull(file.getId());
+        assertNull(file.getCreatedBy());
+        assertNull(file.getCreationDateTime());
+        assertEquals(stub.getOriginalFilename(), file.getName());
+        assertEquals(FilenameUtils.getExtension(stub.getOriginalFilename()), file.getExtension());
+        assertEquals(stub.getBytes(), file.getContent());
     }
 }

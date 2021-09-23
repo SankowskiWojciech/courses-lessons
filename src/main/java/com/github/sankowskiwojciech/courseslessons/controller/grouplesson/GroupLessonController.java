@@ -23,10 +23,10 @@ public class GroupLessonController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping
-    public GroupLessonResponse createGroupLesson(@RequestHeader(value = "Authorization") String authorizationHeaderValue, GroupLessonRequest groupLessonRequest) {
-        GroupLessonRequestValidator.validateCreateGroupLessonRequest(groupLessonRequest);
-        tokenValidationService.validateTokenAndUser(authorizationHeaderValue, groupLessonRequest.getTutorId());
-        GroupLesson groupLesson = groupLessonValidatorService.validateCreateGroupLessonRequest(groupLessonRequest);
+    public GroupLessonResponse createGroupLesson(@RequestHeader(value = "Authorization") String authorizationHeaderValue, GroupLessonRequest request) {
+        GroupLessonRequestValidator.validateCreateGroupLessonRequest(request);
+        tokenValidationService.validateTokenAndUser(authorizationHeaderValue, request.getTutorId());
+        GroupLesson groupLesson = groupLessonValidatorService.validateCreateGroupLessonRequest(request);
 //        return individualLessonService.createIndividualLesson(individualLesson);
         return null;
     }

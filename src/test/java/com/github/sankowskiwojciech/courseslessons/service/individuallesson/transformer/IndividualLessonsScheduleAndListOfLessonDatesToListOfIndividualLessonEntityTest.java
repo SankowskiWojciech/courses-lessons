@@ -25,39 +25,39 @@ public class IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLess
     @Test
     public void shouldTransformCorrectly() {
         //given
-        List<LessonDates> lessonDatesStub = Lists.newArrayList(
+        List<LessonDates> datesStub = Lists.newArrayList(
                 LessonDatesStub.createWithDates(LocalDateTime.now(), LocalDateTime.now().plusHours(2)),
                 LessonDatesStub.createWithDates(LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(1).plusHours(2)),
                 LessonDatesStub.createWithDates(LocalDateTime.now().plusDays(2), LocalDateTime.now().plusDays(2).plusHours(2))
         );
-        List<String> lessonsTitlesStub = Lists.newArrayList(
+        List<String> titlesStub = Lists.newArrayList(
                 LESSON_TITLE_STUB_1,
                 LESSON_TITLE_STUB_2
         );
-        IndividualLessonsSchedule individualLessonsScheduleStub = IndividualLessonsScheduleStub.createWithLessonsTitles(lessonsTitlesStub);
+        IndividualLessonsSchedule scheduleStub = IndividualLessonsScheduleStub.createWithLessonsTitles(titlesStub);
 
         //when
-        List<IndividualLessonEntity> individualLessonEntities = testee.apply(individualLessonsScheduleStub, lessonDatesStub);
+        List<IndividualLessonEntity> entities = testee.apply(scheduleStub, datesStub);
 
         //then
-        assertIndividualLessonEntities(individualLessonEntities, lessonDatesStub, individualLessonsScheduleStub);
+        assertIndividualLessonEntities(entities, datesStub, scheduleStub);
     }
 
-    private void assertIndividualLessonEntities(List<IndividualLessonEntity> individualLessonEntitiesResult, List<LessonDates> lessonDatesStub, IndividualLessonsSchedule individualLessonsScheduleStub) {
-        assertNotNull(individualLessonEntitiesResult);
-        assertEquals(lessonDatesStub.size(), individualLessonEntitiesResult.size());
-        List<String> lessonsTitles = individualLessonsScheduleStub.getTitles();
-        for (int i = 0; i < lessonDatesStub.size(); i++) {
-            IndividualLessonEntity individualLessonEntityResult = individualLessonEntitiesResult.get(i);
-            LessonDates expectedLessonDates = lessonDatesStub.get(i);
-            String expectedLessonTitle = i < lessonsTitles.size() ? lessonsTitles.get(i) : getDefaultLessonTitle(individualLessonEntityResult.getStudentEntity().getFullName());
-            assertEquals(expectedLessonTitle, individualLessonEntityResult.getTitle());
-            assertEquals(expectedLessonDates.getStartDate(), individualLessonEntityResult.getStartDate());
-            assertEquals(expectedLessonDates.getEndDate(), individualLessonEntityResult.getEndDate());
-            assertEquals(individualLessonsScheduleStub.getOrganizationEntity(), individualLessonEntityResult.getOrganizationEntity());
-            assertEquals(individualLessonsScheduleStub.getTutorEntity(), individualLessonEntityResult.getTutorEntity());
-            assertEquals(individualLessonsScheduleStub.getStudentEntity(), individualLessonEntityResult.getStudentEntity());
-            assertNotNull(individualLessonEntityResult.getCreationDateTime());
+    private void assertIndividualLessonEntities(List<IndividualLessonEntity> entities, List<LessonDates> datesStub, IndividualLessonsSchedule scheduleStub) {
+        assertNotNull(entities);
+        assertEquals(datesStub.size(), entities.size());
+        List<String> titles = scheduleStub.getTitles();
+        for (int i = 0; i < datesStub.size(); i++) {
+            IndividualLessonEntity entity = entities.get(i);
+            LessonDates expectedLessonDates = datesStub.get(i);
+            String expectedLessonTitle = i < titles.size() ? titles.get(i) : getDefaultLessonTitle(entity.getStudentEntity().getFullName());
+            assertEquals(expectedLessonTitle, entity.getTitle());
+            assertEquals(expectedLessonDates.getStartDate(), entity.getStartDate());
+            assertEquals(expectedLessonDates.getEndDate(), entity.getEndDate());
+            assertEquals(scheduleStub.getOrganizationEntity(), entity.getOrganizationEntity());
+            assertEquals(scheduleStub.getTutorEntity(), entity.getTutorEntity());
+            assertEquals(scheduleStub.getStudentEntity(), entity.getStudentEntity());
+            assertNotNull(entity.getCreationDateTime());
         }
     }
 

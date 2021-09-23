@@ -35,25 +35,25 @@ public class LessonFileController {
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping
     public LessonFileResponse createFile(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam("file") MultipartFile file) {
-        TokenEntity tokenEntity = tokenValidationService.validateToken(authorizationHeaderValue);
-        fileAccessPermissionValidatorService.validateIfUserIsAllowedToCreateFile(tokenEntity.getUserEmailAddress());
+        TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
+        fileAccessPermissionValidatorService.validateIfUserIsAllowedToCreateFile(token.getUserEmailAddress());
         LessonFile lessonFile = lessonFileValidatorService.validateUploadedFile(file);
-        return lessonFileService.createLessonFile(lessonFile, tokenEntity.getUserEmailAddress());
+        return lessonFileService.createLessonFile(lessonFile, token.getUserEmailAddress());
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
     public List<LessonFileResponse> readFilesInformation(@RequestHeader(value = "Authorization") String authorizationHeaderValue) {
-        TokenEntity tokenEntity = tokenValidationService.validateToken(authorizationHeaderValue);
-        return lessonFileService.readFilesInformation(tokenEntity.getUserEmailAddress());
+        TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
+        return lessonFileService.readFilesInformation(token.getUserEmailAddress());
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/{fileId}")
     public ResponseEntity<StreamingResponseBody> readFile(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @PathVariable String fileId) {
-        TokenEntity tokenEntity = tokenValidationService.validateToken(authorizationHeaderValue);
+        TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
         lessonFileValidatorService.validateIfFileExists(fileId);
-        fileAccessPermissionValidatorService.validateIfUserIsAllowedToAccessFile(tokenEntity.getUserEmailAddress(), fileId);
+        fileAccessPermissionValidatorService.validateIfUserIsAllowedToAccessFile(token.getUserEmailAddress(), fileId);
         LessonFile lessonFile = lessonFileService.readLessonFile(fileId);
         return LessonFileToResponseEntityOfStreamingResponseBody.getInstance().apply(lessonFile);
     }

@@ -10,7 +10,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLesson
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.request.GroupLessonRequest;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.Lesson;
 import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
-import com.github.sankowskiwojciech.courseslessons.service.grouplesson.transformer.LessonAndStudentsGroupEntityToGroupLesson;
+import com.github.sankowskiwojciech.courseslessons.service.grouplesson.transformer.LessonAndGroupEntityToGroupLesson;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileAccessPermissionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
@@ -28,13 +28,13 @@ public class GroupLessonValidatorService extends LessonValidatorService {
         this.groupRepository = groupRepository;
     }
 
-    public GroupLesson validateCreateGroupLessonRequest(GroupLessonRequest groupLessonRequest) {
-        Lesson lesson = super.validateCreateLessonRequest(groupLessonRequest);
-        subdomainService.validateIfUserIsAllowedToLoginToSubdomain(groupLessonRequest.getSubdomainAlias(), groupLessonRequest.getTutorId());
-        GroupEntity groupEntity = groupRepository.findById(groupLessonRequest.getGroupId()).orElseThrow(GroupNotFoundException::new);
-        if (!groupEntity.getTutorEntity().getEmailAddress().equals(groupLessonRequest.getTutorId())) {
+    public GroupLesson validateCreateGroupLessonRequest(GroupLessonRequest request) {
+        Lesson lesson = super.validateCreateLessonRequest(request);
+        subdomainService.validateIfUserIsAllowedToLoginToSubdomain(request.getSubdomainAlias(), request.getTutorId());
+        GroupEntity group = groupRepository.findById(request.getGroupId()).orElseThrow(GroupNotFoundException::new);
+        if (!group.getTutorEntity().getEmailAddress().equals(request.getTutorId())) {
             throw new UserNotAllowedToCreateLessonException();
         }
-        return LessonAndStudentsGroupEntityToGroupLesson.transform(lesson, groupEntity);
+        return LessonAndGroupEntityToGroupLesson.transform(lesson, group);
     }
 }

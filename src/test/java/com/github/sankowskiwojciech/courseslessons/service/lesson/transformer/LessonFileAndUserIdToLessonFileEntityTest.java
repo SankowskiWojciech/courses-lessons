@@ -16,18 +16,18 @@ public class LessonFileAndUserIdToLessonFileEntityTest {
     @Test
     public void shouldTransformCorrectly() {
         //given
-        LessonFile lessonFileStub = LessonFileStub.create();
+        LessonFile stub = LessonFileStub.create();
         String userId = TUTOR_EMAIL_ADDRESS_STUB;
 
         //when
-        FileEntity fileEntity = testee.apply(lessonFileStub, userId);
+        FileEntity entity = testee.apply(stub, userId);
 
         //then
-        assertNotNull(fileEntity);
-        assertEquals(lessonFileStub.getName(), fileEntity.getName());
-        assertEquals(lessonFileStub.getExtension(), fileEntity.getExtension());
-        assertEquals(lessonFileStub.getContent(), fileEntity.getContent());
-        assertEquals(userId, fileEntity.getCreatedBy());
-        assertNotNull(fileEntity.getCreationDateTime());
+        assertNotNull(entity);
+        assertEquals(stub.getName(), entity.getName());
+        assertEquals(stub.getExtension(), entity.getExtension());
+        assertEquals(stub.getContent(), entity.getContent());
+        assertEquals(userId, entity.getCreatedBy());
+        assertNotNull(entity.getCreationDateTime());
     }
 }

@@ -6,7 +6,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileRespon
 import java.util.List;
 
 public interface LessonFileService {
-    LessonFileResponse createLessonFile(LessonFile lessonFile, String userId);
+    LessonFileResponse createLessonFile(LessonFile file, String userId);
 
     LessonFile readLessonFile(String fileId);
 

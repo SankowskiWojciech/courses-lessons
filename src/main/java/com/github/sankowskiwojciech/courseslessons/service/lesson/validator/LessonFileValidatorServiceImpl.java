@@ -31,8 +31,8 @@ public class LessonFileValidatorServiceImpl implements LessonFileValidatorServic
     }
 
     @Override
-    public void validateIfFileExists(String fileId) {
-        if (!fileRepository.existsById(fileId)) {
+    public void validateIfFileExists(String id) {
+        if (!fileRepository.existsById(id)) {
             throw new FileNotFoundException();
         }
     }

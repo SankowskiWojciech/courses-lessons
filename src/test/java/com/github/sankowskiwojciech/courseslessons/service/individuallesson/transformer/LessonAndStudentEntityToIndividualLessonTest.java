@@ -18,20 +18,20 @@ public class LessonAndStudentEntityToIndividualLessonTest {
     public void shouldTransformCorrectly() {
         //given
         Lesson lessonStub = IndividualLessonStub.createWithExternalEntities(OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
-        StudentEntity studentEntityStub = StudentEntityStub.create();
+        StudentEntity studentStub = StudentEntityStub.create();
 
         //when
-        IndividualLesson individualLesson = LessonAndStudentEntityToIndividualLesson.transform(lessonStub, studentEntityStub);
+        IndividualLesson lesson = LessonAndStudentEntityToIndividualLesson.transform(lessonStub, studentStub);
 
         //then
-        assertNotNull(individualLesson);
-        assertEquals(lessonStub.getTitle(), individualLesson.getTitle());
-        assertEquals(lessonStub.getStartDate(), individualLesson.getStartDate());
-        assertEquals(lessonStub.getEndDate(), individualLesson.getEndDate());
-        assertEquals(lessonStub.getDescription(), individualLesson.getDescription());
-        assertEquals(lessonStub.getOrganizationEntity(), individualLesson.getOrganizationEntity());
-        assertEquals(lessonStub.getTutorEntity(), individualLesson.getTutorEntity());
-        assertEquals(lessonStub.getFilesIds(), individualLesson.getFilesIds());
-        assertEquals(studentEntityStub, individualLesson.getStudentEntity());
+        assertNotNull(lesson);
+        assertEquals(lessonStub.getTitle(), lesson.getTitle());
+        assertEquals(lessonStub.getStartDate(), lesson.getStartDate());
+        assertEquals(lessonStub.getEndDate(), lesson.getEndDate());
+        assertEquals(lessonStub.getDescription(), lesson.getDescription());
+        assertEquals(lessonStub.getOrganizationEntity(), lesson.getOrganizationEntity());
+        assertEquals(lessonStub.getTutorEntity(), lesson.getTutorEntity());
+        assertEquals(lessonStub.getFilesIds(), lesson.getFilesIds());
+        assertEquals(studentStub, lesson.getStudentEntity());
     }
 }

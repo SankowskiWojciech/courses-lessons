@@ -20,11 +20,11 @@ public class IndividualLessonsScheduleRequestValidatorTest {
     @Test(expected = InvalidRequestBodyException.class)
     public void shouldThrowInvalidRequestBodyExceptionWhenMandatoryFieldsAreMissing() {
         //given
-        List<DayOfWeekWithTimes> lessonsDaysOfWeekWithTimesStub = Collections.emptyList();
-        IndividualLessonsScheduleRequest individualLessonsScheduleRequestStub = IndividualLessonsScheduleRequestStub.createWithLessonsDaysOfWeekWithTimes(lessonsDaysOfWeekWithTimesStub);
+        List<DayOfWeekWithTimes> daysOfWeekWithTimes = Collections.emptyList();
+        IndividualLessonsScheduleRequest requestStub = IndividualLessonsScheduleRequestStub.createWithLessonsDaysOfWeekWithTimes(daysOfWeekWithTimes);
 
         //when
-        IndividualLessonsScheduleRequestValidator.validateIndividualLessonsScheduleRequest(individualLessonsScheduleRequestStub);
+        IndividualLessonsScheduleRequestValidator.validateIndividualLessonsScheduleRequest(requestStub);
 
         //then exception is thrown
     }
@@ -32,11 +32,11 @@ public class IndividualLessonsScheduleRequestValidatorTest {
     @Test(expected = InvalidLessonTimesException.class)
     public void shouldThrowInvalidLessonTimesExceptionWhenLessonsTimesAreInvalid() {
         DayOfWeekWithTimes dayOfWeekWithTimesStub = DayOfWeekWithTimesStub.createInvalid();
-        List<DayOfWeekWithTimes> lessonsDaysOfWeekWithTimesStub = Lists.newArrayList(dayOfWeekWithTimesStub);
-        IndividualLessonsScheduleRequest individualLessonsScheduleRequestStub = IndividualLessonsScheduleRequestStub.createWithLessonsDaysOfWeekWithTimes(lessonsDaysOfWeekWithTimesStub);
+        List<DayOfWeekWithTimes> daysOfWeekWithTimesStub = Lists.newArrayList(dayOfWeekWithTimesStub);
+        IndividualLessonsScheduleRequest requestStub = IndividualLessonsScheduleRequestStub.createWithLessonsDaysOfWeekWithTimes(daysOfWeekWithTimesStub);
 
         //when
-        IndividualLessonsScheduleRequestValidator.validateIndividualLessonsScheduleRequest(individualLessonsScheduleRequestStub);
+        IndividualLessonsScheduleRequestValidator.validateIndividualLessonsScheduleRequest(requestStub);
 
         //then exception is thrown
     }
@@ -44,11 +44,11 @@ public class IndividualLessonsScheduleRequestValidatorTest {
     @Test(expected = InvalidLessonsDurationException.class)
     public void shouldThrowInvalidAllLessonsDurationExceptionWhenMandatoryFieldsAreMissingAndScheduleTypeIsFixedDurationLessons() {
         //given
-        final Long allLessonsDurationInMinutesStub = null;
-        IndividualLessonsScheduleRequest individualLessonsScheduleRequestStub = IndividualLessonsScheduleRequestStub.createWithScheduleTypeFixedDurationLessons(allLessonsDurationInMinutesStub);
+        final Long durationOfAllLessonsInMinutesStub = null;
+        IndividualLessonsScheduleRequest requestStub = IndividualLessonsScheduleRequestStub.createWithScheduleTypeFixedDurationLessons(durationOfAllLessonsInMinutesStub);
 
         //when
-        IndividualLessonsScheduleRequestValidator.validateIndividualLessonsScheduleRequest(individualLessonsScheduleRequestStub);
+        IndividualLessonsScheduleRequestValidator.validateIndividualLessonsScheduleRequest(requestStub);
 
         //then exception is thrown
     }
@@ -58,10 +58,10 @@ public class IndividualLessonsScheduleRequestValidatorTest {
         //given
         final LocalDate beginningDateStub = LocalDate.now();
         final LocalDate endDateStub = null;
-        IndividualLessonsScheduleRequest individualLessonsScheduleRequestStub = IndividualLessonsScheduleRequestStub.createWithScheduleTypeFixedDatesLessons(beginningDateStub, endDateStub);
+        IndividualLessonsScheduleRequest requestStub = IndividualLessonsScheduleRequestStub.createWithScheduleTypeFixedDatesLessons(beginningDateStub, endDateStub);
 
         //when
-        IndividualLessonsScheduleRequestValidator.validateIndividualLessonsScheduleRequest(individualLessonsScheduleRequestStub);
+        IndividualLessonsScheduleRequestValidator.validateIndividualLessonsScheduleRequest(requestStub);
 
         //then exception is thrown
     }
@@ -69,11 +69,11 @@ public class IndividualLessonsScheduleRequestValidatorTest {
     @Test
     public void shouldDoNothingWhenScheduleRequestIsValid() {
         DayOfWeekWithTimes dayOfWeekWithTimesStub = DayOfWeekWithTimesStub.createValid();
-        List<DayOfWeekWithTimes> lessonsDaysOfWeekWithTimesStub = Lists.newArrayList(dayOfWeekWithTimesStub);
-        IndividualLessonsScheduleRequest individualLessonsScheduleRequestStub = IndividualLessonsScheduleRequestStub.createWithLessonsDaysOfWeekWithTimes(lessonsDaysOfWeekWithTimesStub);
+        List<DayOfWeekWithTimes> daysOfWeekWithTimesStub = Lists.newArrayList(dayOfWeekWithTimesStub);
+        IndividualLessonsScheduleRequest requestStub = IndividualLessonsScheduleRequestStub.createWithLessonsDaysOfWeekWithTimes(daysOfWeekWithTimesStub);
 
         //when
-        IndividualLessonsScheduleRequestValidator.validateIndividualLessonsScheduleRequest(individualLessonsScheduleRequestStub);
+        IndividualLessonsScheduleRequestValidator.validateIndividualLessonsScheduleRequest(requestStub);
 
         //then nothing happens
     }

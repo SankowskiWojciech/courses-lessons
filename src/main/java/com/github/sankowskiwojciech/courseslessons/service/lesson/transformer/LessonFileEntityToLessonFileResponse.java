@@ -13,13 +13,13 @@ public class LessonFileEntityToLessonFileResponse implements Function<FileEntity
     private static final LessonFileEntityToLessonFileResponse INSTANCE = new LessonFileEntityToLessonFileResponse();
 
     @Override
-    public LessonFileResponse apply(FileEntity fileEntity) {
+    public LessonFileResponse apply(FileEntity entity) {
         return LessonFileResponse.builder()
-                .id(fileEntity.getId())
-                .name(fileEntity.getName())
-                .extension(fileEntity.getExtension())
-                .createdBy(fileEntity.getCreatedBy())
-                .creationDateTime(fileEntity.getCreationDateTime())
+                .id(entity.getId())
+                .name(entity.getName())
+                .extension(entity.getExtension())
+                .createdBy(entity.getCreatedBy())
+                .creationDateTime(entity.getCreationDateTime())
                 .build();
     }
 

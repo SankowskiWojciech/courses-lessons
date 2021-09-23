@@ -42,29 +42,29 @@ public class IndividualLessonController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping
-    public IndividualLessonResponse createIndividualLesson(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestBody IndividualLessonRequest individualLessonRequest) {
-        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(individualLessonRequest);
-        tokenValidationService.validateTokenAndUser(authorizationHeaderValue, individualLessonRequest.getTutorId());
-        IndividualLesson individualLesson = individualLessonValidatorService.validateCreateIndividualLessonRequest(individualLessonRequest);
-        return individualLessonService.createIndividualLesson(individualLesson);
+    public IndividualLessonResponse createIndividualLesson(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestBody IndividualLessonRequest request) {
+        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(request);
+        tokenValidationService.validateTokenAndUser(authorizationHeaderValue, request.getTutorId());
+        IndividualLesson lesson = individualLessonValidatorService.validateCreateIndividualLessonRequest(request);
+        return individualLessonService.createIndividualLesson(lesson);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/schedule")
-    public List<IndividualLessonResponse> scheduleIndividualLessons(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestBody IndividualLessonsScheduleRequest individualLessonsScheduleRequest) {
-        IndividualLessonsScheduleRequestValidator.validateIndividualLessonsScheduleRequest(individualLessonsScheduleRequest);
-        tokenValidationService.validateTokenAndUser(authorizationHeaderValue, individualLessonsScheduleRequest.getTutorId());
-        IndividualLessonsSchedule individualLessonsSchedule = individualLessonValidatorService.validateIndividualLessonsScheduleRequest(individualLessonsScheduleRequest);
-        return individualLessonsSchedulerService.scheduleIndividualLessons(individualLessonsSchedule);
+    public List<IndividualLessonResponse> scheduleIndividualLessons(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestBody IndividualLessonsScheduleRequest request) {
+        IndividualLessonsScheduleRequestValidator.validateIndividualLessonsScheduleRequest(request);
+        tokenValidationService.validateTokenAndUser(authorizationHeaderValue, request.getTutorId());
+        IndividualLessonsSchedule schedule = individualLessonValidatorService.validateIndividualLessonsScheduleRequest(request);
+        return individualLessonsSchedulerService.scheduleIndividualLessons(schedule);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
     public List<IndividualLessonResponse> readIndividualLessons(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam(value = "subdomainAlias", required = false) String subdomainAlias, @RequestParam(value = "fromDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fromDate, @RequestParam(value = "toDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime toDate) {
-        TokenEntity tokenEntity = tokenValidationService.validateToken(authorizationHeaderValue);
-        Subdomain subdomain = subdomainService.validateIfUserIsAllowedToLoginToSubdomain(subdomainAlias, tokenEntity.getUserEmailAddress());
-        AccountInfo accountInfo = new AccountInfo(tokenEntity.getUserEmailAddress(), tokenEntity.getAccountType());
-        LessonRequestParams lessonRequestParams = new LessonRequestParams(subdomain, fromDate, toDate);
-        return individualLessonService.readIndividualLessons(accountInfo, lessonRequestParams);
+        TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
+        Subdomain subdomain = subdomainService.validateIfUserIsAllowedToLoginToSubdomain(subdomainAlias, token.getUserEmailAddress());
+        AccountInfo accountInfo = new AccountInfo(token.getUserEmailAddress(), token.getAccountType());
+        LessonRequestParams requestParams = new LessonRequestParams(subdomain, fromDate, toDate);
+        return individualLessonService.readIndividualLessons(accountInfo, requestParams);
     }
 }

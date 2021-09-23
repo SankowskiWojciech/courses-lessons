@@ -13,8 +13,8 @@ public class StudentEntityToStudentResponse implements Function<StudentEntity, S
     private static final StudentEntityToStudentResponse INSTANCE = new StudentEntityToStudentResponse();
 
     @Override
-    public StudentResponse apply(StudentEntity studentEntity) {
-        return new StudentResponse(studentEntity.getFullName(), studentEntity.getEmailAddress());
+    public StudentResponse apply(StudentEntity entity) {
+        return new StudentResponse(entity.getFullName(), entity.getEmailAddress());
     }
 
     public static StudentEntityToStudentResponse getInstance() {

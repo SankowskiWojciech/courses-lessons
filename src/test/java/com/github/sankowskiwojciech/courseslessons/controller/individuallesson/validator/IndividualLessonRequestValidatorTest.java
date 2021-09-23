@@ -13,10 +13,10 @@ public class IndividualLessonRequestValidatorTest {
     @Test(expected = InvalidRequestBodyException.class)
     public void shouldThrowInvalidRequestBodyWhenIndividualLessonRequestIsNull() {
         //given
-        IndividualLessonRequest individualLessonRequestStub = null;
+        IndividualLessonRequest requestStub = null;
 
         //when
-        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(individualLessonRequestStub);
+        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(requestStub);
 
         //then exception is thrown
     }
@@ -24,10 +24,10 @@ public class IndividualLessonRequestValidatorTest {
     @Test(expected = InvalidRequestBodyException.class)
     public void shouldThrowInvalidRequestBodyWhenStartDateOfLessonIsNull() {
         //given
-        IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.createWithDatesOfLesson(null, LocalDateTime.now().plusHours(2));
+        IndividualLessonRequest requestStub = IndividualLessonRequestStub.createWithDatesOfLesson(null, LocalDateTime.now().plusHours(2));
 
         //when
-        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(individualLessonRequestStub);
+        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(requestStub);
 
         //then exception is thrown
     }
@@ -35,10 +35,10 @@ public class IndividualLessonRequestValidatorTest {
     @Test(expected = InvalidRequestBodyException.class)
     public void shouldThrowInvalidRequestBodyWhenEndDateOfLessonIsNull() {
         //given
-        IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.createWithDatesOfLesson(LocalDateTime.now(), null);
+        IndividualLessonRequest requestStub = IndividualLessonRequestStub.createWithDatesOfLesson(LocalDateTime.now(), null);
 
         //when
-        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(individualLessonRequestStub);
+        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(requestStub);
 
         //then exception is thrown
     }
@@ -46,10 +46,10 @@ public class IndividualLessonRequestValidatorTest {
     @Test(expected = InvalidRequestBodyException.class)
     public void shouldThrowInvalidRequestBodyWhenTitleIsNull() {
         //given
-        IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.createWithTitle(null);
+        IndividualLessonRequest requestStub = IndividualLessonRequestStub.createWithTitle(null);
 
         //when
-        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(individualLessonRequestStub);
+        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(requestStub);
 
         //then exception is thrown
     }
@@ -57,12 +57,12 @@ public class IndividualLessonRequestValidatorTest {
     @Test(expected = InvalidLessonDatesException.class)
     public void shouldThrowInvalidLessonDatesExceptionWhenStartDateOrEndDateOfLessonIsInvalid() {
         //given
-        LocalDateTime startDateOfLesson = LocalDateTime.now();
-        LocalDateTime endDateOfLesson = LocalDateTime.now().minusHours(1);
-        IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.createWithDatesOfLesson(startDateOfLesson, endDateOfLesson);
+        LocalDateTime startDate = LocalDateTime.now();
+        LocalDateTime endDate = LocalDateTime.now().minusHours(1);
+        IndividualLessonRequest requestStub = IndividualLessonRequestStub.createWithDatesOfLesson(startDate, endDate);
 
         //when
-        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(individualLessonRequestStub);
+        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(requestStub);
 
         //then exception is thrown
     }
@@ -70,10 +70,10 @@ public class IndividualLessonRequestValidatorTest {
     @Test
     public void shouldDoNothingWhenIndividualLessonRequestIsValid() {
         //given
-        IndividualLessonRequest individualLessonRequestStub = IndividualLessonRequestStub.create();
+        IndividualLessonRequest requestStub = IndividualLessonRequestStub.create();
 
         //when
-        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(individualLessonRequestStub);
+        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(requestStub);
 
         //then nothing happens
     }

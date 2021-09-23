@@ -23,11 +23,11 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentResponse> readStudents(String subdomainAlias, String tutorEmailAddress) {
         List<SubdomainUserAccessEntity> subdomainUserAccessEntities = subdomainUserAccessRepository.findAllBySubdomainUserAccessEntityIdSubdomainIdAndSubdomainUserAccessEntityIdUserEmailAddressIsNot(subdomainAlias, tutorEmailAddress);
         List<String> usersEmailAddresses = subdomainUserAccessEntities.stream()
-                .map(subdomainUserAccessEntity -> subdomainUserAccessEntity.getSubdomainUserAccessEntityId().getUserEmailAddress())
+                .map(accessEntity -> accessEntity.getSubdomainUserAccessEntityId().getUserEmailAddress())
                 .collect(Collectors.toList());
-        List<StudentEntity> studentEntities = studentRepository.findAllById(usersEmailAddresses);
-        return studentEntities.stream()
-                .map(studentEntity -> StudentEntityToStudentResponse.getInstance().apply(studentEntity))
+        List<StudentEntity> students = studentRepository.findAllById(usersEmailAddresses);
+        return students.stream()
+                .map(student -> StudentEntityToStudentResponse.getInstance().apply(student))
                 .collect(Collectors.toList());
     }
 }

@@ -16,18 +16,18 @@ import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class IndividualLessonsScheduleRequestValidator {
-    public static void validateIndividualLessonsScheduleRequest(IndividualLessonsScheduleRequest individualLessonsScheduleRequest) {
-        validateMandatoryFields(individualLessonsScheduleRequest);
-        validateLessonsTimes(individualLessonsScheduleRequest.getDaysOfWeekWithTimes());
-        validateMandatoryFieldsDependingOnScheduleType(individualLessonsScheduleRequest);
+    public static void validateIndividualLessonsScheduleRequest(IndividualLessonsScheduleRequest request) {
+        validateMandatoryFields(request);
+        validateLessonsTimes(request.getDaysOfWeekWithTimes());
+        validateMandatoryFieldsDependingOnScheduleType(request);
     }
 
-    private static void validateMandatoryFields(IndividualLessonsScheduleRequest individualLessonsScheduleRequest) {
-        if (individualLessonsScheduleRequest.getBeginningDate() == null
-                || individualLessonsScheduleRequest.getScheduleType() == null
-                || individualLessonsScheduleRequest.getDaysOfWeekWithTimes() == null
-                || individualLessonsScheduleRequest.getDaysOfWeekWithTimes().isEmpty()
-                || StringUtils.isAnyBlank(individualLessonsScheduleRequest.getStudentId(), individualLessonsScheduleRequest.getTutorId(), individualLessonsScheduleRequest.getSubdomainAlias())) {
+    private static void validateMandatoryFields(IndividualLessonsScheduleRequest request) {
+        if (request.getBeginningDate() == null
+                || request.getScheduleType() == null
+                || request.getDaysOfWeekWithTimes() == null
+                || request.getDaysOfWeekWithTimes().isEmpty()
+                || StringUtils.isAnyBlank(request.getStudentId(), request.getTutorId(), request.getSubdomainAlias())) {
             throw new InvalidRequestBodyException();
         }
     }
@@ -41,19 +41,19 @@ public class IndividualLessonsScheduleRequestValidator {
         });
     }
 
-    private static void validateMandatoryFieldsDependingOnScheduleType(IndividualLessonsScheduleRequest individualLessonsScheduleRequest) {
-        switch (individualLessonsScheduleRequest.getScheduleType()) {
+    private static void validateMandatoryFieldsDependingOnScheduleType(IndividualLessonsScheduleRequest request) {
+        switch (request.getScheduleType()) {
             case FIXED_DURATION_LESSONS:
-                validateMandatoryFieldsWhenScheduleTypeIsFixedDurationLessons(individualLessonsScheduleRequest.getAllLessonsDurationInMinutes());
+                validateMandatoryFieldsWhenScheduleTypeIsFixedDurationLessons(request.getAllLessonsDurationInMinutes());
                 break;
             case FIXED_DATES_LESSONS:
-                validateMandatoryFieldsWhenScheduleTypeIsFixedDatesLessons(individualLessonsScheduleRequest.getBeginningDate(), individualLessonsScheduleRequest.getEndDate());
+                validateMandatoryFieldsWhenScheduleTypeIsFixedDatesLessons(request.getBeginningDate(), request.getEndDate());
                 break;
         }
     }
 
-    private static void validateMandatoryFieldsWhenScheduleTypeIsFixedDurationLessons(Long allLessonsDurationInMinutes) {
-        if (allLessonsDurationInMinutes == null || allLessonsDurationInMinutes <= 0) {
+    private static void validateMandatoryFieldsWhenScheduleTypeIsFixedDurationLessons(Long durationOfAllLessonsInMinutes) {
+        if (durationOfAllLessonsInMinutes == null || durationOfAllLessonsInMinutes <= 0) {
             throw new InvalidLessonsDurationException();
         }
     }

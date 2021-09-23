@@ -15,18 +15,18 @@ public class LessonFileEntityToLessonFileTest {
     @Test
     public void shouldTransformCorrectly() {
         //given
-        FileEntity fileEntityStub = LessonFileEntityStub.create();
+        FileEntity stub = LessonFileEntityStub.create();
 
         //when
-        LessonFile lessonFile = testee.apply(fileEntityStub);
+        LessonFile file = testee.apply(stub);
 
         //then
-        assertNotNull(lessonFile);
-        assertEquals(fileEntityStub.getId(), lessonFile.getId());
-        assertEquals(fileEntityStub.getName(), lessonFile.getName());
-        assertEquals(fileEntityStub.getExtension(), lessonFile.getExtension());
-        assertEquals(fileEntityStub.getContent(), lessonFile.getContent());
-        assertEquals(fileEntityStub.getCreatedBy(), lessonFile.getCreatedBy());
-        assertEquals(fileEntityStub.getCreationDateTime(), lessonFile.getCreationDateTime());
+        assertNotNull(file);
+        assertEquals(stub.getId(), file.getId());
+        assertEquals(stub.getName(), file.getName());
+        assertEquals(stub.getExtension(), file.getExtension());
+        assertEquals(stub.getContent(), file.getContent());
+        assertEquals(stub.getCreatedBy(), file.getCreatedBy());
+        assertEquals(stub.getCreationDateTime(), file.getCreationDateTime());
     }
 }

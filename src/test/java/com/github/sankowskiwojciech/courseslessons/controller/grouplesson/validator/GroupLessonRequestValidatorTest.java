@@ -13,10 +13,10 @@ public class GroupLessonRequestValidatorTest {
     @Test(expected = InvalidRequestBodyException.class)
     public void shouldThrowInvalidRequestBodyWhenGroupLessonRequestIsNull() {
         //given
-        GroupLessonRequest groupLessonRequestStub = null;
+        GroupLessonRequest requestStub = null;
 
         //when
-        GroupLessonRequestValidator.validateCreateGroupLessonRequest(groupLessonRequestStub);
+        GroupLessonRequestValidator.validateCreateGroupLessonRequest(requestStub);
 
         //then exception is thrown
     }
@@ -24,10 +24,10 @@ public class GroupLessonRequestValidatorTest {
     @Test(expected = InvalidRequestBodyException.class)
     public void shouldThrowInvalidRequestBodyWhenStartDateOfLessonIsNull() {
         //given
-        GroupLessonRequest groupLessonRequestStub = GroupLessonRequestStub.createWithDatesOfLesson(null, LocalDateTime.now().plusHours(2));
+        GroupLessonRequest requestStub = GroupLessonRequestStub.createWithDatesOfLesson(null, LocalDateTime.now().plusHours(2));
 
         //when
-        GroupLessonRequestValidator.validateCreateGroupLessonRequest(groupLessonRequestStub);
+        GroupLessonRequestValidator.validateCreateGroupLessonRequest(requestStub);
 
         //then exception is thrown
     }
@@ -35,10 +35,10 @@ public class GroupLessonRequestValidatorTest {
     @Test(expected = InvalidRequestBodyException.class)
     public void shouldThrowInvalidRequestBodyWhenEndDateOfLessonIsNull() {
         //given
-        GroupLessonRequest groupLessonRequestStub = GroupLessonRequestStub.createWithDatesOfLesson(LocalDateTime.now(), null);
+        GroupLessonRequest requestStub = GroupLessonRequestStub.createWithDatesOfLesson(LocalDateTime.now(), null);
 
         //when
-        GroupLessonRequestValidator.validateCreateGroupLessonRequest(groupLessonRequestStub);
+        GroupLessonRequestValidator.validateCreateGroupLessonRequest(requestStub);
 
         //then exception is thrown
     }
@@ -46,10 +46,10 @@ public class GroupLessonRequestValidatorTest {
     @Test(expected = InvalidRequestBodyException.class)
     public void shouldThrowInvalidRequestBodyWhenTitleIsNull() {
         //given
-        GroupLessonRequest groupLessonRequestStub = GroupLessonRequestStub.createWithTitle(null);
+        GroupLessonRequest requestStub = GroupLessonRequestStub.createWithTitle(null);
 
         //when
-        GroupLessonRequestValidator.validateCreateGroupLessonRequest(groupLessonRequestStub);
+        GroupLessonRequestValidator.validateCreateGroupLessonRequest(requestStub);
 
         //then exception is thrown
     }
@@ -57,12 +57,12 @@ public class GroupLessonRequestValidatorTest {
     @Test(expected = InvalidLessonDatesException.class)
     public void shouldThrowInvalidLessonDatesExceptionWhenStartDateOrEndDateOfLessonIsInvalid() {
         //given
-        LocalDateTime startDateOfLesson = LocalDateTime.now();
-        LocalDateTime endDateOfLesson = LocalDateTime.now().minusHours(1);
-        GroupLessonRequest groupLessonRequestStub = GroupLessonRequestStub.createWithDatesOfLesson(startDateOfLesson, endDateOfLesson);
+        LocalDateTime startDate = LocalDateTime.now();
+        LocalDateTime endDate = LocalDateTime.now().minusHours(1);
+        GroupLessonRequest requestStub = GroupLessonRequestStub.createWithDatesOfLesson(startDate, endDate);
 
         //when
-        GroupLessonRequestValidator.validateCreateGroupLessonRequest(groupLessonRequestStub);
+        GroupLessonRequestValidator.validateCreateGroupLessonRequest(requestStub);
 
         //then exception is thrown
     }
@@ -70,10 +70,10 @@ public class GroupLessonRequestValidatorTest {
     @Test
     public void shouldDoNothingWhenGroupLessonRequestIsValid() {
         //given
-        GroupLessonRequest groupLessonRequestStub = GroupLessonRequestStub.create();
+        GroupLessonRequest requestStub = GroupLessonRequestStub.create();
 
         //when
-        GroupLessonRequestValidator.validateCreateGroupLessonRequest(groupLessonRequestStub);
+        GroupLessonRequestValidator.validateCreateGroupLessonRequest(requestStub);
 
         //then nothing happens
     }

@@ -17,21 +17,21 @@ public class LessonRequestAndExternalEntitiesToLessonImplTest {
     @Test
     public void shouldTransformCorrectly() {
         //given
-        LessonRequest lessonRequestStub = LessonRequestStub.create();
-        OrganizationEntity organizationEntityStub = OrganizationEntityStub.create();
-        TutorEntity tutorEntityStub = TutorEntityStub.create();
+        LessonRequest requestStub = LessonRequestStub.create();
+        OrganizationEntity organizationStub = OrganizationEntityStub.create();
+        TutorEntity tutorStub = TutorEntityStub.create();
 
         //when
-        Lesson lesson = LessonRequestAndExternalEntitiesToLessonImpl.transform(lessonRequestStub, organizationEntityStub, tutorEntityStub);
+        Lesson lesson = LessonRequestAndExternalEntitiesToLessonImpl.transform(requestStub, organizationStub, tutorStub);
 
         //then
         assertNotNull(lesson);
-        assertEquals(lessonRequestStub.getTitle(), lesson.getTitle());
-        assertEquals(lessonRequestStub.getStartDate(), lesson.getStartDate());
-        assertEquals(lessonRequestStub.getEndDate(), lesson.getEndDate());
-        assertEquals(lessonRequestStub.getDescription(), lesson.getDescription());
-        assertEquals(organizationEntityStub, lesson.getOrganizationEntity());
-        assertEquals(tutorEntityStub, lesson.getTutorEntity());
-        assertEquals(lessonRequestStub.getFilesIds(), lesson.getFilesIds());
+        assertEquals(requestStub.getTitle(), lesson.getTitle());
+        assertEquals(requestStub.getStartDate(), lesson.getStartDate());
+        assertEquals(requestStub.getEndDate(), lesson.getEndDate());
+        assertEquals(requestStub.getDescription(), lesson.getDescription());
+        assertEquals(organizationStub, lesson.getOrganizationEntity());
+        assertEquals(tutorStub, lesson.getTutorEntity());
+        assertEquals(requestStub.getFilesIds(), lesson.getFilesIds());
     }
 }

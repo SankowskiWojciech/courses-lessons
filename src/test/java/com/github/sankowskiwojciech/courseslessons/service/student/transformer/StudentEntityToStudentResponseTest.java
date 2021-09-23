@@ -15,14 +15,14 @@ public class StudentEntityToStudentResponseTest {
     @Test
     public void shouldTransformCorrectly() {
         //given
-        StudentEntity studentEntityStub = StudentEntityStub.create();
+        StudentEntity stub = StudentEntityStub.create();
 
         //when
-        StudentResponse studentResponse = testee.apply(studentEntityStub);
+        StudentResponse response = testee.apply(stub);
 
         //then
-        assertNotNull(studentResponse);
-        assertEquals(studentEntityStub.getFullName(), studentResponse.getFullName());
-        assertEquals(studentEntityStub.getEmailAddress(), studentResponse.getEmailAddress());
+        assertNotNull(response);
+        assertEquals(stub.getFullName(), response.getFullName());
+        assertEquals(stub.getEmailAddress(), response.getEmailAddress());
     }
 }

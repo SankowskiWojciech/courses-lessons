@@ -9,9 +9,9 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class LessonIdAndFilesIdsToIndividualLessonFileEntities implements BiFunction<String, List<String>, List<LessonFileAccessEntity>> {
+public class LessonIdAndFilesIdsToIndividualLessonFileAccessList implements BiFunction<String, List<String>, List<LessonFileAccessEntity>> {
 
-    private static final LessonIdAndFilesIdsToIndividualLessonFileEntities INSTANCE = new LessonIdAndFilesIdsToIndividualLessonFileEntities();
+    private static final LessonIdAndFilesIdsToIndividualLessonFileAccessList INSTANCE = new LessonIdAndFilesIdsToIndividualLessonFileAccessList();
 
     @Override
     public List<LessonFileAccessEntity> apply(String lessonId, List<String> filesIds) {
@@ -20,7 +20,7 @@ public class LessonIdAndFilesIdsToIndividualLessonFileEntities implements BiFunc
                 .collect(Collectors.toList());
     }
 
-    public static LessonIdAndFilesIdsToIndividualLessonFileEntities getInstance() {
+    public static LessonIdAndFilesIdsToIndividualLessonFileAccessList getInstance() {
         return INSTANCE;
     }
 }

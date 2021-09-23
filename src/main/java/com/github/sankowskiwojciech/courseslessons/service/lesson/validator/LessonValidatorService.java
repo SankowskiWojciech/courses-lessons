@@ -29,23 +29,23 @@ public abstract class LessonValidatorService {
     private final LessonFileValidatorService lessonFileValidatorService;
     private final FileAccessPermissionValidatorService fileAccessPermissionValidatorService;
 
-    public Lesson validateCreateLessonRequest(LessonRequest lessonRequest) {
-        Subdomain subdomain = subdomainService.readSubdomainInformation(lessonRequest.getSubdomainAlias());
-        OrganizationEntity organizationEntity = readOrganizationEntityIfSubdomainIsOrganization(subdomain);
-        TutorEntity tutorEntity = readTutor(lessonRequest.getTutorId());
-        lessonCollisionValidatorService.validateIfNewLessonDoesNotCollideWithExistingOnes(lessonRequest.getStartDate(), lessonRequest.getEndDate(), tutorEntity.getEmailAddress());
-        validateFilesIds(lessonRequest.getFilesIds(), lessonRequest.getTutorId());
-        return LessonRequestAndExternalEntitiesToLessonImpl.transform(lessonRequest, organizationEntity, tutorEntity);
+    public Lesson validateCreateLessonRequest(LessonRequest request) {
+        Subdomain subdomain = subdomainService.readSubdomainInformation(request.getSubdomainAlias());
+        OrganizationEntity organization = readOrganizationIfSubdomainIsOrganization(subdomain);
+        TutorEntity tutor = readTutor(request.getTutorId());
+        lessonCollisionValidatorService.validateIfNewLessonDoesNotCollideWithExistingOnes(request.getStartDate(), request.getEndDate(), tutor.getEmailAddress());
+        validateFilesIds(request.getFilesIds(), request.getTutorId());
+        return LessonRequestAndExternalEntitiesToLessonImpl.transform(request, organization, tutor);
     }
 
-    public LessonsSchedule validateLessonsScheduleRequest(LessonsScheduleRequest lessonsScheduleRequest) {
-        Subdomain subdomain = subdomainService.readSubdomainInformation(lessonsScheduleRequest.getSubdomainAlias());
-        OrganizationEntity organizationEntity = readOrganizationEntityIfSubdomainIsOrganization(subdomain);
-        TutorEntity tutorEntity = readTutor(lessonsScheduleRequest.getTutorId());
-        return LessonsScheduleRequestAndExternalEntitiesToLessonsSchedule.transform(lessonsScheduleRequest, organizationEntity, tutorEntity);
+    public LessonsSchedule validateLessonsScheduleRequest(LessonsScheduleRequest request) {
+        Subdomain subdomain = subdomainService.readSubdomainInformation(request.getSubdomainAlias());
+        OrganizationEntity organization = readOrganizationIfSubdomainIsOrganization(subdomain);
+        TutorEntity tutor = readTutor(request.getTutorId());
+        return LessonsScheduleRequestAndExternalEntitiesToLessonsSchedule.transform(request, organization, tutor);
     }
 
-    private OrganizationEntity readOrganizationEntityIfSubdomainIsOrganization(Subdomain subdomain) {
+    private OrganizationEntity readOrganizationIfSubdomainIsOrganization(Subdomain subdomain) {
         if (SubdomainType.ORGANIZATION.equals(subdomain.getSubdomainType())) {
             return organizationRepository.findById(subdomain.getEmailAddress()).get();
         }
@@ -53,11 +53,11 @@ public abstract class LessonValidatorService {
     }
 
     private TutorEntity readTutor(String tutorId) {
-        Optional<TutorEntity> tutorEntity = tutorRepository.findById(tutorId);
-        if (!tutorEntity.isPresent()) {
+        Optional<TutorEntity> tutor = tutorRepository.findById(tutorId);
+        if (!tutor.isPresent()) {
             throw new UserNotAllowedToCreateLessonException();
         }
-        return tutorEntity.get();
+        return tutor.get();
     }
 
     private void validateFilesIds(List<String> filesIds, String tutorId) {

@@ -23,24 +23,24 @@ public class IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLess
         //given
         final LocalDate beginningDateStub = LocalDate.now();
         final LocalDate endDateStub = beginningDateStub.plusMonths(3);
-        IndividualLessonsScheduleRequest individualLessonsScheduleRequestStub = IndividualLessonsScheduleRequestStub.createWithScheduleTypeFixedDatesLessons(beginningDateStub, endDateStub);
-        OrganizationEntity organizationEntityStub = OrganizationEntityStub.create();
-        TutorEntity tutorEntityStub = TutorEntityStub.create();
-        StudentEntity studentEntityStub = StudentEntityStub.create();
+        IndividualLessonsScheduleRequest requestStub = IndividualLessonsScheduleRequestStub.createWithScheduleTypeFixedDatesLessons(beginningDateStub, endDateStub);
+        OrganizationEntity organizationStub = OrganizationEntityStub.create();
+        TutorEntity tutorStub = TutorEntityStub.create();
+        StudentEntity studentStub = StudentEntityStub.create();
 
         //when
-        IndividualLessonsSchedule individualLessonsSchedule = IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsSchedule.transform(individualLessonsScheduleRequestStub, organizationEntityStub, tutorEntityStub, studentEntityStub);
+        IndividualLessonsSchedule schedule = IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsSchedule.transform(requestStub, organizationStub, tutorStub, studentStub);
 
         //then
-        assertNotNull(individualLessonsSchedule);
-        assertEquals(individualLessonsScheduleRequestStub.getBeginningDate(), individualLessonsSchedule.getBeginningDate());
-        assertEquals(individualLessonsScheduleRequestStub.getEndDate(), individualLessonsSchedule.getEndDate());
-        assertEquals(individualLessonsScheduleRequestStub.getAllLessonsDurationInMinutes(), individualLessonsSchedule.getAllLessonsDurationInMinutes());
-        assertEquals(individualLessonsScheduleRequestStub.getDaysOfWeekWithTimes(), individualLessonsSchedule.getDaysOfWeekWithTimes());
-        assertEquals(individualLessonsScheduleRequestStub.getScheduleType(), individualLessonsSchedule.getScheduleType());
-        assertEquals(individualLessonsScheduleRequestStub.getTitles(), individualLessonsSchedule.getTitles());
-        assertEquals(organizationEntityStub, individualLessonsSchedule.getOrganizationEntity());
-        assertEquals(tutorEntityStub, individualLessonsSchedule.getTutorEntity());
-        assertEquals(studentEntityStub, individualLessonsSchedule.getStudentEntity());
+        assertNotNull(schedule);
+        assertEquals(requestStub.getBeginningDate(), schedule.getBeginningDate());
+        assertEquals(requestStub.getEndDate(), schedule.getEndDate());
+        assertEquals(requestStub.getAllLessonsDurationInMinutes(), schedule.getAllLessonsDurationInMinutes());
+        assertEquals(requestStub.getDaysOfWeekWithTimes(), schedule.getDaysOfWeekWithTimes());
+        assertEquals(requestStub.getScheduleType(), schedule.getScheduleType());
+        assertEquals(requestStub.getTitles(), schedule.getTitles());
+        assertEquals(organizationStub, schedule.getOrganizationEntity());
+        assertEquals(tutorStub, schedule.getTutorEntity());
+        assertEquals(studentStub, schedule.getStudentEntity());
     }
 }

@@ -20,18 +20,18 @@ public class IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLesso
     private static final IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse INSTANCE = new IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse();
 
     @Override
-    public IndividualLessonResponse apply(IndividualLessonEntity individualLessonEntity, List<FileWithoutContent> lessonFilesWithoutContent) {
-        return new IndividualLessonResponse(individualLessonEntity.getId(), individualLessonEntity.getTitle(), individualLessonEntity.getStartDate(), individualLessonEntity.getEndDate(), individualLessonEntity.getDescription(), getSubdomainName(individualLessonEntity), individualLessonEntity.getTutorEntity().getEmailAddress(), transformFilesWithoutContentToLessonFileResponses(lessonFilesWithoutContent), individualLessonEntity.getStudentEntity().getFullName(), individualLessonEntity.getStudentEntity().getEmailAddress());
+    public IndividualLessonResponse apply(IndividualLessonEntity lesson, List<FileWithoutContent> files) {
+        return new IndividualLessonResponse(lesson.getId(), lesson.getTitle(), lesson.getStartDate(), lesson.getEndDate(), lesson.getDescription(), getSubdomainName(lesson), lesson.getTutorEntity().getEmailAddress(), transformFilesWithoutContentToLessonFileResponses(files), lesson.getStudentEntity().getFullName(), lesson.getStudentEntity().getEmailAddress());
     }
 
     private String getSubdomainName(IndividualLessonEntity individualLessonEntity) {
         return individualLessonEntity.getOrganizationEntity() != null ? individualLessonEntity.getOrganizationEntity().getAlias() : individualLessonEntity.getTutorEntity().getAlias();
     }
 
-    private List<LessonFileResponse> transformFilesWithoutContentToLessonFileResponses(List<FileWithoutContent> lessonFilesWithoutContent) {
-        if (CollectionUtils.isNotEmpty(lessonFilesWithoutContent)) {
-            return lessonFilesWithoutContent.stream()
-                    .map(lessonFileWithoutContent -> LessonFileWithoutContentToLessonFileResponse.getInstance().apply(lessonFileWithoutContent))
+    private List<LessonFileResponse> transformFilesWithoutContentToLessonFileResponses(List<FileWithoutContent> files) {
+        if (CollectionUtils.isNotEmpty(files)) {
+            return files.stream()
+                    .map(file -> LessonFileWithoutContentToLessonFileResponse.getInstance().apply(file))
                     .collect(Collectors.toList());
         }
         return Collections.emptyList();

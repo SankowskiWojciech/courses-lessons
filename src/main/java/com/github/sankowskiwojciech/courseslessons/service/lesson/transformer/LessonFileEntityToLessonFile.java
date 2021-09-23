@@ -13,14 +13,14 @@ public class LessonFileEntityToLessonFile implements Function<FileEntity, Lesson
     private static final LessonFileEntityToLessonFile INSTANCE = new LessonFileEntityToLessonFile();
 
     @Override
-    public LessonFile apply(FileEntity fileEntity) {
+    public LessonFile apply(FileEntity entity) {
         return LessonFile.builder()
-                .id(fileEntity.getId())
-                .name(fileEntity.getName())
-                .extension(fileEntity.getExtension())
-                .content(fileEntity.getContent())
-                .createdBy(fileEntity.getCreatedBy())
-                .creationDateTime(fileEntity.getCreationDateTime())
+                .id(entity.getId())
+                .name(entity.getName())
+                .extension(entity.getExtension())
+                .content(entity.getContent())
+                .createdBy(entity.getCreatedBy())
+                .creationDateTime(entity.getCreationDateTime())
                 .build();
     }
 

@@ -29,10 +29,10 @@ public class StudentController {
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
     public List<StudentResponse> readStudents(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam(value = "subdomainAlias") String subdomainAlias) {
-        TokenEntity tokenEntity = tokenValidationService.validateToken(authorizationHeaderValue);
-        validateIfUserIsTutor(tokenEntity);
-        Subdomain subdomain = subdomainService.validateIfUserIsAllowedToLoginToSubdomain(subdomainAlias, tokenEntity.getUserEmailAddress());
-        return studentService.readStudents(subdomain.getAlias(), tokenEntity.getUserEmailAddress());
+        TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
+        validateIfUserIsTutor(token);
+        Subdomain subdomain = subdomainService.validateIfUserIsAllowedToLoginToSubdomain(subdomainAlias, token.getUserEmailAddress());
+        return studentService.readStudents(subdomain.getAlias(), token.getUserEmailAddress());
     }
 
     private void validateIfUserIsTutor(TokenEntity tokenEntity) {

@@ -14,15 +14,15 @@ public class IndividualLessonToIndividualLessonEntity implements Function<Indivi
     private static final IndividualLessonToIndividualLessonEntity INSTANCE = new IndividualLessonToIndividualLessonEntity();
 
     @Override
-    public IndividualLessonEntity apply(IndividualLesson individualLesson) {
+    public IndividualLessonEntity apply(IndividualLesson lesson) {
         IndividualLessonEntity entity = new IndividualLessonEntity();
-        entity.setTitle(individualLesson.getTitle());
-        entity.setStartDate(individualLesson.getStartDate());
-        entity.setEndDate(individualLesson.getEndDate());
-        entity.setDescription(individualLesson.getDescription());
-        entity.setOrganizationEntity(individualLesson.getOrganizationEntity());
-        entity.setTutorEntity(individualLesson.getTutorEntity());
-        entity.setStudentEntity(individualLesson.getStudentEntity());
+        entity.setTitle(lesson.getTitle());
+        entity.setStartDate(lesson.getStartDate());
+        entity.setEndDate(lesson.getEndDate());
+        entity.setDescription(lesson.getDescription());
+        entity.setOrganizationEntity(lesson.getOrganizationEntity());
+        entity.setTutorEntity(lesson.getTutorEntity());
+        entity.setStudentEntity(lesson.getStudentEntity());
         entity.setCreationDateTime(LocalDateTime.now());
         return entity;
     }

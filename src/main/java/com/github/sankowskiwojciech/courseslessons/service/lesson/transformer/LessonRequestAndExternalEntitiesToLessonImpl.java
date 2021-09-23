@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LessonRequestAndExternalEntitiesToLessonImpl {
 
-    public static Lesson transform(LessonRequest lessonRequest, OrganizationEntity organizationEntity, TutorEntity tutorEntity) {
-        return new Lesson(lessonRequest.getTitle(), lessonRequest.getStartDate(), lessonRequest.getEndDate(), lessonRequest.getDescription(), organizationEntity, tutorEntity, lessonRequest.getFilesIds());
+    public static Lesson transform(LessonRequest request, OrganizationEntity organization, TutorEntity tutor) {
+        return new Lesson(request.getTitle(), request.getStartDate(), request.getEndDate(), request.getDescription(), organization, tutor, request.getFilesIds());
     }
 }

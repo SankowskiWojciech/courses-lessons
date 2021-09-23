@@ -18,20 +18,20 @@ public class IndividualLessonToIndividualLessonEntityTest {
     @Test
     public void shouldTransformCorrectly() {
         //given
-        IndividualLesson individualLessonStub = IndividualLessonStub.createWithExternalEntities(OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
+        IndividualLesson stub = IndividualLessonStub.createWithExternalEntities(OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
 
         //when
-        IndividualLessonEntity individualLessonEntity = testee.apply(individualLessonStub);
+        IndividualLessonEntity entity = testee.apply(stub);
 
         //then
-        assertNotNull(individualLessonEntity);
-        assertEquals(individualLessonStub.getTitle(), individualLessonEntity.getTitle());
-        assertEquals(individualLessonStub.getStartDate(), individualLessonEntity.getStartDate());
-        assertEquals(individualLessonStub.getEndDate(), individualLessonEntity.getEndDate());
-        assertEquals(individualLessonStub.getDescription(), individualLessonEntity.getDescription());
-        assertEquals(individualLessonStub.getOrganizationEntity(), individualLessonEntity.getOrganizationEntity());
-        assertEquals(individualLessonStub.getTutorEntity(), individualLessonEntity.getTutorEntity());
-        assertEquals(individualLessonStub.getStudentEntity(), individualLessonEntity.getStudentEntity());
-        assertNotNull(individualLessonEntity.getCreationDateTime());
+        assertNotNull(entity);
+        assertEquals(stub.getTitle(), entity.getTitle());
+        assertEquals(stub.getStartDate(), entity.getStartDate());
+        assertEquals(stub.getEndDate(), entity.getEndDate());
+        assertEquals(stub.getDescription(), entity.getDescription());
+        assertEquals(stub.getOrganizationEntity(), entity.getOrganizationEntity());
+        assertEquals(stub.getTutorEntity(), entity.getTutorEntity());
+        assertEquals(stub.getStudentEntity(), entity.getStudentEntity());
+        assertNotNull(entity.getCreationDateTime());
     }
 }

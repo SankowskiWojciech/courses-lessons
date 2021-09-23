@@ -12,20 +12,12 @@ public class DayOfWeekWithTimesStub {
 
     public static DayOfWeekWithTimes createInvalid() {
         LocalTime currentTime = LocalTime.now();
-        return DayOfWeekWithTimes.builder()
-                .dayOfWeek(DayOfWeek.MONDAY)
-                .startTime(currentTime)
-                .endTime(currentTime.minusHours(2))
-                .build();
+        return create(DayOfWeek.MONDAY, currentTime, currentTime.minusHours(2));
     }
 
     public static DayOfWeekWithTimes createValid() {
         LocalTime startTime = LocalTime.of(10, 0);
-        return DayOfWeekWithTimes.builder()
-                .dayOfWeek(DayOfWeek.MONDAY)
-                .startTime(startTime)
-                .endTime(startTime.plusHours(2))
-                .build();
+        return create(DayOfWeek.MONDAY, startTime, startTime.plusHours(2));
     }
 
     public static DayOfWeekWithTimes create(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {

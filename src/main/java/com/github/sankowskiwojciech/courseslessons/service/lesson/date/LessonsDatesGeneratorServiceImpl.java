@@ -16,37 +16,37 @@ import java.util.stream.Collectors;
 public class LessonsDatesGeneratorServiceImpl implements LessonsDatesGeneratorService {
 
     @Override
-    public List<LessonDates> generateLessonsDatesWithFixedBeginningDateAndEndDate(LocalDate beginningDate, LocalDate endDate, List<DayOfWeekWithTimes> lessonsDaysOfWeekWithTimes) {
-        Map<DayOfWeek, DayOfWeekWithTimes> lessonsDaysOfWeekWithTimesMap = transformLessonsDaysOfWeekWithTimesToMap(lessonsDaysOfWeekWithTimes);
+    public List<LessonDates> generateLessonsDatesWithFixedBeginningDateAndEndDate(LocalDate beginningDate, LocalDate endDate, List<DayOfWeekWithTimes> daysOfWeekWithTimes) {
+        Map<DayOfWeek, DayOfWeekWithTimes> daysOfWeekWithTimesMap = transformLessonsDaysOfWeekWithTimesToMap(daysOfWeekWithTimes);
         LocalDate currentDate = LocalDate.from(beginningDate);
-        List<LessonDates> generatedLessonsDates = new ArrayList<>();
+        List<LessonDates> generatedDates = new ArrayList<>();
         while (!currentDate.isAfter(endDate)) {
-            addCurrentDateToGeneratedLessonsDatesIfDayOfWeekMatches(lessonsDaysOfWeekWithTimesMap, currentDate, generatedLessonsDates);
+            addCurrentDateToGeneratedLessonsDatesIfDayOfWeekMatches(daysOfWeekWithTimesMap, currentDate, generatedDates);
             currentDate = currentDate.plusDays(1);
         }
-        return generatedLessonsDates;
+        return generatedDates;
     }
 
     @Override
-    public List<LessonDates> generateLessonsDatesForFixedDurationLessons(LocalDate beginningDate, long allLessonsDurationInMinutes, List<DayOfWeekWithTimes> lessonsDaysOfWeekWithTimes) {
-        Map<DayOfWeek, DayOfWeekWithTimes> lessonsDaysOfWeekWithTimesMap = transformLessonsDaysOfWeekWithTimesToMap(lessonsDaysOfWeekWithTimes);
+    public List<LessonDates> generateLessonsDatesForFixedDurationLessons(LocalDate beginningDate, long durationOfAllLessonsInMinutes, List<DayOfWeekWithTimes> daysOfWeekWithTimes) {
+        Map<DayOfWeek, DayOfWeekWithTimes> daysOfWeekWithTimesMap = transformLessonsDaysOfWeekWithTimesToMap(daysOfWeekWithTimes);
         LocalDate currentDate = LocalDate.from(beginningDate);
-        List<LessonDates> generatedLessonsDates = new ArrayList<>();
-        while (allLessonsDurationInMinutes > 0) {
-            if (lessonsDaysOfWeekWithTimesMap.containsKey(currentDate.getDayOfWeek())) {
-                DayOfWeekWithTimes dayOfWeekWithTimes = lessonsDaysOfWeekWithTimesMap.get(currentDate.getDayOfWeek());
-                generatedLessonsDates.add(new LessonDates(currentDate.atTime(dayOfWeekWithTimes.getStartTime()), currentDate.atTime(dayOfWeekWithTimes.getEndTime())));
-                allLessonsDurationInMinutes -= Duration.between(dayOfWeekWithTimes.getStartTime(), dayOfWeekWithTimes.getEndTime()).toMinutes();
+        List<LessonDates> generatedDates = new ArrayList<>();
+        while (durationOfAllLessonsInMinutes > 0) {
+            if (daysOfWeekWithTimesMap.containsKey(currentDate.getDayOfWeek())) {
+                DayOfWeekWithTimes dayOfWeekWithTimes = daysOfWeekWithTimesMap.get(currentDate.getDayOfWeek());
+                generatedDates.add(new LessonDates(currentDate.atTime(dayOfWeekWithTimes.getStartTime()), currentDate.atTime(dayOfWeekWithTimes.getEndTime())));
+                durationOfAllLessonsInMinutes -= Duration.between(dayOfWeekWithTimes.getStartTime(), dayOfWeekWithTimes.getEndTime()).toMinutes();
             }
             currentDate = currentDate.plusDays(1);
         }
-        return generatedLessonsDates;
+        return generatedDates;
     }
 
-    private void addCurrentDateToGeneratedLessonsDatesIfDayOfWeekMatches(Map<DayOfWeek, DayOfWeekWithTimes> lessonsDaysOfWeekWithTimesMap, LocalDate currentDate, List<LessonDates> generatedLessonsDates) {
-        if (lessonsDaysOfWeekWithTimesMap.containsKey(currentDate.getDayOfWeek())) {
-            DayOfWeekWithTimes dayOfWeekWithTimes = lessonsDaysOfWeekWithTimesMap.get(currentDate.getDayOfWeek());
-            generatedLessonsDates.add(new LessonDates(currentDate.atTime(dayOfWeekWithTimes.getStartTime()), currentDate.atTime(dayOfWeekWithTimes.getEndTime())));
+    private void addCurrentDateToGeneratedLessonsDatesIfDayOfWeekMatches(Map<DayOfWeek, DayOfWeekWithTimes> daysOfWeekWithTimesMap, LocalDate currentDate, List<LessonDates> generatedDates) {
+        if (daysOfWeekWithTimesMap.containsKey(currentDate.getDayOfWeek())) {
+            DayOfWeekWithTimes dayOfWeekWithTimes = daysOfWeekWithTimesMap.get(currentDate.getDayOfWeek());
+            generatedDates.add(new LessonDates(currentDate.atTime(dayOfWeekWithTimes.getStartTime()), currentDate.atTime(dayOfWeekWithTimes.getEndTime())));
         }
     }
 

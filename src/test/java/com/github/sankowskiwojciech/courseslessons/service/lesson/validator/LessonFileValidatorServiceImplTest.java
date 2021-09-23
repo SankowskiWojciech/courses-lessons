@@ -44,12 +44,12 @@ public class LessonFileValidatorServiceImplTest {
     @Test(expected = FileCorruptedException.class)
     public void shouldThrowFileCorruptedExceptionWhenFileIsCorrupted() throws IOException {
         //given
-        MultipartFile multipartFileStub = MultipartFileStub.create();
+        MultipartFile fileStub = MultipartFileStub.create();
         when(detectorMock.detect(any(InputStream.class), any(Metadata.class))).thenThrow(IOException.class);
 
         //when
         try {
-            LessonFile lessonFile = testee.validateUploadedFile(multipartFileStub);
+            LessonFile file = testee.validateUploadedFile(fileStub);
         } catch (FileCorruptedException e) {
             //then exception is thrown
             verify(detectorMock).detect(any(InputStream.class), any(Metadata.class));
@@ -60,7 +60,7 @@ public class LessonFileValidatorServiceImplTest {
     @Test(expected = InvalidFileFormatException.class)
     public void shouldThrowInvalidFileFormatExceptionWhenFileFormatIsInvalid() throws IOException {
         //given
-        MultipartFile multipartFileStub = MultipartFileStub.create();
+        MultipartFile fileStub = MultipartFileStub.create();
         MediaType mediaTypeStub = MediaType.APPLICATION_XML;
         boolean isValidFileMIMEType = false;
         when(detectorMock.detect(any(InputStream.class), any(Metadata.class))).thenReturn(mediaTypeStub);
@@ -68,7 +68,7 @@ public class LessonFileValidatorServiceImplTest {
 
         //when
         try {
-            LessonFile lessonFile = testee.validateUploadedFile(multipartFileStub);
+            LessonFile file = testee.validateUploadedFile(fileStub);
         } catch (InvalidFileFormatException e) {
             //then exception is thrown
             verify(detectorMock).detect(any(InputStream.class), any(Metadata.class));
@@ -80,7 +80,7 @@ public class LessonFileValidatorServiceImplTest {
     @Test
     public void shouldReturnLessonFileWhenFileIsValid() throws IOException {
         //given
-        MultipartFile multipartFileStub = MultipartFileStub.create();
+        MultipartFile fileStub = MultipartFileStub.create();
         MediaType mediaTypeStub = MediaType.APPLICATION_XML;
         boolean isValidFileMIMEType = true;
 
@@ -88,19 +88,19 @@ public class LessonFileValidatorServiceImplTest {
         when(validFileMIMETypesMock.contains(eq(mediaTypeStub.toString()))).thenReturn(isValidFileMIMEType);
 
         //when
-        LessonFile lessonFile = testee.validateUploadedFile(multipartFileStub);
+        LessonFile file = testee.validateUploadedFile(fileStub);
 
         //then
         verify(detectorMock).detect(any(InputStream.class), any(Metadata.class));
         verify(validFileMIMETypesMock).contains(eq(mediaTypeStub.toString()));
 
-        assertNotNull(lessonFile);
-        assertNull(lessonFile.getId());
-        assertNull(lessonFile.getCreatedBy());
-        assertNull(lessonFile.getCreationDateTime());
-        assertEquals(multipartFileStub.getOriginalFilename(), lessonFile.getName());
-        assertEquals(FilenameUtils.getExtension(multipartFileStub.getOriginalFilename()), lessonFile.getExtension());
-        assertEquals(multipartFileStub.getBytes(), lessonFile.getContent());
+        assertNotNull(file);
+        assertNull(file.getId());
+        assertNull(file.getCreatedBy());
+        assertNull(file.getCreationDateTime());
+        assertEquals(fileStub.getOriginalFilename(), file.getName());
+        assertEquals(FilenameUtils.getExtension(fileStub.getOriginalFilename()), file.getExtension());
+        assertEquals(fileStub.getBytes(), file.getContent());
     }
 
     @Test(expected = FileNotFoundException.class)

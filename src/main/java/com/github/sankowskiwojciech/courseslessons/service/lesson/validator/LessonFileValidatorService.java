@@ -7,5 +7,5 @@ public interface LessonFileValidatorService {
 
     LessonFile validateUploadedFile(MultipartFile file);
 
-    void validateIfFileExists(String fileId);
+    void validateIfFileExists(String id);
 }

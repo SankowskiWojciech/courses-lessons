@@ -24,21 +24,21 @@ public class LessonFileServiceImpl implements LessonFileService {
 
     @Transactional
     @Override
-    public LessonFileResponse createLessonFile(LessonFile lessonFile, String userId) {
-        FileEntity fileEntity = LessonFileAndUserIdToLessonFileEntity.getInstance().apply(lessonFile, userId);
-        FileEntity savedFileEntity = fileRepository.save(fileEntity);
-        return LessonFileEntityToLessonFileResponse.getInstance().apply(savedFileEntity);
+    public LessonFileResponse createLessonFile(LessonFile file, String userId) {
+        FileEntity entity = LessonFileAndUserIdToLessonFileEntity.getInstance().apply(file, userId);
+        FileEntity savedEntity = fileRepository.save(entity);
+        return LessonFileEntityToLessonFileResponse.getInstance().apply(savedEntity);
     }
 
     @Override
     public LessonFile readLessonFile(String fileId) {
-        FileEntity fileEntity = fileRepository.findById(fileId).get();
-        return LessonFileEntityToLessonFile.getInstance().apply(fileEntity);
+        FileEntity entity = fileRepository.findById(fileId).get();
+        return LessonFileEntityToLessonFile.getInstance().apply(entity);
     }
 
     @Override
     public List<LessonFileResponse> readFilesInformation(String fileOwnerId) {
-        List<FileWithoutContent> lessonFilesWithoutContent = fileRepository.findAllByCreatedBy(fileOwnerId);
-        return lessonFilesWithoutContent.stream().map(lessonFileWithoutContent -> LessonFileWithoutContentToLessonFileResponse.getInstance().apply(lessonFileWithoutContent)).collect(Collectors.toList());
+        List<FileWithoutContent> filesWithoutContent = fileRepository.findAllByCreatedBy(fileOwnerId);
+        return filesWithoutContent.stream().map(fileWithoutContent -> LessonFileWithoutContentToLessonFileResponse.getInstance().apply(fileWithoutContent)).collect(Collectors.toList());
     }
 }

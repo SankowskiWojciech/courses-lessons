@@ -15,17 +15,17 @@ public class LessonFileWithoutContentToLessonFileResponseTest {
     @Test
     public void shouldTransformCorrectly() {
         //given
-        FileWithoutContent fileWithoutContentStub = LessonFileWithoutContentStub.create();
+        FileWithoutContent fileStub = LessonFileWithoutContentStub.create();
 
         //when
-        LessonFileResponse lessonFileResponse = testee.apply(fileWithoutContentStub);
+        LessonFileResponse response = testee.apply(fileStub);
 
         //then
-        assertNotNull(lessonFileResponse);
-        assertEquals(fileWithoutContentStub.getId(), lessonFileResponse.getId());
-        assertEquals(fileWithoutContentStub.getName(), lessonFileResponse.getName());
-        assertEquals(fileWithoutContentStub.getExtension(), lessonFileResponse.getExtension());
-        assertEquals(fileWithoutContentStub.getCreatedBy(), lessonFileResponse.getCreatedBy());
-        assertEquals(fileWithoutContentStub.getCreationDateTime(), lessonFileResponse.getCreationDateTime());
+        assertNotNull(response);
+        assertEquals(fileStub.getId(), response.getId());
+        assertEquals(fileStub.getName(), response.getName());
+        assertEquals(fileStub.getExtension(), response.getExtension());
+        assertEquals(fileStub.getCreatedBy(), response.getCreatedBy());
+        assertEquals(fileStub.getCreationDateTime(), response.getCreationDateTime());
     }
 }

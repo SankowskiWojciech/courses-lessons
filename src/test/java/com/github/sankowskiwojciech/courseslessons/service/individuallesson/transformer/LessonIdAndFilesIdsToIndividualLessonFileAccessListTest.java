@@ -11,9 +11,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
-public class LessonIdAndFilesIdsToIndividualLessonFileEntitiesTest {
+public class LessonIdAndFilesIdsToIndividualLessonFileAccessListTest {
 
-    private final LessonIdAndFilesIdsToIndividualLessonFileEntities testee = LessonIdAndFilesIdsToIndividualLessonFileEntities.getInstance();
+    private final LessonIdAndFilesIdsToIndividualLessonFileAccessList testee = LessonIdAndFilesIdsToIndividualLessonFileAccessList.getInstance();
 
     @Test
     public void shouldTransformCorrectly() {
@@ -22,11 +22,11 @@ public class LessonIdAndFilesIdsToIndividualLessonFileEntitiesTest {
         List<String> filesIdsStub = FILES_IDS_STUB;
 
         //when
-        List<LessonFileAccessEntity> individualLessonFileEntities = testee.apply(lessonIdStub, filesIdsStub);
+        List<LessonFileAccessEntity> lessonFileAccessEntityList = testee.apply(lessonIdStub, filesIdsStub);
 
         //then
-        assertNotNull(individualLessonFileEntities);
-        assertFalse(individualLessonFileEntities.isEmpty());
-        assertEquals(filesIdsStub.size(), individualLessonFileEntities.size());
+        assertNotNull(lessonFileAccessEntityList);
+        assertFalse(lessonFileAccessEntityList.isEmpty());
+        assertEquals(filesIdsStub.size(), lessonFileAccessEntityList.size());
     }
 }

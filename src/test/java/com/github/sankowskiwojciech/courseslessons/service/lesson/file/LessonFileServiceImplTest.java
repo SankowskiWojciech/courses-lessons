@@ -41,63 +41,63 @@ public class LessonFileServiceImplTest {
     @Test
     public void shouldCreateLessonFileCorrectly() {
         //given
-        LessonFile lessonFileStub = LessonFileStub.create();
+        LessonFile fileStub = LessonFileStub.create();
         String userIdStub = TUTOR_EMAIL_ADDRESS_STUB;
-        FileEntity fileEntityStub = LessonFileEntityStub.create();
+        FileEntity entityStub = LessonFileEntityStub.create();
 
-        when(fileRepositoryMock.save(any(FileEntity.class))).thenReturn(fileEntityStub);
+        when(fileRepositoryMock.save(any(FileEntity.class))).thenReturn(entityStub);
 
         //when
-        LessonFileResponse lessonFileResponse = testee.createLessonFile(lessonFileStub, userIdStub);
+        LessonFileResponse response = testee.createLessonFile(fileStub, userIdStub);
 
         //then
         verify(fileRepositoryMock).save(any(FileEntity.class));
 
-        assertNotNull(lessonFileResponse);
-        assertEquals(fileEntityStub.getId(), lessonFileResponse.getId());
-        assertEquals(fileEntityStub.getName(), lessonFileResponse.getName());
-        assertEquals(fileEntityStub.getExtension(), lessonFileResponse.getExtension());
-        assertEquals(fileEntityStub.getCreatedBy(), lessonFileResponse.getCreatedBy());
-        assertEquals(fileEntityStub.getCreationDateTime(), lessonFileResponse.getCreationDateTime());
+        assertNotNull(response);
+        assertEquals(entityStub.getId(), response.getId());
+        assertEquals(entityStub.getName(), response.getName());
+        assertEquals(entityStub.getExtension(), response.getExtension());
+        assertEquals(entityStub.getCreatedBy(), response.getCreatedBy());
+        assertEquals(entityStub.getCreationDateTime(), response.getCreationDateTime());
     }
 
     @Test
     public void shouldReadFileCorrectly() {
         //given
         String fileId = FILE_ID_STUB;
-        FileEntity fileEntityStub = LessonFileEntityStub.create();
+        FileEntity entityStub = LessonFileEntityStub.create();
 
-        when(fileRepositoryMock.findById(eq(fileId))).thenReturn(Optional.of(fileEntityStub));
+        when(fileRepositoryMock.findById(eq(fileId))).thenReturn(Optional.of(entityStub));
 
         //when
-        LessonFile lessonFile = testee.readLessonFile(fileId);
+        LessonFile file = testee.readLessonFile(fileId);
 
         //then
         verify(fileRepositoryMock).findById(eq(fileId));
-        Assertions.assertNotNull(lessonFile);
-        Assertions.assertEquals(fileEntityStub.getId(), lessonFile.getId());
-        Assertions.assertEquals(fileEntityStub.getName(), lessonFile.getName());
-        Assertions.assertEquals(fileEntityStub.getExtension(), lessonFile.getExtension());
-        Assertions.assertEquals(fileEntityStub.getContent(), lessonFile.getContent());
-        Assertions.assertEquals(fileEntityStub.getCreatedBy(), lessonFile.getCreatedBy());
-        Assertions.assertEquals(fileEntityStub.getCreationDateTime(), lessonFile.getCreationDateTime());
+        Assertions.assertNotNull(file);
+        Assertions.assertEquals(entityStub.getId(), file.getId());
+        Assertions.assertEquals(entityStub.getName(), file.getName());
+        Assertions.assertEquals(entityStub.getExtension(), file.getExtension());
+        Assertions.assertEquals(entityStub.getContent(), file.getContent());
+        Assertions.assertEquals(entityStub.getCreatedBy(), file.getCreatedBy());
+        Assertions.assertEquals(entityStub.getCreationDateTime(), file.getCreationDateTime());
     }
 
     @Test
     public void shouldReadFilesInformationCorrectly() {
         //given
         String fileOwnerIdStub = TUTOR_EMAIL_ADDRESS_STUB;
-        List<FileWithoutContent> lessonFilesWithoutContentStub = Lists.newArrayList(LessonFileWithoutContentStub.create());
+        List<FileWithoutContent> filesWithoutContentStub = Lists.newArrayList(LessonFileWithoutContentStub.create());
 
-        when(fileRepositoryMock.findAllByCreatedBy(eq(fileOwnerIdStub))).thenReturn(lessonFilesWithoutContentStub);
+        when(fileRepositoryMock.findAllByCreatedBy(eq(fileOwnerIdStub))).thenReturn(filesWithoutContentStub);
 
         //when
-        List<LessonFileResponse> lessonFileResponses = testee.readFilesInformation(fileOwnerIdStub);
+        List<LessonFileResponse> responses = testee.readFilesInformation(fileOwnerIdStub);
 
         //then
         verify(fileRepositoryMock).findAllByCreatedBy(eq(fileOwnerIdStub));
 
-        assertNotNull(lessonFileResponses);
-        assertFalse(lessonFileResponses.isEmpty());
+        assertNotNull(responses);
+        assertFalse(responses.isEmpty());
     }
 }

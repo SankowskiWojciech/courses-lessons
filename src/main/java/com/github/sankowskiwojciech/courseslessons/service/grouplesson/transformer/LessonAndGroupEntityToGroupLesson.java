@@ -7,7 +7,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class LessonAndStudentsGroupEntityToGroupLesson {
+public class LessonAndGroupEntityToGroupLesson {
     public static GroupLesson transform(Lesson lesson, GroupEntity groupEntity) {
         return new GroupLesson(lesson.getTitle(), lesson.getStartDate(), lesson.getEndDate(), lesson.getDescription(), lesson.getOrganizationEntity(), lesson.getTutorEntity(), lesson.getFilesIds(), groupEntity);
     }

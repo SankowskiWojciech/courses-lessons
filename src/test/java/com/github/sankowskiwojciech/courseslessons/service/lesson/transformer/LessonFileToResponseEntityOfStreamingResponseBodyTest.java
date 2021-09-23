@@ -19,10 +19,10 @@ public class LessonFileToResponseEntityOfStreamingResponseBodyTest {
     @Test
     public void shouldTransformCorrectly() {
         //given
-        LessonFile lessonFileStub = LessonFileStub.create();
+        LessonFile fileStub = LessonFileStub.create();
 
         //when
-        ResponseEntity<StreamingResponseBody> streamingResponseBodyResponseEntity = testee.apply(lessonFileStub);
+        ResponseEntity<StreamingResponseBody> streamingResponseBodyResponseEntity = testee.apply(fileStub);
 
         //then
         assertNotNull(streamingResponseBodyResponseEntity);

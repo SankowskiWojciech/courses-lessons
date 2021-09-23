@@ -16,17 +16,17 @@ public class LessonFileEntityToLessonFileResponseTest {
     @Test
     public void shouldTransformCorrectly() {
         //given
-        FileEntity fileEntityStub = LessonFileEntityStub.create();
+        FileEntity stub = LessonFileEntityStub.create();
 
         //when
-        LessonFileResponse lessonFileResponse = testee.apply(fileEntityStub);
+        LessonFileResponse response = testee.apply(stub);
 
         //then
-        assertNotNull(lessonFileResponse);
-        assertEquals(fileEntityStub.getId(), lessonFileResponse.getId());
-        assertEquals(fileEntityStub.getName(), lessonFileResponse.getName());
-        assertEquals(fileEntityStub.getExtension(), lessonFileResponse.getExtension());
-        assertEquals(fileEntityStub.getCreatedBy(), lessonFileResponse.getCreatedBy());
-        assertEquals(fileEntityStub.getCreationDateTime(), lessonFileResponse.getCreationDateTime());
+        assertNotNull(response);
+        assertEquals(stub.getId(), response.getId());
+        assertEquals(stub.getName(), response.getName());
+        assertEquals(stub.getExtension(), response.getExtension());
+        assertEquals(stub.getCreatedBy(), response.getCreatedBy());
+        assertEquals(stub.getCreationDateTime(), response.getCreationDateTime());
     }
 }

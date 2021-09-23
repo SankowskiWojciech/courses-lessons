@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IndividualLessonService {
 
-    IndividualLessonResponse createIndividualLesson(IndividualLesson individualLesson);
+    IndividualLessonResponse createIndividualLesson(IndividualLesson lesson);
 
-    List<IndividualLessonResponse> readIndividualLessons(AccountInfo accountInfo, LessonRequestParams lessonRequestParams);
+    List<IndividualLessonResponse> readIndividualLessons(AccountInfo accountInfo, LessonRequestParams requestParams);
 }

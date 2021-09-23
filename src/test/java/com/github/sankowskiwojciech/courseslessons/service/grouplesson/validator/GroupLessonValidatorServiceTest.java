@@ -58,95 +58,95 @@ public class GroupLessonValidatorServiceTest {
     @Test(expected = GroupNotFoundException.class)
     public void shouldThrowGroupNotFoundExceptionWhenGroupWithGivenGroupIdDoesNotExistInDatabase() {
         //given
-        GroupLessonRequest groupLessonRequestStub = GroupLessonRequestStub.create();
+        GroupLessonRequest requestStub = GroupLessonRequestStub.create();
         Subdomain subdomainStub = SubdomainStub.createWithSubdomainType(SubdomainType.ORGANIZATION);
-        TutorEntity tutorEntityStub = TutorEntityStub.create();
-        OrganizationEntity organizationEntityStub = OrganizationEntityStub.create();
+        TutorEntity tutorStub = TutorEntityStub.create();
+        OrganizationEntity organizationStub = OrganizationEntityStub.create();
 
-        when(subdomainServiceMock.readSubdomainInformation(groupLessonRequestStub.getSubdomainAlias())).thenReturn(subdomainStub);
-        when(organizationRepositoryMock.findById(subdomainStub.getEmailAddress())).thenReturn(Optional.of(organizationEntityStub));
-        when(tutorRepositoryMock.findById(groupLessonRequestStub.getTutorId())).thenReturn(Optional.of(tutorEntityStub));
-        when(groupRepositoryMock.findById(groupLessonRequestStub.getGroupId())).thenReturn(Optional.empty());
+        when(subdomainServiceMock.readSubdomainInformation(requestStub.getSubdomainAlias())).thenReturn(subdomainStub);
+        when(organizationRepositoryMock.findById(subdomainStub.getEmailAddress())).thenReturn(Optional.of(organizationStub));
+        when(tutorRepositoryMock.findById(requestStub.getTutorId())).thenReturn(Optional.of(tutorStub));
+        when(groupRepositoryMock.findById(requestStub.getGroupId())).thenReturn(Optional.empty());
 
         //when
-        GroupLesson groupLesson = testee.validateCreateGroupLessonRequest(groupLessonRequestStub);
+        GroupLesson lesson = testee.validateCreateGroupLessonRequest(requestStub);
 
         //then
-        verify(subdomainServiceMock).readSubdomainInformation(groupLessonRequestStub.getSubdomainAlias());
+        verify(subdomainServiceMock).readSubdomainInformation(requestStub.getSubdomainAlias());
         verify(organizationRepositoryMock).findById(subdomainStub.getEmailAddress());
-        verify(tutorRepositoryMock).findById(groupLessonRequestStub.getTutorId());
-        verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(groupLessonRequestStub.getStartDate(), groupLessonRequestStub.getEndDate(), tutorEntityStub.getEmailAddress());
+        verify(tutorRepositoryMock).findById(requestStub.getTutorId());
+        verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), tutorStub.getEmailAddress());
         verify(lessonFileValidatorServiceMock).validateIfFileExists(anyString());
-        verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(groupLessonRequestStub.getTutorId(), anyString());
-        verify(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(groupLessonRequestStub.getSubdomainAlias(), tutorEntityStub.getEmailAddress());
-        verify(groupRepositoryMock).findById(groupLessonRequestStub.getGroupId());
+        verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(requestStub.getTutorId(), anyString());
+        verify(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress());
+        verify(groupRepositoryMock).findById(requestStub.getGroupId());
     }
 
     @Test(expected = UserNotAllowedToCreateLessonException.class)
     public void shouldThrowUserNotAllowedToCreateLessonExceptionWhenTutorIsNotTheOwnerOfTheGroup() {
         //given
-        GroupLessonRequest groupLessonRequestStub = GroupLessonRequestStub.create();
-        TutorEntity tutorEntityStub = TutorEntityStub.createWithTutorId(UUID.randomUUID().toString());
-        GroupEntity groupEntityStub = StudentsGroupEntityStub.createWithTutorEntity(tutorEntityStub);
+        GroupLessonRequest requestStub = GroupLessonRequestStub.create();
+        TutorEntity tutorStub = TutorEntityStub.createWithTutorId(UUID.randomUUID().toString());
+        GroupEntity groupStub = StudentsGroupEntityStub.createWithTutorEntity(tutorStub);
         Subdomain subdomainStub = SubdomainStub.createWithSubdomainType(SubdomainType.ORGANIZATION);
-        OrganizationEntity organizationEntityStub = OrganizationEntityStub.create();
+        OrganizationEntity organizationStub = OrganizationEntityStub.create();
 
-        when(subdomainServiceMock.readSubdomainInformation(groupLessonRequestStub.getSubdomainAlias())).thenReturn(subdomainStub);
-        when(organizationRepositoryMock.findById(subdomainStub.getEmailAddress())).thenReturn(Optional.of(organizationEntityStub));
-        when(tutorRepositoryMock.findById(groupLessonRequestStub.getTutorId())).thenReturn(Optional.of(tutorEntityStub));
-        when(groupRepositoryMock.findById(groupLessonRequestStub.getGroupId())).thenReturn(Optional.of(groupEntityStub));
+        when(subdomainServiceMock.readSubdomainInformation(requestStub.getSubdomainAlias())).thenReturn(subdomainStub);
+        when(organizationRepositoryMock.findById(subdomainStub.getEmailAddress())).thenReturn(Optional.of(organizationStub));
+        when(tutorRepositoryMock.findById(requestStub.getTutorId())).thenReturn(Optional.of(tutorStub));
+        when(groupRepositoryMock.findById(requestStub.getGroupId())).thenReturn(Optional.of(groupStub));
 
         //when
-        GroupLesson groupLesson = testee.validateCreateGroupLessonRequest(groupLessonRequestStub);
+        GroupLesson lesson = testee.validateCreateGroupLessonRequest(requestStub);
 
         //then
-        verify(subdomainServiceMock).readSubdomainInformation(groupLessonRequestStub.getSubdomainAlias());
+        verify(subdomainServiceMock).readSubdomainInformation(requestStub.getSubdomainAlias());
         verify(organizationRepositoryMock).findById(subdomainStub.getEmailAddress());
-        verify(tutorRepositoryMock).findById(groupLessonRequestStub.getTutorId());
-        verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(groupLessonRequestStub.getStartDate(), groupLessonRequestStub.getEndDate(), tutorEntityStub.getEmailAddress());
+        verify(tutorRepositoryMock).findById(requestStub.getTutorId());
+        verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), tutorStub.getEmailAddress());
         verify(lessonFileValidatorServiceMock).validateIfFileExists(anyString());
-        verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(groupLessonRequestStub.getTutorId(), anyString());
-        verify(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(groupLessonRequestStub.getSubdomainAlias(), tutorEntityStub.getEmailAddress());
-        verify(groupRepositoryMock).findById(groupLessonRequestStub.getGroupId());
+        verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(requestStub.getTutorId(), anyString());
+        verify(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress());
+        verify(groupRepositoryMock).findById(requestStub.getGroupId());
     }
 
     @Test
     public void shouldDoNothingWhenGroupLessonRequestIsCorrect() {
         //given
-        GroupLessonRequest groupLessonRequestStub = GroupLessonRequestStub.create();
-        TutorEntity tutorEntityStub = TutorEntityStub.create();
-        GroupEntity groupEntityStub = StudentsGroupEntityStub.create();
+        GroupLessonRequest requestStub = GroupLessonRequestStub.create();
+        TutorEntity tutorStub = TutorEntityStub.create();
+        GroupEntity groupStub = StudentsGroupEntityStub.create();
         Subdomain subdomainStub = SubdomainStub.createWithSubdomainType(SubdomainType.ORGANIZATION);
-        OrganizationEntity organizationEntityStub = OrganizationEntityStub.create();
+        OrganizationEntity organizationStub = OrganizationEntityStub.create();
 
-        when(subdomainServiceMock.readSubdomainInformation(groupLessonRequestStub.getSubdomainAlias())).thenReturn(subdomainStub);
-        when(organizationRepositoryMock.findById(subdomainStub.getEmailAddress())).thenReturn(Optional.of(organizationEntityStub));
-        when(tutorRepositoryMock.findById(groupLessonRequestStub.getTutorId())).thenReturn(Optional.of(tutorEntityStub));
-        when(groupRepositoryMock.findById(groupLessonRequestStub.getGroupId())).thenReturn(Optional.of(groupEntityStub));
+        when(subdomainServiceMock.readSubdomainInformation(requestStub.getSubdomainAlias())).thenReturn(subdomainStub);
+        when(organizationRepositoryMock.findById(subdomainStub.getEmailAddress())).thenReturn(Optional.of(organizationStub));
+        when(tutorRepositoryMock.findById(requestStub.getTutorId())).thenReturn(Optional.of(tutorStub));
+        when(groupRepositoryMock.findById(requestStub.getGroupId())).thenReturn(Optional.of(groupStub));
 
         //when
-        GroupLesson groupLesson = testee.validateCreateGroupLessonRequest(groupLessonRequestStub);
+        GroupLesson lesson = testee.validateCreateGroupLessonRequest(requestStub);
 
         //then
-        verify(subdomainServiceMock).readSubdomainInformation(groupLessonRequestStub.getSubdomainAlias());
+        verify(subdomainServiceMock).readSubdomainInformation(requestStub.getSubdomainAlias());
         verify(organizationRepositoryMock).findById(subdomainStub.getEmailAddress());
-        verify(tutorRepositoryMock).findById(groupLessonRequestStub.getTutorId());
-        verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(groupLessonRequestStub.getStartDate(), groupLessonRequestStub.getEndDate(), tutorEntityStub.getEmailAddress());
+        verify(tutorRepositoryMock).findById(requestStub.getTutorId());
+        verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), tutorStub.getEmailAddress());
         verify(lessonFileValidatorServiceMock).validateIfFileExists(anyString());
-        verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(eq(groupLessonRequestStub.getTutorId()), anyString());
-        verify(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(groupLessonRequestStub.getSubdomainAlias(), tutorEntityStub.getEmailAddress());
-        verify(groupRepositoryMock).findById(groupLessonRequestStub.getGroupId());
-        assertGroupLesson(groupLesson, groupLessonRequestStub, organizationEntityStub, tutorEntityStub, groupEntityStub);
+        verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(eq(requestStub.getTutorId()), anyString());
+        verify(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress());
+        verify(groupRepositoryMock).findById(requestStub.getGroupId());
+        assertGroupLesson(lesson, requestStub, organizationStub, tutorStub, groupStub);
     }
 
-    private void assertGroupLesson(GroupLesson groupLesson, GroupLessonRequest groupLessonRequest, OrganizationEntity organizationEntity, TutorEntity tutorEntity, GroupEntity groupEntity) {
-        assertNotNull(groupLesson);
-        assertEquals(groupLessonRequest.getTitle(), groupLesson.getTitle());
-        assertEquals(groupLessonRequest.getStartDate(), groupLesson.getStartDate());
-        assertEquals(groupLessonRequest.getEndDate(), groupLesson.getEndDate());
-        assertEquals(groupLessonRequest.getDescription(), groupLesson.getDescription());
-        assertEquals(organizationEntity, groupLesson.getOrganizationEntity());
-        assertEquals(tutorEntity, groupLesson.getTutorEntity());
-        assertEquals(groupEntity, groupLesson.getGroupEntity());
+    private void assertGroupLesson(GroupLesson lesson, GroupLessonRequest request, OrganizationEntity organization, TutorEntity tutor, GroupEntity group) {
+        assertNotNull(lesson);
+        assertEquals(request.getTitle(), lesson.getTitle());
+        assertEquals(request.getStartDate(), lesson.getStartDate());
+        assertEquals(request.getEndDate(), lesson.getEndDate());
+        assertEquals(request.getDescription(), lesson.getDescription());
+        assertEquals(organization, lesson.getOrganizationEntity());
+        assertEquals(tutor, lesson.getTutorEntity());
+        assertEquals(group, lesson.getGroupEntity());
     }
 }

@@ -30,26 +30,26 @@ public class IndividualLessonsSchedulerServiceImpl implements IndividualLessonsS
 
     @Transactional
     @Override
-    public List<IndividualLessonResponse> scheduleIndividualLessons(IndividualLessonsSchedule individualLessonsSchedule) {
-        List<LessonDates> generatedLessonsDates;
-        switch (individualLessonsSchedule.getScheduleType()) {
+    public List<IndividualLessonResponse> scheduleIndividualLessons(IndividualLessonsSchedule schedule) {
+        List<LessonDates> lessonDates;
+        switch (schedule.getScheduleType()) {
             case ONE_YEAR_LENGTH_LESSONS:
-                LocalDate lessonsEndDate = individualLessonsSchedule.getBeginningDate().plusYears(MAX_LESSONS_DURATION_IN_YEARS);
-                generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesWithFixedBeginningDateAndEndDate(individualLessonsSchedule.getBeginningDate(), lessonsEndDate, individualLessonsSchedule.getDaysOfWeekWithTimes());
-                return scheduleLessons(individualLessonsSchedule, generatedLessonsDates);
+                LocalDate endDate = schedule.getBeginningDate().plusYears(MAX_LESSONS_DURATION_IN_YEARS);
+                lessonDates = lessonsDatesGeneratorService.generateLessonsDatesWithFixedBeginningDateAndEndDate(schedule.getBeginningDate(), endDate, schedule.getDaysOfWeekWithTimes());
+                return scheduleLessons(schedule, lessonDates);
             case FIXED_DATES_LESSONS:
-                generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesWithFixedBeginningDateAndEndDate(individualLessonsSchedule.getBeginningDate(), individualLessonsSchedule.getEndDate(), individualLessonsSchedule.getDaysOfWeekWithTimes());
-                return scheduleLessons(individualLessonsSchedule, generatedLessonsDates);
+                lessonDates = lessonsDatesGeneratorService.generateLessonsDatesWithFixedBeginningDateAndEndDate(schedule.getBeginningDate(), schedule.getEndDate(), schedule.getDaysOfWeekWithTimes());
+                return scheduleLessons(schedule, lessonDates);
             default:
-                generatedLessonsDates = lessonsDatesGeneratorService.generateLessonsDatesForFixedDurationLessons(individualLessonsSchedule.getBeginningDate(), individualLessonsSchedule.getAllLessonsDurationInMinutes(), individualLessonsSchedule.getDaysOfWeekWithTimes());
-                return scheduleLessons(individualLessonsSchedule, generatedLessonsDates);
+                lessonDates = lessonsDatesGeneratorService.generateLessonsDatesForFixedDurationLessons(schedule.getBeginningDate(), schedule.getAllLessonsDurationInMinutes(), schedule.getDaysOfWeekWithTimes());
+                return scheduleLessons(schedule, lessonDates);
         }
     }
 
-    private List<IndividualLessonResponse> scheduleLessons(IndividualLessonsSchedule individualLessonsSchedule, List<LessonDates> generatedLessonsDates) {
-        lessonCollisionValidatorService.validateIfScheduledLessonsDoesNotCollideWithExistingOnes(generatedLessonsDates, individualLessonsSchedule.getTutorEntity().getEmailAddress());
-        List<IndividualLessonEntity> individualLessonEntities = IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLessonEntity.getInstance().apply(individualLessonsSchedule, generatedLessonsDates);
-        individualLessonRepository.saveAll(individualLessonEntities);
-        return individualLessonEntities.stream().map(individualLessonEntity -> IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse.getInstance().apply(individualLessonEntity, Collections.emptyList())).collect(Collectors.toList());
+    private List<IndividualLessonResponse> scheduleLessons(IndividualLessonsSchedule schedule, List<LessonDates> generatedDates) {
+        lessonCollisionValidatorService.validateIfScheduledLessonsDoesNotCollideWithExistingOnes(generatedDates, schedule.getTutorEntity().getEmailAddress());
+        List<IndividualLessonEntity> lessons = IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLessonEntity.getInstance().apply(schedule, generatedDates);
+        individualLessonRepository.saveAll(lessons);
+        return lessons.stream().map(lesson -> IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse.getInstance().apply(lesson, Collections.emptyList())).collect(Collectors.toList());
     }
 }

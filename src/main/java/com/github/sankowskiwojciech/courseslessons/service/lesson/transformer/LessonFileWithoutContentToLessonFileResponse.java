@@ -13,13 +13,13 @@ public class LessonFileWithoutContentToLessonFileResponse implements Function<Fi
     private static final LessonFileWithoutContentToLessonFileResponse INSTANCE = new LessonFileWithoutContentToLessonFileResponse();
 
     @Override
-    public LessonFileResponse apply(FileWithoutContent fileWithoutContent) {
+    public LessonFileResponse apply(FileWithoutContent file) {
         return LessonFileResponse.builder()
-                .id(fileWithoutContent.getId())
-                .name(fileWithoutContent.getName())
-                .extension(fileWithoutContent.getExtension())
-                .createdBy(fileWithoutContent.getCreatedBy())
-                .creationDateTime(fileWithoutContent.getCreationDateTime())
+                .id(file.getId())
+                .name(file.getName())
+                .extension(file.getExtension())
+                .createdBy(file.getCreatedBy())
+                .creationDateTime(file.getCreationDateTime())
                 .build();
     }
 

@@ -13,7 +13,7 @@ import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class LessonAndStudentsGroupEntityToGroupLessonTest {
+public class LessonAndGroupEntityToGroupLessonTest {
 
     @Test
     public void shouldTransformCorrectly() {
@@ -22,7 +22,7 @@ public class LessonAndStudentsGroupEntityToGroupLessonTest {
         GroupEntity groupEntity = StudentsGroupEntityStub.create();
 
         //when
-        GroupLesson groupLesson = LessonAndStudentsGroupEntityToGroupLesson.transform(lessonStub, groupEntity);
+        GroupLesson groupLesson = LessonAndGroupEntityToGroupLesson.transform(lessonStub, groupEntity);
 
         //then
         assertNotNull(groupLesson);
