@@ -44,7 +44,7 @@ public class IndividualLessonsScheduleRequestValidator {
     private static void validateMandatoryFieldsDependingOnScheduleType(IndividualLessonsScheduleRequest request) {
         switch (request.getScheduleType()) {
             case FIXED_DURATION_LESSONS:
-                validateMandatoryFieldsWhenScheduleTypeIsFixedDurationLessons(request.getAllLessonsDurationInMinutes());
+                validateMandatoryFieldsWhenScheduleTypeIsFixedDurationLessons(request.getDurationOfAllLessonsInMinutes());
                 break;
             case FIXED_DATES_LESSONS:
                 validateMandatoryFieldsWhenScheduleTypeIsFixedDatesLessons(request.getBeginningDate(), request.getEndDate());
