@@ -2,7 +2,6 @@ package com.github.sankowskiwojciech.courseslessons.service.individuallesson;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonRepository;
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileAccessRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.account.AccountInfo;
 import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
@@ -11,6 +10,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.Indivi
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequestParams;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileService;
 import com.github.sankowskiwojciech.courseslessons.stub.AccountInfoStub;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonFileEntityStub;
@@ -36,7 +36,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -44,16 +43,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class IndividualLessonServiceImplTest {
-
     private final IndividualLessonRepository individualLessonRepositoryMock = mock(IndividualLessonRepository.class);
-    private final LessonFileAccessRepository lessonFileAccessRepositoryMock = mock(LessonFileAccessRepository.class);
+    private final LessonFileService lessonFileServiceMock = mock(LessonFileService.class);
     private final FileRepository fileRepositoryMock = mock(FileRepository.class);
     private final IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock = mock(IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider.class);
-    private final IndividualLessonService testee = new IndividualLessonServiceImpl(individualLessonRepositoryMock, lessonFileAccessRepositoryMock, fileRepositoryMock, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock);
+    private final IndividualLessonService testee = new IndividualLessonServiceImpl(individualLessonRepositoryMock, lessonFileServiceMock, fileRepositoryMock, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock);
 
     @Before
     public void reset() {
-        Mockito.reset(individualLessonRepositoryMock, lessonFileAccessRepositoryMock, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock, fileRepositoryMock);
+        Mockito.reset(individualLessonRepositoryMock, lessonFileServiceMock, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderMock, fileRepositoryMock);
     }
 
     @Test
@@ -67,7 +65,7 @@ public class IndividualLessonServiceImplTest {
         List<FileWithoutContent> filesWithoutContent = Lists.newArrayList(LessonFileWithoutContentStub.createWithFileId(UUID.randomUUID().toString()));
 
         when(individualLessonRepositoryMock.save(any(IndividualLessonEntity.class))).thenReturn(entityStub);
-        when(lessonFileAccessRepositoryMock.saveAll(anyList())).thenReturn(lessonFileAccessStub);
+        when(lessonFileServiceMock.attachFilesToLesson(entityStub.getId(), lessonStub.getFilesIds())).thenReturn(lessonFileAccessStub);
         when(fileRepositoryMock.findAllByIdIn(anySet())).thenReturn(filesWithoutContent);
 
         //when
@@ -75,7 +73,7 @@ public class IndividualLessonServiceImplTest {
 
         //then
         verify(individualLessonRepositoryMock).save(any(IndividualLessonEntity.class));
-        verify(lessonFileAccessRepositoryMock).saveAll(anyList());
+        verify(lessonFileServiceMock).attachFilesToLesson(entityStub.getId(), lessonStub.getFilesIds());
         verify(fileRepositoryMock).findAllByIdIn(anySet());
 
         assertNotNull(response);

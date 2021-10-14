@@ -1,5 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.file;
 
+import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAccessEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
 
@@ -11,4 +12,6 @@ public interface LessonFileService {
     LessonFile readLessonFile(String fileId);
 
     List<LessonFileResponse> readFilesInformation(String fileOwnerId);
+
+    List<LessonFileAccessEntity> attachFilesToLesson(String lessonId, List<String> filesIds);
 }

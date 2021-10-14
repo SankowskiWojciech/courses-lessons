@@ -11,6 +11,8 @@ import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainSe
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonService;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonServiceImpl;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileServiceImpl;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorServiceImpl;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.ValidFileMIMETypes;
@@ -52,7 +54,12 @@ public class ServiceConfig {
 
     @Bean
     public IndividualLessonService individualLessonService() {
-        return new IndividualLessonServiceImpl(individualLessonRepository, lessonFileAccessRepository, fileRepository, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider());
+        return new IndividualLessonServiceImpl(individualLessonRepository, lessonFileService(), fileRepository, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider());
+    }
+
+    @Bean
+    public LessonFileService lessonFileService() {
+        return new LessonFileServiceImpl(fileRepository, lessonFileAccessRepository);
     }
 
     @Bean
