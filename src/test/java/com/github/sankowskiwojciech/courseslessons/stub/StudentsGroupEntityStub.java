@@ -1,7 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.stub;
 
 import com.github.sankowskiwojciech.coursescorelib.model.db.group.GroupEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -16,17 +15,6 @@ import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.GROU
 public class StudentsGroupEntityStub {
 
     public static GroupEntity create() {
-        return GroupEntity.builder()
-                .id(GROUP_ID_STUB)
-                .name(GROUP_NAME_STUB)
-                .description(GROUP_DESCRIPTION_STUB)
-                .creationDateTime(LocalDateTime.now().minusMonths(1))
-                .subdomainEntity(SubdomainEntityStub.create())
-                .tutorEntity(TutorEntityStub.create())
-                .build();
-    }
-
-    public static GroupEntity createWithOrganizationEntity(OrganizationEntity organization) {
         return GroupEntity.builder()
                 .id(GROUP_ID_STUB)
                 .name(GROUP_NAME_STUB)
