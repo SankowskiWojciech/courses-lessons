@@ -1,6 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.stub;
 
 import com.github.sankowskiwojciech.coursescorelib.model.db.group.GroupEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -20,19 +21,30 @@ public class StudentsGroupEntityStub {
                 .name(GROUP_NAME_STUB)
                 .description(GROUP_DESCRIPTION_STUB)
                 .creationDateTime(LocalDateTime.now().minusMonths(1))
-                .organizationEntity(OrganizationEntityStub.create())
+                .subdomainEntity(SubdomainEntityStub.create())
                 .tutorEntity(TutorEntityStub.create())
                 .build();
     }
 
-    public static GroupEntity createWithTutorEntity(TutorEntity tutorEntity) {
+    public static GroupEntity createWithOrganizationEntity(OrganizationEntity organization) {
         return GroupEntity.builder()
                 .id(GROUP_ID_STUB)
                 .name(GROUP_NAME_STUB)
                 .description(GROUP_DESCRIPTION_STUB)
                 .creationDateTime(LocalDateTime.now().minusMonths(1))
-                .organizationEntity(OrganizationEntityStub.create())
-                .tutorEntity(tutorEntity)
+                .subdomainEntity(SubdomainEntityStub.create())
+                .tutorEntity(TutorEntityStub.create())
+                .build();
+    }
+
+    public static GroupEntity createWithTutorEntity(TutorEntity tutor) {
+        return GroupEntity.builder()
+                .id(GROUP_ID_STUB)
+                .name(GROUP_NAME_STUB)
+                .description(GROUP_DESCRIPTION_STUB)
+                .creationDateTime(LocalDateTime.now().minusMonths(1))
+                .subdomainEntity(SubdomainEntityStub.create())
+                .tutorEntity(tutor)
                 .build();
     }
 }

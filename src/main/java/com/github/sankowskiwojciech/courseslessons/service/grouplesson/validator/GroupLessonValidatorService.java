@@ -19,12 +19,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GroupLessonValidatorService extends LessonValidatorService {
-    private final SubdomainService subdomainService;
     private final GroupRepository groupRepository;
 
     public GroupLessonValidatorService(TutorRepository tutorRepository, SubdomainService subdomainService, OrganizationRepository organizationRepository, LessonCollisionValidatorService lessonCollisionValidatorService, LessonFileValidatorService lessonFileValidatorService, FileAccessPermissionValidatorService fileAccessPermissionValidatorService, GroupRepository groupRepository) {
-        super(tutorRepository, subdomainService, organizationRepository, lessonCollisionValidatorService, lessonFileValidatorService, fileAccessPermissionValidatorService);
-        this.subdomainService = subdomainService;
+        super(tutorRepository, lessonCollisionValidatorService, lessonFileValidatorService, fileAccessPermissionValidatorService, subdomainService, organizationRepository);
         this.groupRepository = groupRepository;
     }
 
@@ -32,9 +30,13 @@ public class GroupLessonValidatorService extends LessonValidatorService {
         Lesson lesson = super.validateCreateLessonRequest(request);
         subdomainService.validateIfUserIsAllowedToLoginToSubdomain(request.getSubdomainAlias(), request.getTutorId());
         GroupEntity group = groupRepository.findById(request.getGroupId()).orElseThrow(GroupNotFoundException::new);
-        if (!group.getTutorEntity().getEmailAddress().equals(request.getTutorId())) {
+        if (userIsNotOwnerOfGroup(group, request)) {
             throw new UserNotAllowedToCreateLessonException();
         }
         return LessonAndGroupEntityToGroupLesson.transform(lesson, group);
+    }
+
+    private boolean userIsNotOwnerOfGroup(GroupEntity group, GroupLessonRequest request) {
+        return !group.getTutorEntity().getEmailAddress().equals(request.getTutorId());
     }
 }

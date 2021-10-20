@@ -113,11 +113,11 @@ public class GroupLessonValidatorServiceTest {
     @Test
     public void shouldDoNothingWhenGroupLessonRequestIsCorrect() {
         //given
-        GroupLessonRequest requestStub = GroupLessonRequestStub.create();
         TutorEntity tutorStub = TutorEntityStub.create();
         GroupEntity groupStub = StudentsGroupEntityStub.create();
         Subdomain subdomainStub = SubdomainStub.createWithSubdomainType(SubdomainType.ORGANIZATION);
         OrganizationEntity organizationStub = OrganizationEntityStub.create();
+        GroupLessonRequest requestStub = GroupLessonRequestStub.createWithSubdomainAlias(organizationStub.getAlias());
 
         when(subdomainServiceMock.readSubdomainInformation(requestStub.getSubdomainAlias())).thenReturn(subdomainStub);
         when(organizationRepositoryMock.findById(subdomainStub.getEmailAddress())).thenReturn(Optional.of(organizationStub));

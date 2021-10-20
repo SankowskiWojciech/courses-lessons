@@ -12,21 +12,9 @@ import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.ORGA
 
 @NoArgsConstructor
 public class OrganizationEntityStub {
-
     public static OrganizationEntity create() {
         return OrganizationEntity.builder()
                 .emailAddress(ORGANIZATION_EMAIL_ADDRESS_STUB)
-                .alias(ORGANIZATION_ALIAS_STUB)
-                .name(ORGANIZATION_NAME_STUB)
-                .description(ORGANIZATION_DESCRIPTION_STUB)
-                .phoneNumber(ORGANIZATION_PHONE_NUMBER_STUB)
-                .websiteUrl(ORGANIZATION_WEBSITE_URL_STUB)
-                .build();
-    }
-
-    public static OrganizationEntity createWithEmailAddress(String emailAddress) {
-        return OrganizationEntity.builder()
-                .emailAddress(emailAddress)
                 .alias(ORGANIZATION_ALIAS_STUB)
                 .name(ORGANIZATION_NAME_STUB)
                 .description(ORGANIZATION_DESCRIPTION_STUB)
