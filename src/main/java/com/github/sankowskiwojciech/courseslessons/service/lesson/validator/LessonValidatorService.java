@@ -23,11 +23,11 @@ import java.util.Optional;
 @AllArgsConstructor
 public abstract class LessonValidatorService {
     private final TutorRepository tutorRepository;
-    private final SubdomainService subdomainService;
-    private final OrganizationRepository organizationRepository;
     private final LessonCollisionValidatorService lessonCollisionValidatorService;
     private final LessonFileValidatorService lessonFileValidatorService;
     private final FileAccessPermissionValidatorService fileAccessPermissionValidatorService;
+    protected final SubdomainService subdomainService;
+    protected final OrganizationRepository organizationRepository;
 
     public Lesson validateCreateLessonRequest(LessonRequest request) {
         Subdomain subdomain = subdomainService.readSubdomainInformation(request.getSubdomainAlias());

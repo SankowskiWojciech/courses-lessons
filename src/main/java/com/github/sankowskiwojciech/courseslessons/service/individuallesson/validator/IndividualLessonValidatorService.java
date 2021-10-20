@@ -24,14 +24,11 @@ import java.util.Optional;
 
 @Service
 public class IndividualLessonValidatorService extends LessonValidatorService {
-
     private final StudentRepository studentRepository;
-    private final SubdomainService subdomainService;
 
     public IndividualLessonValidatorService(TutorRepository tutorRepository, SubdomainService subdomainService, OrganizationRepository organizationRepository, LessonCollisionValidatorService lessonCollisionValidatorService, LessonFileValidatorService lessonFileValidatorService, FileAccessPermissionValidatorService fileAccessPermissionValidatorService, StudentRepository studentRepository) {
-        super(tutorRepository, subdomainService, organizationRepository, lessonCollisionValidatorService, lessonFileValidatorService, fileAccessPermissionValidatorService);
+        super(tutorRepository, lessonCollisionValidatorService, lessonFileValidatorService, fileAccessPermissionValidatorService, subdomainService, organizationRepository);
         this.studentRepository = studentRepository;
-        this.subdomainService = subdomainService;
     }
 
     public IndividualLesson validateCreateIndividualLessonRequest(IndividualLessonRequest request) {
