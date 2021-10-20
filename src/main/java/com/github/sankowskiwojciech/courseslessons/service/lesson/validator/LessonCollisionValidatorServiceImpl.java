@@ -1,6 +1,8 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.validator;
 
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.GroupLessonRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonRepository;
+import com.github.sankowskiwojciech.coursescorelib.model.db.grouplesson.GroupLessonEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.lesson.NewLessonCollidesWithExistingOnesException;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonDates;
@@ -13,13 +15,17 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class LessonCollisionValidatorServiceImpl implements LessonCollisionValidatorService {
-
     private final IndividualLessonRepository individualLessonRepository;
+    private final GroupLessonRepository groupLessonRepository;
 
     @Override
     public void validateIfNewLessonDoesNotCollideWithExistingOnes(LocalDateTime startDate, LocalDateTime endDate, String tutorEmailAddress) {
-        List<IndividualLessonEntity> entities = individualLessonRepository.findAllLessonsWhichCanCollideWithNewLesson(startDate, endDate, tutorEmailAddress);
-        if (!entities.isEmpty()) {
+        List<IndividualLessonEntity> individualLessons = individualLessonRepository.findAllLessonsWhichCanCollideWithNewLesson(startDate, endDate, tutorEmailAddress);
+        if (!individualLessons.isEmpty()) {
+            throw new NewLessonCollidesWithExistingOnesException();
+        }
+        List<GroupLessonEntity> groupLessons = groupLessonRepository.findAllLessonsWhichCanCollideWithNewLesson(startDate, endDate, tutorEmailAddress);
+        if (!groupLessons.isEmpty()) {
             throw new NewLessonCollidesWithExistingOnesException();
         }
     }
