@@ -48,7 +48,7 @@ public class IndividualLessonValidatorService extends LessonValidatorService {
         if (!student.isPresent()) {
             throw new StudentNotFoundException();
         }
-        subdomainService.validateIfUserIsAllowedToLoginToSubdomain(subdomainAlias, tutorId, studentId);
+        subdomainService.validateIfUserHasAccessToSubdomain(subdomainAlias, tutorId, studentId);
         return student.get();
     }
 }

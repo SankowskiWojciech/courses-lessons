@@ -31,7 +31,7 @@ public class StudentController {
     public List<StudentResponse> readStudents(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam(value = "subdomainAlias") String subdomainAlias) {
         TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
         validateIfUserIsTutor(token);
-        Subdomain subdomain = subdomainService.validateIfUserIsAllowedToLoginToSubdomain(subdomainAlias, token.getUserEmailAddress());
+        Subdomain subdomain = subdomainService.validateIfUserHasAccessToSubdomain(subdomainAlias, token.getUserEmailAddress());
         return studentService.readStudents(subdomain.getAlias(), token.getUserEmailAddress());
     }
 

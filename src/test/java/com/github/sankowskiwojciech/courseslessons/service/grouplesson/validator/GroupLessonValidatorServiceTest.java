@@ -78,7 +78,7 @@ public class GroupLessonValidatorServiceTest {
         verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), tutorStub.getEmailAddress());
         verify(lessonFileValidatorServiceMock).validateIfFileExists(anyString());
         verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(requestStub.getTutorId(), anyString());
-        verify(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress());
+        verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress());
         verify(groupRepositoryMock).findById(requestStub.getGroupId());
     }
 
@@ -106,7 +106,7 @@ public class GroupLessonValidatorServiceTest {
         verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), tutorStub.getEmailAddress());
         verify(lessonFileValidatorServiceMock).validateIfFileExists(anyString());
         verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(requestStub.getTutorId(), anyString());
-        verify(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress());
+        verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress());
         verify(groupRepositoryMock).findById(requestStub.getGroupId());
     }
 
@@ -134,7 +134,7 @@ public class GroupLessonValidatorServiceTest {
         verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), tutorStub.getEmailAddress());
         verify(lessonFileValidatorServiceMock).validateIfFileExists(anyString());
         verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(eq(requestStub.getTutorId()), anyString());
-        verify(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress());
+        verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress());
         verify(groupRepositoryMock).findById(requestStub.getGroupId());
         assertGroupLesson(lesson, requestStub, organizationStub, tutorStub, groupStub);
     }

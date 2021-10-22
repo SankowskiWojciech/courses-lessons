@@ -114,7 +114,7 @@ public class IndividualLessonValidatorServiceTest {
         when(organizationRepositoryMock.findById(eq(subdomainStub.getEmailAddress()))).thenReturn(Optional.of(organizationStub));
         when(tutorRepositoryMock.findById(eq(requestStub.getTutorId()))).thenReturn(Optional.of(tutorStub));
         when(studentRepositoryMock.findById(eq(requestStub.getStudentId()))).thenReturn(Optional.of(studentStub));
-        doThrow(UserNotAllowedToAccessSubdomainException.class).when(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
+        doThrow(UserNotAllowedToAccessSubdomainException.class).when(subdomainServiceMock).validateIfUserHasAccessToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
 
         //whenw
         try {
@@ -127,7 +127,7 @@ public class IndividualLessonValidatorServiceTest {
             verify(tutorRepositoryMock).findById(eq(requestStub.getTutorId()));
             verify(tutorRepositoryMock).findById(eq(requestStub.getTutorId()));
             verify(studentRepositoryMock).findById(eq(requestStub.getStudentId()));
-            verify(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
+            verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
             throw e;
         }
     }
@@ -170,7 +170,7 @@ public class IndividualLessonValidatorServiceTest {
         when(organizationRepositoryMock.findById(eq(subdomainStub.getEmailAddress()))).thenReturn(Optional.of(organizationStub));
         when(tutorRepositoryMock.findById(eq(requestStub.getTutorId()))).thenReturn(Optional.of(tutorStub));
         when(studentRepositoryMock.findById(eq(requestStub.getStudentId()))).thenReturn(Optional.of(studentStub));
-        doThrow(UserNotAllowedToAccessSubdomainException.class).when(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
+        doThrow(UserNotAllowedToAccessSubdomainException.class).when(subdomainServiceMock).validateIfUserHasAccessToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
 
         //when
         try {
@@ -182,7 +182,7 @@ public class IndividualLessonValidatorServiceTest {
             verify(organizationRepositoryMock).findById(eq(subdomainStub.getEmailAddress()));
             verify(tutorRepositoryMock).findById(eq(requestStub.getTutorId()));
             verify(studentRepositoryMock).findById(eq(requestStub.getStudentId()));
-            verify(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
+            verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
             throw e;
         }
     }
@@ -239,7 +239,7 @@ public class IndividualLessonValidatorServiceTest {
         verify(lessonFileValidatorServiceMock).validateIfFileExists(anyString());
         verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(eq(requestStub.getTutorId()), anyString());
         verify(studentRepositoryMock).findById(eq(requestStub.getStudentId()));
-        verify(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
+        verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
 
         assertIndividualLesson(lesson, requestStub, organizationStub, tutorStub, studentStub);
     }
@@ -267,7 +267,7 @@ public class IndividualLessonValidatorServiceTest {
         verify(organizationRepositoryMock).findById(eq(subdomainStub.getEmailAddress()));
         verify(tutorRepositoryMock).findById(eq(requestStub.getTutorId()));
         verify(studentRepositoryMock).findById(eq(requestStub.getStudentId()));
-        verify(subdomainServiceMock).validateIfUserIsAllowedToLoginToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
+        verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
 
         assertNotNull(schedule);
     }

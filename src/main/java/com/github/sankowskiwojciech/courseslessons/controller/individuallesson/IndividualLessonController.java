@@ -62,7 +62,7 @@ public class IndividualLessonController {
     @GetMapping
     public List<IndividualLessonResponse> readIndividualLessons(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam(value = "subdomainAlias", required = false) String subdomainAlias, @RequestParam(value = "fromDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fromDate, @RequestParam(value = "toDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime toDate) {
         TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
-        Subdomain subdomain = subdomainService.validateIfUserIsAllowedToLoginToSubdomain(subdomainAlias, token.getUserEmailAddress());
+        Subdomain subdomain = subdomainService.validateIfUserHasAccessToSubdomain(subdomainAlias, token.getUserEmailAddress());
         AccountInfo accountInfo = new AccountInfo(token.getUserEmailAddress(), token.getAccountType());
         LessonRequestParams requestParams = new LessonRequestParams(subdomain, fromDate, toDate);
         return individualLessonService.readIndividualLessons(accountInfo, requestParams);

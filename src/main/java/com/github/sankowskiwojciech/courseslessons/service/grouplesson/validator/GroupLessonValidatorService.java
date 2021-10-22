@@ -28,7 +28,7 @@ public class GroupLessonValidatorService extends LessonValidatorService {
 
     public GroupLesson validateCreateGroupLessonRequest(GroupLessonRequest request) {
         Lesson lesson = super.validateCreateLessonRequest(request);
-        subdomainService.validateIfUserIsAllowedToLoginToSubdomain(request.getSubdomainAlias(), request.getTutorId());
+        subdomainService.validateIfUserHasAccessToSubdomain(request.getSubdomainAlias(), request.getTutorId());
         GroupEntity group = groupRepository.findById(request.getGroupId()).orElseThrow(GroupNotFoundException::new);
         if (userIsNotOwnerOfGroup(group, request)) {
             throw new UserNotAllowedToCreateLessonException();
