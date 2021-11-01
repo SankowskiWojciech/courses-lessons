@@ -1,8 +1,8 @@
 package com.github.sankowskiwojciech.courseslessons.stub;
 
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.subdomain.SubdomainEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -15,10 +15,9 @@ import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.LESS
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class IndividualLessonEntityStub {
-
-    public static IndividualLessonEntity createWithExternalEntities(OrganizationEntity organizationEntity, TutorEntity tutorEntity, StudentEntity studentEntity) {
+    public static IndividualLessonEntity createWithExternalEntities(SubdomainEntity subdomainEntity, TutorEntity tutorEntity, StudentEntity studentEntity) {
         final IndividualLessonEntity entity = create(INDIVIDUAL_LESSON_ID_STUB);
-        entity.setOrganizationEntity(organizationEntity);
+        entity.setSubdomainEntity(subdomainEntity);
         entity.setTutorEntity(tutorEntity);
         entity.setStudentEntity(studentEntity);
         return entity;
@@ -39,7 +38,7 @@ public class IndividualLessonEntityStub {
         entity.setStartDate(LocalDateTime.now());
         entity.setEndDate(LocalDateTime.now().plusHours(2));
         entity.setDescription(LESSON_DESCRIPTION_STUB);
-        entity.setOrganizationEntity(OrganizationEntityStub.create());
+        entity.setSubdomainEntity(SubdomainEntityStub.create());
         entity.setTutorEntity(TutorEntityStub.create());
         entity.setStudentEntity(StudentEntityStub.create());
         entity.setCreationDateTime(currentDateTime.minusMonths(2));

@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Service
 @AllArgsConstructor
 public class TokenValidationServiceImpl implements TokenValidationService {
-
     private final TokenRepository tokenRepository;
 
     @Override
@@ -19,15 +18,6 @@ public class TokenValidationServiceImpl implements TokenValidationService {
         TokenEntity token = readTokenByTokenValue(tokenValue);
         validateIfTokenIsNotRevoked(token.getRevocationDateTime());
         validateIfTokenIsNotExpired(token.getExpirationDateTime());
-        return token;
-    }
-
-    @Override
-    public TokenEntity validateTokenAndUser(String tokenValue, String userEmailAddress) {
-        TokenEntity token = readTokenByTokenValue(tokenValue);
-        validateIfTokenIsNotRevoked(token.getRevocationDateTime());
-        validateIfTokenIsNotExpired(token.getExpirationDateTime());
-        validateIfTokenIsIssuedForProvidedUser(token.getUserEmailAddress(), userEmailAddress);
         return token;
     }
 
@@ -43,12 +33,6 @@ public class TokenValidationServiceImpl implements TokenValidationService {
 
     private void validateIfTokenIsNotExpired(LocalDateTime expirationDateTime) {
         if (expirationDateTime.isBefore(LocalDateTime.now())) {
-            throw new InvalidTokenException();
-        }
-    }
-
-    private void validateIfTokenIsIssuedForProvidedUser(String userEmailAddressFromToken, String providedUserEmailAddress) {
-        if (!userEmailAddressFromToken.equals(providedUserEmailAddress)) {
             throw new InvalidTokenException();
         }
     }

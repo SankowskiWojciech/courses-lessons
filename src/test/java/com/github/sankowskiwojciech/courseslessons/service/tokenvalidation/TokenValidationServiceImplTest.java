@@ -11,16 +11,13 @@ import org.mockito.Mockito;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.STUDENT_EMAIL_ADDRESS_STUB;
 import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.TOKEN_VALUE_STUB;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class TokenValidationServiceImplTest {
-
     private final TokenRepository tokenRepositoryMock = mock(TokenRepository.class);
     private final TokenValidationService testee = new TokenValidationServiceImpl(tokenRepositoryMock);
 
@@ -33,7 +30,7 @@ public class TokenValidationServiceImplTest {
     public void shouldThrowInvalidTokenExceptionWhenTokenIsNotFound() {
         //given
         String valueStub = TOKEN_VALUE_STUB;
-        when(tokenRepositoryMock.findByTokenValue(eq(valueStub))).thenReturn(Optional.empty());
+        when(tokenRepositoryMock.findByTokenValue(valueStub)).thenReturn(Optional.empty());
 
         //when
         try {
@@ -41,7 +38,7 @@ public class TokenValidationServiceImplTest {
         } catch (InvalidTokenException e) {
 
             //then exception is thrown
-            verify(tokenRepositoryMock).findByTokenValue(eq(valueStub));
+            verify(tokenRepositoryMock).findByTokenValue(valueStub);
             throw e;
         }
     }
@@ -51,7 +48,7 @@ public class TokenValidationServiceImplTest {
         //given
         String valueStub = TOKEN_VALUE_STUB;
         TokenEntity entityStub = TokenEntityStub.create(LocalDateTime.now().plusHours(1), LocalDateTime.now());
-        when(tokenRepositoryMock.findByTokenValue(eq(valueStub))).thenReturn(Optional.of(entityStub));
+        when(tokenRepositoryMock.findByTokenValue(valueStub)).thenReturn(Optional.of(entityStub));
 
         //when
         try {
@@ -59,7 +56,7 @@ public class TokenValidationServiceImplTest {
         } catch (InvalidTokenException e) {
 
             //then exception is thrown
-            verify(tokenRepositoryMock).findByTokenValue(eq(valueStub));
+            verify(tokenRepositoryMock).findByTokenValue(valueStub);
             throw e;
         }
     }
@@ -69,7 +66,7 @@ public class TokenValidationServiceImplTest {
         //given
         String valueStub = TOKEN_VALUE_STUB;
         TokenEntity entityStub = TokenEntityStub.create(LocalDateTime.now().minusHours(1), null);
-        when(tokenRepositoryMock.findByTokenValue(eq(valueStub))).thenReturn(Optional.of(entityStub));
+        when(tokenRepositoryMock.findByTokenValue(valueStub)).thenReturn(Optional.of(entityStub));
 
         //when
         try {
@@ -77,26 +74,7 @@ public class TokenValidationServiceImplTest {
         } catch (InvalidTokenException e) {
 
             //then exception is thrown
-            verify(tokenRepositoryMock).findByTokenValue(eq(valueStub));
-            throw e;
-        }
-    }
-
-    @Test(expected = InvalidTokenException.class)
-    public void shouldThrowInvalidTokenExceptionWhenTokenIsNotIssuedForProvidedUser() {
-        //given
-        String valueStub = TOKEN_VALUE_STUB;
-        String userEmailAddressStub = STUDENT_EMAIL_ADDRESS_STUB;
-        TokenEntity entityStub = TokenEntityStub.create(LocalDateTime.now().plusHours(1), null);
-        when(tokenRepositoryMock.findByTokenValue(eq(valueStub))).thenReturn(Optional.of(entityStub));
-
-        //when
-        try {
-            TokenEntity token = testee.validateTokenAndUser(valueStub, userEmailAddressStub);
-        } catch (InvalidTokenException e) {
-
-            //then exception is thrown
-            verify(tokenRepositoryMock).findByTokenValue(eq(valueStub));
+            verify(tokenRepositoryMock).findByTokenValue(valueStub);
             throw e;
         }
     }
@@ -106,13 +84,13 @@ public class TokenValidationServiceImplTest {
         //given
         String valueStub = TOKEN_VALUE_STUB;
         TokenEntity entityStub = TokenEntityStub.create(LocalDateTime.now().plusHours(1), null);
-        when(tokenRepositoryMock.findByTokenValue(eq(valueStub))).thenReturn(Optional.of(entityStub));
+        when(tokenRepositoryMock.findByTokenValue(valueStub)).thenReturn(Optional.of(entityStub));
 
         //when
         TokenEntity token = testee.validateToken(valueStub);
 
         //then nothing happens
-        verify(tokenRepositoryMock).findByTokenValue(eq(valueStub));
+        verify(tokenRepositoryMock).findByTokenValue(valueStub);
         assertEquals(entityStub, token);
     }
 }

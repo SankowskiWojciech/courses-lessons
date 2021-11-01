@@ -15,7 +15,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLessonEntityTest {
-
     private static final String LESSON_TITLE_STUB_1 = "LESSON_TITLE_STUB_1";
     private static final String LESSON_TITLE_STUB_2 = "LESSON_TITLE_STUB_2";
     private static final String DEFAULT_LESSON_TITLE = "Zajęcia: %s";
@@ -54,7 +53,7 @@ public class IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLess
             assertEquals(expectedLessonTitle, entity.getTitle());
             assertEquals(expectedLessonDates.getStartDate(), entity.getStartDate());
             assertEquals(expectedLessonDates.getEndDate(), entity.getEndDate());
-            assertEquals(scheduleStub.getOrganizationEntity(), entity.getOrganizationEntity());
+            assertEquals(scheduleStub.getSubdomainEntity(), entity.getSubdomainEntity());
             assertEquals(scheduleStub.getTutorEntity(), entity.getTutorEntity());
             assertEquals(scheduleStub.getStudentEntity(), entity.getStudentEntity());
             assertNotNull(entity.getCreationDateTime());

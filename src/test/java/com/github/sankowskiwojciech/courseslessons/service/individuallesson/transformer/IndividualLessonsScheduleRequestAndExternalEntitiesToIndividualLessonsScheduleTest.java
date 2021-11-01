@@ -1,13 +1,13 @@
 package com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer;
 
-import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.subdomain.SubdomainEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonsScheduleRequest;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonsScheduleRequestStub;
-import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.SubdomainEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
 import org.junit.Test;
 
@@ -17,19 +17,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsScheduleTest {
-
     @Test
     public void shouldTransformCorrectly() {
         //given
         final LocalDate beginningDateStub = LocalDate.now();
         final LocalDate endDateStub = beginningDateStub.plusMonths(3);
         IndividualLessonsScheduleRequest requestStub = IndividualLessonsScheduleRequestStub.createWithScheduleTypeFixedDatesLessons(beginningDateStub, endDateStub);
-        OrganizationEntity organizationStub = OrganizationEntityStub.create();
+        SubdomainEntity subdomainStub = SubdomainEntityStub.create();
         TutorEntity tutorStub = TutorEntityStub.create();
         StudentEntity studentStub = StudentEntityStub.create();
 
         //when
-        IndividualLessonsSchedule schedule = IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsSchedule.transform(requestStub, organizationStub, tutorStub, studentStub);
+        IndividualLessonsSchedule schedule = IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsSchedule.transform(requestStub, subdomainStub, tutorStub, studentStub);
 
         //then
         assertNotNull(schedule);
@@ -39,7 +38,7 @@ public class IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLess
         assertEquals(requestStub.getDaysOfWeekWithTimes(), schedule.getDaysOfWeekWithTimes());
         assertEquals(requestStub.getScheduleType(), schedule.getScheduleType());
         assertEquals(requestStub.getTitles(), schedule.getTitles());
-        assertEquals(organizationStub, schedule.getOrganizationEntity());
+        assertEquals(subdomainStub, schedule.getSubdomainEntity());
         assertEquals(tutorStub, schedule.getTutorEntity());
         assertEquals(studentStub, schedule.getStudentEntity());
     }

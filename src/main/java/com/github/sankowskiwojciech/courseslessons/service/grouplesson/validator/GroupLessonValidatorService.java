@@ -1,11 +1,9 @@
 package com.github.sankowskiwojciech.courseslessons.service.grouplesson.validator;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.GroupRepository;
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.OrganizationRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.TutorRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.db.group.GroupEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.group.GroupNotFoundException;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToCreateLessonException;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.request.GroupLessonRequest;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.Lesson;
@@ -21,22 +19,15 @@ import org.springframework.stereotype.Service;
 public class GroupLessonValidatorService extends LessonValidatorService {
     private final GroupRepository groupRepository;
 
-    public GroupLessonValidatorService(TutorRepository tutorRepository, SubdomainService subdomainService, OrganizationRepository organizationRepository, LessonCollisionValidatorService lessonCollisionValidatorService, LessonFileValidatorService lessonFileValidatorService, FileAccessPermissionValidatorService fileAccessPermissionValidatorService, GroupRepository groupRepository) {
-        super(tutorRepository, lessonCollisionValidatorService, lessonFileValidatorService, fileAccessPermissionValidatorService, subdomainService, organizationRepository);
+    public GroupLessonValidatorService(TutorRepository tutorRepository, SubdomainService subdomainService, LessonCollisionValidatorService lessonCollisionValidatorService, LessonFileValidatorService lessonFileValidatorService, FileAccessPermissionValidatorService fileAccessPermissionValidatorService, GroupRepository groupRepository) {
+        super(tutorRepository, lessonCollisionValidatorService, lessonFileValidatorService, fileAccessPermissionValidatorService, subdomainService);
         this.groupRepository = groupRepository;
     }
 
-    public GroupLesson validateCreateGroupLessonRequest(GroupLessonRequest request) {
-        Lesson lesson = super.validateCreateLessonRequest(request);
-        subdomainService.validateIfUserHasAccessToSubdomain(request.getSubdomainAlias(), request.getTutorId());
+    public GroupLesson validateCreateGroupLessonRequest(GroupLessonRequest request, String userId) {
+        Lesson lesson = super.validateCreateLessonRequest(request, userId);
+        subdomainService.validateIfUserHasAccessToSubdomain(request.getSubdomainAlias(), lesson.getTutorEntity().getEmailAddress());
         GroupEntity group = groupRepository.findById(request.getGroupId()).orElseThrow(GroupNotFoundException::new);
-        if (userIsNotOwnerOfGroup(group, request)) {
-            throw new UserNotAllowedToCreateLessonException();
-        }
         return LessonAndGroupEntityToGroupLesson.transform(lesson, group);
-    }
-
-    private boolean userIsNotOwnerOfGroup(GroupEntity group, GroupLessonRequest request) {
-        return !group.getTutorEntity().getEmailAddress().equals(request.getTutorId());
     }
 }

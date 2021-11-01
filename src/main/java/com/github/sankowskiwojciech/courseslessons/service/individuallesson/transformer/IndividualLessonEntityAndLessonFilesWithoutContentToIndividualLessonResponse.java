@@ -16,16 +16,11 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse implements BiFunction<IndividualLessonEntity, List<FileWithoutContent>, IndividualLessonResponse> {
-
     private static final IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse INSTANCE = new IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse();
 
     @Override
     public IndividualLessonResponse apply(IndividualLessonEntity lesson, List<FileWithoutContent> files) {
-        return new IndividualLessonResponse(lesson.getId(), lesson.getTitle(), lesson.getStartDate(), lesson.getEndDate(), lesson.getDescription(), getSubdomainName(lesson), lesson.getTutorEntity().getEmailAddress(), transformFilesWithoutContentToLessonFileResponses(files), lesson.getStudentEntity().getFullName(), lesson.getStudentEntity().getEmailAddress());
-    }
-
-    private String getSubdomainName(IndividualLessonEntity individualLessonEntity) {
-        return individualLessonEntity.getOrganizationEntity() != null ? individualLessonEntity.getOrganizationEntity().getAlias() : individualLessonEntity.getTutorEntity().getAlias();
+        return new IndividualLessonResponse(lesson.getId(), lesson.getTitle(), lesson.getStartDate(), lesson.getEndDate(), lesson.getDescription(), lesson.getSubdomainEntity().getSubdomainId(), lesson.getTutorEntity().getEmailAddress(), transformFilesWithoutContentToLessonFileResponses(files), lesson.getStudentEntity().getFullName(), lesson.getStudentEntity().getEmailAddress());
     }
 
     private List<LessonFileResponse> transformFilesWithoutContentToLessonFileResponses(List<FileWithoutContent> files) {

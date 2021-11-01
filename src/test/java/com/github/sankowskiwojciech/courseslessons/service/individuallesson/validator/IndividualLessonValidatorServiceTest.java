@@ -1,31 +1,29 @@
 package com.github.sankowskiwojciech.courseslessons.service.individuallesson.validator;
 
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.OrganizationRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.StudentRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.TutorRepository;
-import com.github.sankowskiwojciech.coursescorelib.model.db.organization.OrganizationEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.subdomain.SubdomainEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.StudentNotFoundException;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.SubdomainNotFoundException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.file.FileNotFoundException;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.lesson.NewLessonCollidesWithExistingOnesException;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToAccessFileException;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToAccessSubdomainException;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToCreateLessonException;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequest;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonsScheduleRequest;
-import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
-import com.github.sankowskiwojciech.coursescorelib.model.subdomain.SubdomainType;
 import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileAccessPermissionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonRequestStub;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonsScheduleRequestStub;
-import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.SubdomainStub;
+import com.github.sankowskiwojciech.courseslessons.stub.SubdomainEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,94 +38,89 @@ import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 public class IndividualLessonValidatorServiceTest {
-
     private final TutorRepository tutorRepositoryMock = mock(TutorRepository.class);
     private final StudentRepository studentRepositoryMock = mock(StudentRepository.class);
     private final SubdomainService subdomainServiceMock = mock(SubdomainService.class);
-    private final OrganizationRepository organizationRepositoryMock = mock(OrganizationRepository.class);
     private final LessonCollisionValidatorService lessonCollisionValidatorServiceMock = mock(LessonCollisionValidatorService.class);
     private final LessonFileValidatorService lessonFileValidatorServiceMock = mock(LessonFileValidatorService.class);
     private final FileAccessPermissionValidatorService fileAccessPermissionValidatorServiceMock = mock(FileAccessPermissionValidatorService.class);
-    private final IndividualLessonValidatorService testee = new IndividualLessonValidatorService(tutorRepositoryMock, subdomainServiceMock, organizationRepositoryMock, lessonCollisionValidatorServiceMock, lessonFileValidatorServiceMock, fileAccessPermissionValidatorServiceMock, studentRepositoryMock);
+    private final IndividualLessonValidatorService testee = new IndividualLessonValidatorService(tutorRepositoryMock, subdomainServiceMock, lessonCollisionValidatorServiceMock, lessonFileValidatorServiceMock, fileAccessPermissionValidatorServiceMock, studentRepositoryMock);
 
     @Before
     public void reset() {
-        Mockito.reset(tutorRepositoryMock, studentRepositoryMock, subdomainServiceMock, organizationRepositoryMock, lessonCollisionValidatorServiceMock, lessonFileValidatorServiceMock, fileAccessPermissionValidatorServiceMock);
+        Mockito.reset(tutorRepositoryMock, studentRepositoryMock, subdomainServiceMock, lessonCollisionValidatorServiceMock, lessonFileValidatorServiceMock, fileAccessPermissionValidatorServiceMock);
     }
 
     @Test(expected = SubdomainNotFoundException.class)
     public void shouldThrowSubdomainNotFoundExceptionWhenSubdomainIsNotFound() {
         //given
         IndividualLessonRequest requestStub = IndividualLessonRequestStub.create();
+        TutorEntity tutorStub = TutorEntityStub.create();
+        String userId = tutorStub.getEmailAddress();
 
-        when(subdomainServiceMock.readSubdomainInformation(eq(requestStub.getSubdomainAlias()))).thenThrow(SubdomainNotFoundException.class);
+        when(subdomainServiceMock.readSubdomain(requestStub.getSubdomainAlias())).thenThrow(SubdomainNotFoundException.class);
 
         //when
         try {
-            IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub);
+            IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub, userId);
         } catch (SubdomainNotFoundException e) {
 
             //then exception is thrown
-            verify(subdomainServiceMock).readSubdomainInformation(eq(requestStub.getSubdomainAlias()));
+            verify(subdomainServiceMock).readSubdomain(requestStub.getSubdomainAlias());
             throw e;
         }
     }
 
     @Test(expected = UserNotAllowedToCreateLessonException.class)
-    public void shouldThrowUserNotAllowedToCreateLessionExceptionWhenTutorIsNotFound() {
+    public void shouldThrowUserNotAllowedToCreateLessonExceptionWhenTutorIsNotFound() {
         //given
         IndividualLessonRequest requestStub = IndividualLessonRequestStub.create();
-        Subdomain subdomainStub = SubdomainStub.createWithSubdomainType(SubdomainType.ORGANIZATION);
-        OrganizationEntity organizationStub = OrganizationEntityStub.create();
+        SubdomainEntity subdomainStub = SubdomainEntityStub.create();
+        TutorEntity tutorStub = TutorEntityStub.create();
+        String userId = tutorStub.getEmailAddress();
 
-        when(subdomainServiceMock.readSubdomainInformation(eq(requestStub.getSubdomainAlias()))).thenReturn(subdomainStub);
-        when(organizationRepositoryMock.findById(eq(subdomainStub.getEmailAddress()))).thenReturn(Optional.of(organizationStub));
-        when(tutorRepositoryMock.findById(eq(requestStub.getTutorId()))).thenReturn(Optional.empty());
+        when(subdomainServiceMock.readSubdomain(requestStub.getSubdomainAlias())).thenReturn(subdomainStub);
+        when(tutorRepositoryMock.findById(userId)).thenReturn(Optional.empty());
 
         //when
         try {
-            IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub);
+            IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub, userId);
         } catch (UserNotAllowedToCreateLessonException e) {
 
             //then exception is thrown
-            verify(subdomainServiceMock).readSubdomainInformation(eq(requestStub.getSubdomainAlias()));
-            verify(organizationRepositoryMock).findById(eq(subdomainStub.getEmailAddress()));
-            verify(tutorRepositoryMock).findById(eq(requestStub.getTutorId()));
+            verify(subdomainServiceMock).readSubdomain(requestStub.getSubdomainAlias());
+            verify(tutorRepositoryMock).findById(userId);
             throw e;
         }
     }
 
     @Test(expected = UserNotAllowedToAccessSubdomainException.class)
-    public void shouldThrowUserNotAllowedToAccessSubdomainExceptionWhenTutorDoesNotBelongToProvidedSubdomain() {
+    public void shouldThrowUserNotAllowedToAccessSubdomainExceptionWhenTutorDoesNotHaveAccessToProvidedSubdomain() {
         //given
         IndividualLessonRequest requestStub = IndividualLessonRequestStub.create();
-        Subdomain subdomainStub = SubdomainStub.createWithSubdomainType(SubdomainType.ORGANIZATION);
-        OrganizationEntity organizationStub = OrganizationEntityStub.create();
+        SubdomainEntity subdomainStub = SubdomainEntityStub.create();
         TutorEntity tutorStub = TutorEntityStub.create();
+        String userId = tutorStub.getEmailAddress();
         StudentEntity studentStub = StudentEntityStub.create();
 
-        when(subdomainServiceMock.readSubdomainInformation(eq(requestStub.getSubdomainAlias()))).thenReturn(subdomainStub);
-        when(organizationRepositoryMock.findById(eq(subdomainStub.getEmailAddress()))).thenReturn(Optional.of(organizationStub));
-        when(tutorRepositoryMock.findById(eq(requestStub.getTutorId()))).thenReturn(Optional.of(tutorStub));
-        when(studentRepositoryMock.findById(eq(requestStub.getStudentId()))).thenReturn(Optional.of(studentStub));
-        doThrow(UserNotAllowedToAccessSubdomainException.class).when(subdomainServiceMock).validateIfUserHasAccessToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
+        when(subdomainServiceMock.readSubdomain(requestStub.getSubdomainAlias())).thenReturn(subdomainStub);
+        when(tutorRepositoryMock.findById(userId)).thenReturn(Optional.of(tutorStub));
+        when(studentRepositoryMock.findById(requestStub.getStudentId())).thenReturn(Optional.of(studentStub));
+        doThrow(UserNotAllowedToAccessSubdomainException.class).when(subdomainServiceMock).validateIfUserHasAccessToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress(), studentStub.getEmailAddress());
 
         //whenw
         try {
-            IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub);
+            IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub, userId);
         } catch (UserNotAllowedToCreateLessonException e) {
 
             //then exception is thrown
-            verify(subdomainServiceMock).readSubdomainInformation(eq(requestStub.getSubdomainAlias()));
-            verify(organizationRepositoryMock).findById(eq(subdomainStub.getEmailAddress()));
-            verify(tutorRepositoryMock).findById(eq(requestStub.getTutorId()));
-            verify(tutorRepositoryMock).findById(eq(requestStub.getTutorId()));
-            verify(studentRepositoryMock).findById(eq(requestStub.getStudentId()));
-            verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
+            verify(subdomainServiceMock).readSubdomain(requestStub.getSubdomainAlias());
+            verify(tutorRepositoryMock).findById(userId);
+            verify(studentRepositoryMock).findById(requestStub.getStudentId());
+            verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress(), studentStub.getEmailAddress());
             throw e;
         }
     }
@@ -136,53 +129,51 @@ public class IndividualLessonValidatorServiceTest {
     public void shouldThrowStudentNotFoundExceptionWhenStudentIsNotFound() {
         //given
         IndividualLessonRequest requestStub = IndividualLessonRequestStub.create();
-        Subdomain subdomainStub = SubdomainStub.createWithSubdomainType(SubdomainType.TUTOR);
+        SubdomainEntity subdomainStub = SubdomainEntityStub.create();
         TutorEntity tutorStub = TutorEntityStub.create();
+        String userId = tutorStub.getEmailAddress();
 
-        when(subdomainServiceMock.readSubdomainInformation(eq(requestStub.getSubdomainAlias()))).thenReturn(subdomainStub);
-        when(tutorRepositoryMock.findById(eq(requestStub.getTutorId()))).thenReturn(Optional.of(tutorStub));
-        when(studentRepositoryMock.findById(eq(requestStub.getStudentId()))).thenReturn(Optional.empty());
+        when(subdomainServiceMock.readSubdomain(requestStub.getSubdomainAlias())).thenReturn(subdomainStub);
+        when(tutorRepositoryMock.findById(userId)).thenReturn(Optional.of(tutorStub));
+        when(studentRepositoryMock.findById(requestStub.getStudentId())).thenReturn(Optional.empty());
 
         //when
         try {
-            IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub);
+            IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub, userId);
         } catch (StudentNotFoundException e) {
 
             //then exception is thrown
-            verify(subdomainServiceMock).readSubdomainInformation(eq(requestStub.getSubdomainAlias()));
-            verifyNoInteractions(organizationRepositoryMock);
-            verify(tutorRepositoryMock).findById(eq(requestStub.getTutorId()));
-            verify(studentRepositoryMock).findById(eq(requestStub.getStudentId()));
+            verify(subdomainServiceMock).readSubdomain(requestStub.getSubdomainAlias());
+            verify(tutorRepositoryMock).findById(userId);
+            verify(studentRepositoryMock).findById(requestStub.getStudentId());
             throw e;
         }
     }
 
     @Test(expected = UserNotAllowedToAccessSubdomainException.class)
-    public void shouldThrowUserNotAllowedToAccessSubdomainExceptionWhenStudentDoesNotBelongToProvidedSubdomain() {
+    public void shouldThrowUserNotAllowedToAccessSubdomainExceptionWhenStudentDoesNotHaveAccessToProvidedSubdomain() {
         //given
         IndividualLessonRequest requestStub = IndividualLessonRequestStub.create();
-        Subdomain subdomainStub = SubdomainStub.createWithSubdomainType(SubdomainType.ORGANIZATION);
+        SubdomainEntity subdomainStub = SubdomainEntityStub.create();
         TutorEntity tutorStub = TutorEntityStub.create();
+        String userId = tutorStub.getEmailAddress();
         StudentEntity studentStub = StudentEntityStub.create();
-        OrganizationEntity organizationStub = OrganizationEntityStub.create();
 
-        when(subdomainServiceMock.readSubdomainInformation(eq(requestStub.getSubdomainAlias()))).thenReturn(subdomainStub);
-        when(organizationRepositoryMock.findById(eq(subdomainStub.getEmailAddress()))).thenReturn(Optional.of(organizationStub));
-        when(tutorRepositoryMock.findById(eq(requestStub.getTutorId()))).thenReturn(Optional.of(tutorStub));
-        when(studentRepositoryMock.findById(eq(requestStub.getStudentId()))).thenReturn(Optional.of(studentStub));
-        doThrow(UserNotAllowedToAccessSubdomainException.class).when(subdomainServiceMock).validateIfUserHasAccessToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
+        when(subdomainServiceMock.readSubdomain(requestStub.getSubdomainAlias())).thenReturn(subdomainStub);
+        when(tutorRepositoryMock.findById(userId)).thenReturn(Optional.of(tutorStub));
+        when(studentRepositoryMock.findById(requestStub.getStudentId())).thenReturn(Optional.of(studentStub));
+        doThrow(UserNotAllowedToAccessSubdomainException.class).when(subdomainServiceMock).validateIfUserHasAccessToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress(), studentStub.getEmailAddress());
 
         //when
         try {
-            IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub);
+            IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub, userId);
         } catch (StudentNotFoundException e) {
 
             //then exception is thrown
-            verify(subdomainServiceMock).readSubdomainInformation(eq(requestStub.getSubdomainAlias()));
-            verify(organizationRepositoryMock).findById(eq(subdomainStub.getEmailAddress()));
-            verify(tutorRepositoryMock).findById(eq(requestStub.getTutorId()));
-            verify(studentRepositoryMock).findById(eq(requestStub.getStudentId()));
-            verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
+            verify(subdomainServiceMock).readSubdomain(requestStub.getSubdomainAlias());
+            verify(tutorRepositoryMock).findById(userId);
+            verify(studentRepositoryMock).findById(requestStub.getStudentId());
+            verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress(), studentStub.getEmailAddress());
             throw e;
         }
     }
@@ -191,25 +182,80 @@ public class IndividualLessonValidatorServiceTest {
     public void shouldThrowNewLessonCollidesWithCurrentOnesWhenNewLessonCollidesWithExistingOnes() {
         //given
         IndividualLessonRequest requestStub = IndividualLessonRequestStub.create();
-        Subdomain subdomainStub = SubdomainStub.createWithSubdomainType(SubdomainType.ORGANIZATION);
+        SubdomainEntity subdomainStub = SubdomainEntityStub.create();
         TutorEntity tutorStub = TutorEntityStub.create();
-        OrganizationEntity organizationStub = OrganizationEntityStub.create();
+        String userId = tutorStub.getEmailAddress();
 
-        when(subdomainServiceMock.readSubdomainInformation(eq(requestStub.getSubdomainAlias()))).thenReturn(subdomainStub);
-        when(organizationRepositoryMock.findById(eq(subdomainStub.getEmailAddress()))).thenReturn(Optional.of(organizationStub));
-        when(tutorRepositoryMock.findById(eq(requestStub.getTutorId()))).thenReturn(Optional.of(tutorStub));
-        doThrow(NewLessonCollidesWithExistingOnesException.class).when(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(requestStub.getStartDate()), eq(requestStub.getEndDate()), eq(tutorStub.getEmailAddress()));
+        when(subdomainServiceMock.readSubdomain(requestStub.getSubdomainAlias())).thenReturn(subdomainStub);
+        when(tutorRepositoryMock.findById(userId)).thenReturn(Optional.of(tutorStub));
+        doThrow(NewLessonCollidesWithExistingOnesException.class).when(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), tutorStub.getEmailAddress());
 
         //when
         try {
-            IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub);
+            IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub, userId);
         } catch (NewLessonCollidesWithExistingOnesException e) {
 
             //then exception is thrown
-            verify(subdomainServiceMock).readSubdomainInformation(eq(requestStub.getSubdomainAlias()));
-            verify(organizationRepositoryMock).findById(eq(subdomainStub.getEmailAddress()));
-            verify(tutorRepositoryMock).findById(eq(requestStub.getTutorId()));
-            verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(requestStub.getStartDate()), eq(requestStub.getEndDate()), eq(tutorStub.getEmailAddress()));
+            verify(subdomainServiceMock).readSubdomain(requestStub.getSubdomainAlias());
+            verify(tutorRepositoryMock).findById(userId);
+            verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), tutorStub.getEmailAddress());
+            throw e;
+        }
+    }
+
+    @Test(expected = FileNotFoundException.class)
+    public void shouldThrowFileNotFoundExceptionWhenFileWithGivenFileIdIsNotFound() {
+        //given
+        IndividualLessonRequest requestStub = IndividualLessonRequestStub.create();
+        SubdomainEntity subdomainStub = SubdomainEntityStub.create();
+        TutorEntity tutorStub = TutorEntityStub.create();
+        String userId = tutorStub.getEmailAddress();
+        StudentEntity studentStub = StudentEntityStub.create();
+
+        when(subdomainServiceMock.readSubdomain(requestStub.getSubdomainAlias())).thenReturn(subdomainStub);
+        when(tutorRepositoryMock.findById(userId)).thenReturn(Optional.of(tutorStub));
+        when(studentRepositoryMock.findById(requestStub.getStudentId())).thenReturn(Optional.of(studentStub));
+        doThrow(FileNotFoundException.class).when(lessonFileValidatorServiceMock).validateIfFileExists(requestStub.getFilesIds().get(0));
+
+        //when
+        try {
+            IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub, userId);
+        } catch (FileNotFoundException e) {
+
+            //then exception is thrown
+            verify(subdomainServiceMock).readSubdomain(requestStub.getSubdomainAlias());
+            verify(tutorRepositoryMock).findById(userId);
+            verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), userId);
+            verify(lessonFileValidatorServiceMock).validateIfFileExists(requestStub.getFilesIds().get(0));
+            throw e;
+        }
+    }
+
+    @Test(expected = UserNotAllowedToAccessFileException.class)
+    public void shouldThrowUserNotAllowedToAccessFileExceptionWhenTutorDoesNotHaveAccessToFile() {
+        //given
+        IndividualLessonRequest requestStub = IndividualLessonRequestStub.create();
+        SubdomainEntity subdomainStub = SubdomainEntityStub.create();
+        TutorEntity tutorStub = TutorEntityStub.create();
+        String userId = tutorStub.getEmailAddress();
+        StudentEntity studentStub = StudentEntityStub.create();
+
+        when(subdomainServiceMock.readSubdomain(requestStub.getSubdomainAlias())).thenReturn(subdomainStub);
+        when(tutorRepositoryMock.findById(userId)).thenReturn(Optional.of(tutorStub));
+        when(studentRepositoryMock.findById(requestStub.getStudentId())).thenReturn(Optional.of(studentStub));
+        doThrow(UserNotAllowedToAccessFileException.class).when(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(userId, requestStub.getFilesIds().get(0));
+
+        //when
+        try {
+            IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub, userId);
+        } catch (UserNotAllowedToAccessFileException e) {
+
+            //then exception is thrown
+            verify(subdomainServiceMock).readSubdomain(requestStub.getSubdomainAlias());
+            verify(tutorRepositoryMock).findById(userId);
+            verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), userId);
+            verify(lessonFileValidatorServiceMock).validateIfFileExists(requestStub.getFilesIds().get(0));
+            verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(userId, requestStub.getFilesIds().get(0));
             throw e;
         }
     }
@@ -218,30 +264,28 @@ public class IndividualLessonValidatorServiceTest {
     public void shouldDoNothingWhenIndividualLessonRequestIsCorrect() {
         //given
         IndividualLessonRequest requestStub = IndividualLessonRequestStub.create();
-        Subdomain subdomainStub = SubdomainStub.createWithSubdomainType(SubdomainType.ORGANIZATION);
+        SubdomainEntity subdomainStub = SubdomainEntityStub.create();
         TutorEntity tutorStub = TutorEntityStub.create();
+        String userId = tutorStub.getEmailAddress();
         StudentEntity studentStub = StudentEntityStub.create();
-        OrganizationEntity organizationStub = OrganizationEntityStub.create();
 
-        when(subdomainServiceMock.readSubdomainInformation(eq(requestStub.getSubdomainAlias()))).thenReturn(subdomainStub);
-        when(organizationRepositoryMock.findById(eq(subdomainStub.getEmailAddress()))).thenReturn(Optional.of(organizationStub));
-        when(tutorRepositoryMock.findById(eq(requestStub.getTutorId()))).thenReturn(Optional.of(tutorStub));
-        when(studentRepositoryMock.findById(eq(requestStub.getStudentId()))).thenReturn(Optional.of(studentStub));
+        when(subdomainServiceMock.readSubdomain(requestStub.getSubdomainAlias())).thenReturn(subdomainStub);
+        when(tutorRepositoryMock.findById(userId)).thenReturn(Optional.of(tutorStub));
+        when(studentRepositoryMock.findById(requestStub.getStudentId())).thenReturn(Optional.of(studentStub));
 
         //when
-        IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub);
+        IndividualLesson lesson = testee.validateCreateIndividualLessonRequest(requestStub, userId);
 
         //then
-        verify(subdomainServiceMock).readSubdomainInformation(eq(requestStub.getSubdomainAlias()));
-        verify(organizationRepositoryMock).findById(eq(subdomainStub.getEmailAddress()));
-        verify(tutorRepositoryMock).findById(eq(requestStub.getTutorId()));
-        verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(eq(requestStub.getStartDate()), eq(requestStub.getEndDate()), eq(tutorStub.getEmailAddress()));
+        verify(subdomainServiceMock).readSubdomain(requestStub.getSubdomainAlias());
+        verify(tutorRepositoryMock).findById(userId);
+        verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), tutorStub.getEmailAddress());
         verify(lessonFileValidatorServiceMock).validateIfFileExists(anyString());
-        verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(eq(requestStub.getTutorId()), anyString());
-        verify(studentRepositoryMock).findById(eq(requestStub.getStudentId()));
-        verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
+        verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(eq(userId), anyString());
+        verify(studentRepositoryMock).findById(requestStub.getStudentId());
+        verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress(), studentStub.getEmailAddress());
 
-        assertIndividualLesson(lesson, requestStub, organizationStub, tutorStub, studentStub);
+        assertIndividualLesson(lesson, requestStub, subdomainStub, tutorStub, studentStub);
     }
 
     @Test
@@ -249,36 +293,34 @@ public class IndividualLessonValidatorServiceTest {
         //given
         final Long durationOfAllLessonsInMinutes = 360L;
         IndividualLessonsScheduleRequest requestStub = IndividualLessonsScheduleRequestStub.createWithScheduleTypeFixedDurationLessons(durationOfAllLessonsInMinutes);
-        Subdomain subdomainStub = SubdomainStub.createWithSubdomainType(SubdomainType.ORGANIZATION);
+        SubdomainEntity subdomainStub = SubdomainEntityStub.create();
         TutorEntity tutorStub = TutorEntityStub.create();
+        String userId = tutorStub.getEmailAddress();
         StudentEntity studentStub = StudentEntityStub.create();
-        OrganizationEntity organizationStub = OrganizationEntityStub.create();
 
-        when(subdomainServiceMock.readSubdomainInformation(eq(requestStub.getSubdomainAlias()))).thenReturn(subdomainStub);
-        when(organizationRepositoryMock.findById(eq(subdomainStub.getEmailAddress()))).thenReturn(Optional.of(organizationStub));
-        when(tutorRepositoryMock.findById(eq(requestStub.getTutorId()))).thenReturn(Optional.of(tutorStub));
-        when(studentRepositoryMock.findById(eq(requestStub.getStudentId()))).thenReturn(Optional.of(studentStub));
+        when(subdomainServiceMock.readSubdomain(requestStub.getSubdomainAlias())).thenReturn(subdomainStub);
+        when(tutorRepositoryMock.findById(userId)).thenReturn(Optional.of(tutorStub));
+        when(studentRepositoryMock.findById(requestStub.getStudentId())).thenReturn(Optional.of(studentStub));
 
         //when
-        IndividualLessonsSchedule schedule = testee.validateIndividualLessonsScheduleRequest(requestStub);
+        IndividualLessonsSchedule schedule = testee.validateIndividualLessonsScheduleRequest(requestStub, userId);
 
         //then
-        verify(subdomainServiceMock).readSubdomainInformation(eq(requestStub.getSubdomainAlias()));
-        verify(organizationRepositoryMock).findById(eq(subdomainStub.getEmailAddress()));
-        verify(tutorRepositoryMock).findById(eq(requestStub.getTutorId()));
-        verify(studentRepositoryMock).findById(eq(requestStub.getStudentId()));
-        verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(eq(requestStub.getSubdomainAlias()), eq(tutorStub.getEmailAddress()), eq(studentStub.getEmailAddress()));
+        verify(subdomainServiceMock).readSubdomain(requestStub.getSubdomainAlias());
+        verify(tutorRepositoryMock).findById(userId);
+        verify(studentRepositoryMock).findById(requestStub.getStudentId());
+        verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(requestStub.getSubdomainAlias(), tutorStub.getEmailAddress(), studentStub.getEmailAddress());
 
         assertNotNull(schedule);
     }
 
-    private void assertIndividualLesson(IndividualLesson lesson, IndividualLessonRequest request, OrganizationEntity organization, TutorEntity tutor, StudentEntity student) {
+    private void assertIndividualLesson(IndividualLesson lesson, IndividualLessonRequest request, SubdomainEntity subdomain, TutorEntity tutor, StudentEntity student) {
         assertNotNull(lesson);
         assertEquals(request.getTitle(), lesson.getTitle());
         assertEquals(request.getStartDate(), lesson.getStartDate());
         assertEquals(request.getEndDate(), lesson.getEndDate());
         assertEquals(request.getDescription(), lesson.getDescription());
-        assertEquals(organization, lesson.getOrganizationEntity());
+        assertEquals(subdomain, lesson.getSubdomainEntity());
         assertEquals(tutor, lesson.getTutorEntity());
         assertEquals(student, lesson.getStudentEntity());
     }

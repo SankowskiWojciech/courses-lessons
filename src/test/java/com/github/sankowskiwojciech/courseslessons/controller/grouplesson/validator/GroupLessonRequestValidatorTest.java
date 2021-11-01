@@ -67,6 +67,17 @@ public class GroupLessonRequestValidatorTest {
         //then exception is thrown
     }
 
+    @Test(expected = InvalidRequestBodyException.class)
+    public void shouldThrowInvalidRequestBodyExceptionWhenGroupIdIsNull() {
+        //given
+        GroupLessonRequest requestStub = GroupLessonRequestStub.createWithGroupId(null);
+
+        //when
+        GroupLessonRequestValidator.validateCreateGroupLessonRequest(requestStub);
+
+        //then exception is thrown
+    }
+
     @Test
     public void shouldDoNothingWhenGroupLessonRequestIsValid() {
         //given

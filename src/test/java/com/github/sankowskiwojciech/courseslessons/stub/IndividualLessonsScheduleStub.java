@@ -16,7 +16,7 @@ public class IndividualLessonsScheduleStub {
     private static final long ALL_LESSONS_DURATION_IN_MINUTES_STUB = 240;
 
     public static IndividualLessonsSchedule createWithLessonsTitles(List<String> lessonsTitles) {
-        return new IndividualLessonsSchedule(LocalDate.now(), null, ScheduleType.FIXED_DATES_LESSONS, null, createDayOfWeekWithTimes(), lessonsTitles, OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
+        return new IndividualLessonsSchedule(LocalDate.now(), null, ScheduleType.FIXED_DATES_LESSONS, null, createDayOfWeekWithTimes(), lessonsTitles, SubdomainEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
     }
 
     public static IndividualLessonsSchedule createWithScheduleType(ScheduleType scheduleType) {
@@ -31,16 +31,16 @@ public class IndividualLessonsScheduleStub {
     }
 
     private static IndividualLessonsSchedule createForScheduleTypeOneYearLengthLessons() {
-        return new IndividualLessonsSchedule(LocalDate.now(), null, ScheduleType.ONE_YEAR_LENGTH_LESSONS, null, createDayOfWeekWithTimes(), null, OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
+        return new IndividualLessonsSchedule(LocalDate.now(), null, ScheduleType.ONE_YEAR_LENGTH_LESSONS, null, createDayOfWeekWithTimes(), null, SubdomainEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
     }
 
     private static IndividualLessonsSchedule createForScheduleTypeFixedDatesLessons() {
         final LocalDate currentDate = LocalDate.now();
-        return new IndividualLessonsSchedule(currentDate, currentDate.plusMonths(3), ScheduleType.FIXED_DATES_LESSONS, null, createDayOfWeekWithTimes(), null, OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
+        return new IndividualLessonsSchedule(currentDate, currentDate.plusMonths(3), ScheduleType.FIXED_DATES_LESSONS, null, createDayOfWeekWithTimes(), null, SubdomainEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
     }
 
     private static IndividualLessonsSchedule createForScheduleTypeFixedDurationLessons() {
-        return new IndividualLessonsSchedule(LocalDate.now(), null, ScheduleType.FIXED_DURATION_LESSONS, ALL_LESSONS_DURATION_IN_MINUTES_STUB, createDayOfWeekWithTimes(), null, OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
+        return new IndividualLessonsSchedule(LocalDate.now(), null, ScheduleType.FIXED_DURATION_LESSONS, ALL_LESSONS_DURATION_IN_MINUTES_STUB, createDayOfWeekWithTimes(), null, SubdomainEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
     }
 
     private static List<DayOfWeekWithTimes> createDayOfWeekWithTimes() {

@@ -1,6 +1,5 @@
 package com.github.sankowskiwojciech.courseslessons.service.individuallesson.validator;
 
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.OrganizationRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.StudentRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.TutorRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
@@ -26,21 +25,21 @@ import java.util.Optional;
 public class IndividualLessonValidatorService extends LessonValidatorService {
     private final StudentRepository studentRepository;
 
-    public IndividualLessonValidatorService(TutorRepository tutorRepository, SubdomainService subdomainService, OrganizationRepository organizationRepository, LessonCollisionValidatorService lessonCollisionValidatorService, LessonFileValidatorService lessonFileValidatorService, FileAccessPermissionValidatorService fileAccessPermissionValidatorService, StudentRepository studentRepository) {
-        super(tutorRepository, lessonCollisionValidatorService, lessonFileValidatorService, fileAccessPermissionValidatorService, subdomainService, organizationRepository);
+    public IndividualLessonValidatorService(TutorRepository tutorRepository, SubdomainService subdomainService, LessonCollisionValidatorService lessonCollisionValidatorService, LessonFileValidatorService lessonFileValidatorService, FileAccessPermissionValidatorService fileAccessPermissionValidatorService, StudentRepository studentRepository) {
+        super(tutorRepository, lessonCollisionValidatorService, lessonFileValidatorService, fileAccessPermissionValidatorService, subdomainService);
         this.studentRepository = studentRepository;
     }
 
-    public IndividualLesson validateCreateIndividualLessonRequest(IndividualLessonRequest request) {
-        Lesson lesson = super.validateCreateLessonRequest(request);
-        StudentEntity student = readStudentAndValidateStudentAndTutorAccessToSubdomain(request.getSubdomainAlias(), request.getTutorId(), request.getStudentId());
+    public IndividualLesson validateCreateIndividualLessonRequest(IndividualLessonRequest request, String userId) {
+        Lesson lesson = super.validateCreateLessonRequest(request, userId);
+        StudentEntity student = readStudentAndValidateStudentAndTutorAccessToSubdomain(request.getSubdomainAlias(), lesson.getTutorEntity().getEmailAddress(), request.getStudentId());
         return LessonAndStudentEntityToIndividualLesson.transform(lesson, student);
     }
 
-    public IndividualLessonsSchedule validateIndividualLessonsScheduleRequest(IndividualLessonsScheduleRequest request) {
-        LessonsSchedule schedule = super.validateLessonsScheduleRequest(request);
-        StudentEntity student = readStudentAndValidateStudentAndTutorAccessToSubdomain(request.getSubdomainAlias(), request.getTutorId(), request.getStudentId());
-        return IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsSchedule.transform(request, schedule.getOrganizationEntity(), schedule.getTutorEntity(), student);
+    public IndividualLessonsSchedule validateIndividualLessonsScheduleRequest(IndividualLessonsScheduleRequest request, String userId) {
+        LessonsSchedule schedule = super.validateLessonsScheduleRequest(request, userId);
+        StudentEntity student = readStudentAndValidateStudentAndTutorAccessToSubdomain(request.getSubdomainAlias(), userId, request.getStudentId());
+        return IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsSchedule.transform(request, schedule.getSubdomainEntity(), schedule.getTutorEntity(), student);
     }
 
     private StudentEntity readStudentAndValidateStudentAndTutorAccessToSubdomain(String subdomainAlias, String tutorId, String studentId) {

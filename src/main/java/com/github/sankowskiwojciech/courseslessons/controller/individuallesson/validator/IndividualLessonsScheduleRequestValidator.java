@@ -27,7 +27,7 @@ public class IndividualLessonsScheduleRequestValidator {
                 || request.getScheduleType() == null
                 || request.getDaysOfWeekWithTimes() == null
                 || request.getDaysOfWeekWithTimes().isEmpty()
-                || StringUtils.isAnyBlank(request.getStudentId(), request.getTutorId(), request.getSubdomainAlias())) {
+                || StringUtils.isAnyBlank(request.getStudentId(), request.getSubdomainAlias())) {
             throw new InvalidRequestBodyException();
         }
     }

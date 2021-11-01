@@ -16,16 +16,11 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GroupLessonEntityAndLessonFilesWithoutContentToGroupLessonResponse implements BiFunction<GroupLessonEntity, List<FileWithoutContent>, GroupLessonResponse> {
-
     private static final GroupLessonEntityAndLessonFilesWithoutContentToGroupLessonResponse INSTANCE = new GroupLessonEntityAndLessonFilesWithoutContentToGroupLessonResponse();
 
     @Override
     public GroupLessonResponse apply(GroupLessonEntity lesson, List<FileWithoutContent> files) {
-        return new GroupLessonResponse(lesson.getId(), lesson.getTitle(), lesson.getStartDate(), lesson.getEndDate(), lesson.getDescription(), getSubdomainName(lesson), lesson.getTutorEntity().getEmailAddress(), transformFilesWithoutContentToLessonFileResponses(files), lesson.getGroupEntity().getName());
-    }
-
-    private String getSubdomainName(GroupLessonEntity lesson) {
-        return lesson.getOrganizationEntity() != null ? lesson.getOrganizationEntity().getAlias() : lesson.getTutorEntity().getAlias();
+        return new GroupLessonResponse(lesson.getId(), lesson.getTitle(), lesson.getStartDate(), lesson.getEndDate(), lesson.getDescription(), lesson.getSubdomainEntity().getSubdomainId(), lesson.getTutorEntity().getEmailAddress(), transformFilesWithoutContentToLessonFileResponses(files), lesson.getGroupEntity().getName());
     }
 
     private List<LessonFileResponse> transformFilesWithoutContentToLessonFileResponses(List<FileWithoutContent> files) {

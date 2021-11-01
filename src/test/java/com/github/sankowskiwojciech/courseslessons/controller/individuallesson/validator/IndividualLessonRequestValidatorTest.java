@@ -67,6 +67,17 @@ public class IndividualLessonRequestValidatorTest {
         //then exception is thrown
     }
 
+    @Test(expected = InvalidRequestBodyException.class)
+    public void shouldThrowInvalidRequestBodyExceptionWhenStudentIdIsNull() {
+        //given
+        IndividualLessonRequest requestStub = IndividualLessonRequestStub.createWithStudentId(null);
+
+        //when
+        IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(requestStub);
+
+        //then exception is thrown
+    }
+
     @Test
     public void shouldDoNothingWhenIndividualLessonRequestIsValid() {
         //given

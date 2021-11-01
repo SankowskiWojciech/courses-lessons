@@ -4,9 +4,9 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.group.GroupEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.Lesson;
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonStub;
-import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.StudentsGroupEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.SubdomainEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
 import org.junit.Test;
 
@@ -14,11 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class LessonAndGroupEntityToGroupLessonTest {
-
     @Test
     public void shouldTransformCorrectly() {
         //given
-        Lesson lessonStub = IndividualLessonStub.createWithExternalEntities(OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
+        Lesson lessonStub = IndividualLessonStub.createWithExternalEntities(SubdomainEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
         GroupEntity groupEntity = StudentsGroupEntityStub.create();
 
         //when
@@ -30,7 +29,7 @@ public class LessonAndGroupEntityToGroupLessonTest {
         assertEquals(lessonStub.getStartDate(), groupLesson.getStartDate());
         assertEquals(lessonStub.getEndDate(), groupLesson.getEndDate());
         assertEquals(lessonStub.getDescription(), groupLesson.getDescription());
-        assertEquals(lessonStub.getOrganizationEntity(), groupLesson.getOrganizationEntity());
+        assertEquals(lessonStub.getSubdomainEntity(), groupLesson.getSubdomainEntity());
         assertEquals(lessonStub.getTutorEntity(), groupLesson.getTutorEntity());
         assertEquals(lessonStub.getFilesIds(), groupLesson.getFilesIds());
         assertEquals(groupEntity, groupLesson.getGroupEntity());

@@ -1,4 +1,4 @@
-package com.github.sankowskiwojciech.courseslessons.service.grouplesson.validator;
+package com.github.sankowskiwojciech.courseslessons.service.grouplesson;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.GroupLessonRepository;
@@ -7,7 +7,6 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.grouplesson.GroupLes
 import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAccessEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLessonResponse;
-import com.github.sankowskiwojciech.courseslessons.service.grouplesson.GroupLessonService;
 import com.github.sankowskiwojciech.courseslessons.service.grouplesson.transformer.GroupLessonEntityAndLessonFilesWithoutContentToGroupLessonResponse;
 import com.github.sankowskiwojciech.courseslessons.service.grouplesson.transformer.GroupLessonToGroupLessonEntity;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileService;

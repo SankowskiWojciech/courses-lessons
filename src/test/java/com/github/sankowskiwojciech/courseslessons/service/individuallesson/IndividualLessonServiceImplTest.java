@@ -17,8 +17,8 @@ import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonFileEnti
 import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonStub;
 import com.github.sankowskiwojciech.courseslessons.stub.LessonFileWithoutContentStub;
 import com.github.sankowskiwojciech.courseslessons.stub.LessonRequestParamsStub;
-import com.github.sankowskiwojciech.courseslessons.stub.OrganizationEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
+import com.github.sankowskiwojciech.courseslessons.stub.SubdomainEntityStub;
 import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -57,7 +57,7 @@ public class IndividualLessonServiceImplTest {
     @Test
     public void shouldCreateIndividualLessonCorrectly() {
         //given
-        IndividualLesson lessonStub = IndividualLessonStub.createWithExternalEntities(OrganizationEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
+        IndividualLesson lessonStub = IndividualLessonStub.createWithExternalEntities(SubdomainEntityStub.create(), TutorEntityStub.create(), StudentEntityStub.create());
         IndividualLessonEntity entityStub = IndividualLessonEntityStub.create(INDIVIDUAL_LESSON_ID_STUB);
         List<LessonFileAccessEntity> lessonFileAccessStub = Lists.newArrayList(
                 IndividualLessonFileEntityStub.create(entityStub.getId(), UUID.randomUUID().toString())
@@ -81,7 +81,7 @@ public class IndividualLessonServiceImplTest {
         assertEquals(lessonStub.getStartDate(), response.getStartDate());
         assertEquals(lessonStub.getEndDate(), response.getEndDate());
         assertEquals(lessonStub.getDescription(), response.getDescription());
-        assertEquals(lessonStub.getOrganizationEntity().getAlias(), response.getSubdomainName());
+        assertEquals(lessonStub.getSubdomainEntity().getSubdomainId(), response.getSubdomainAlias());
         assertEquals(lessonStub.getTutorEntity().getEmailAddress(), response.getTutorEmailAddress());
         assertNotNull(response.getStudentFullName());
         assertEquals(lessonStub.getStudentEntity().getEmailAddress(), response.getStudentEmailAddress());
@@ -113,7 +113,7 @@ public class IndividualLessonServiceImplTest {
         assertEquals(entityStub.getStartDate(), individualLessonResponse.getStartDate());
         assertEquals(entityStub.getEndDate(), individualLessonResponse.getEndDate());
         assertEquals(entityStub.getDescription(), individualLessonResponse.getDescription());
-        assertEquals(entityStub.getOrganizationEntity().getAlias(), individualLessonResponse.getSubdomainName());
+        assertEquals(entityStub.getSubdomainEntity().getSubdomainId(), individualLessonResponse.getSubdomainAlias());
         assertEquals(entityStub.getTutorEntity().getEmailAddress(), individualLessonResponse.getTutorEmailAddress());
         assertNotNull(individualLessonResponse.getStudentFullName());
         assertEquals(entityStub.getStudentEntity().getEmailAddress(), individualLessonResponse.getStudentEmailAddress());

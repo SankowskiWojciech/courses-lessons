@@ -29,7 +29,7 @@ public class IndividualLessonsScheduleAndListOfLessonDatesToListOfIndividualLess
             entity.setTitle(titles != null && i < titles.size() ? titles.get(i) : getDefaultLessonTitle(schedule.getStudentEntity().getFullName()));
             entity.setStartDate(dates.get(i).getStartDate());
             entity.setEndDate(dates.get(i).getEndDate());
-            entity.setOrganizationEntity(schedule.getOrganizationEntity());
+            entity.setSubdomainEntity(schedule.getSubdomainEntity());
             entity.setTutorEntity(schedule.getTutorEntity());
             entity.setStudentEntity(schedule.getStudentEntity());
             entity.setCreationDateTime(currentDateTime);

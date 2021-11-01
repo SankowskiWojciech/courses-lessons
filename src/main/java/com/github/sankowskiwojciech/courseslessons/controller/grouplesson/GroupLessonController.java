@@ -1,5 +1,6 @@
 package com.github.sankowskiwojciech.courseslessons.controller.grouplesson;
 
+import com.github.sankowskiwojciech.coursescorelib.model.db.token.TokenEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLessonResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.request.GroupLessonRequest;
@@ -27,8 +28,8 @@ public class GroupLessonController {
     @PostMapping
     public GroupLessonResponse createGroupLesson(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestBody GroupLessonRequest request) {
         GroupLessonRequestValidator.validateCreateGroupLessonRequest(request);
-        tokenValidationService.validateTokenAndUser(authorizationHeaderValue, request.getTutorId());
-        GroupLesson groupLesson = groupLessonValidatorService.validateCreateGroupLessonRequest(request);
+        TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
+        GroupLesson groupLesson = groupLessonValidatorService.validateCreateGroupLessonRequest(request, token.getUserEmailAddress());
         return groupLessonService.createGroupLesson(groupLesson);
     }
 }

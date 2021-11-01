@@ -11,14 +11,14 @@ import org.assertj.core.util.Lists;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.*;
+import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.ORGANIZATION_EMAIL_ADDRESS_STUB;
+import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.STUDENT_EMAIL_ADDRESS_STUB;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LessonsScheduleRequestStub {
-
     public static LessonsScheduleRequest createWithScheduleTypeFixedDatesLessons(LocalDate beginningDate, LocalDate endDate) {
         final DayOfWeekWithTimes dayOfWeekWithTimes = DayOfWeekWithTimesStub.createValid();
         final List<DayOfWeekWithTimes> lessonsDaysOfWeekWithTimes = Lists.newArrayList(dayOfWeekWithTimes);
-        return new IndividualLessonsScheduleRequest(beginningDate, endDate, ScheduleType.FIXED_DATES_LESSONS, null, lessonsDaysOfWeekWithTimes, null, ORGANIZATION_EMAIL_ADDRESS_STUB, TUTOR_EMAIL_ADDRESS_STUB, STUDENT_EMAIL_ADDRESS_STUB);
+        return new IndividualLessonsScheduleRequest(beginningDate, endDate, ScheduleType.FIXED_DATES_LESSONS, null, lessonsDaysOfWeekWithTimes, null, ORGANIZATION_EMAIL_ADDRESS_STUB, STUDENT_EMAIL_ADDRESS_STUB);
     }
 }

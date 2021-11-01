@@ -10,7 +10,6 @@ import java.util.function.Function;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class IndividualLessonToIndividualLessonEntity implements Function<IndividualLesson, IndividualLessonEntity> {
-
     private static final IndividualLessonToIndividualLessonEntity INSTANCE = new IndividualLessonToIndividualLessonEntity();
 
     @Override
@@ -20,7 +19,7 @@ public class IndividualLessonToIndividualLessonEntity implements Function<Indivi
         entity.setStartDate(lesson.getStartDate());
         entity.setEndDate(lesson.getEndDate());
         entity.setDescription(lesson.getDescription());
-        entity.setOrganizationEntity(lesson.getOrganizationEntity());
+        entity.setSubdomainEntity(lesson.getSubdomainEntity());
         entity.setTutorEntity(lesson.getTutorEntity());
         entity.setStudentEntity(lesson.getStudentEntity());
         entity.setCreationDateTime(LocalDateTime.now());

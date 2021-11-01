@@ -44,8 +44,8 @@ public class IndividualLessonController {
     @PostMapping
     public IndividualLessonResponse createIndividualLesson(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestBody IndividualLessonRequest request) {
         IndividualLessonRequestValidator.validateCreateIndividualLessonRequest(request);
-        tokenValidationService.validateTokenAndUser(authorizationHeaderValue, request.getTutorId());
-        IndividualLesson lesson = individualLessonValidatorService.validateCreateIndividualLessonRequest(request);
+        TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
+        IndividualLesson lesson = individualLessonValidatorService.validateCreateIndividualLessonRequest(request, token.getUserEmailAddress());
         return individualLessonService.createIndividualLesson(lesson);
     }
 
@@ -53,8 +53,8 @@ public class IndividualLessonController {
     @PostMapping("/schedule")
     public List<IndividualLessonResponse> scheduleIndividualLessons(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestBody IndividualLessonsScheduleRequest request) {
         IndividualLessonsScheduleRequestValidator.validateIndividualLessonsScheduleRequest(request);
-        tokenValidationService.validateTokenAndUser(authorizationHeaderValue, request.getTutorId());
-        IndividualLessonsSchedule schedule = individualLessonValidatorService.validateIndividualLessonsScheduleRequest(request);
+        TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
+        IndividualLessonsSchedule schedule = individualLessonValidatorService.validateIndividualLessonsScheduleRequest(request, token.getUserEmailAddress());
         return individualLessonsSchedulerService.scheduleIndividualLessons(schedule);
     }
 

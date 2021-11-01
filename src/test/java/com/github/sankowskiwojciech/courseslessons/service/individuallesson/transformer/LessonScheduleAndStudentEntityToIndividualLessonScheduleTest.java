@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class LessonScheduleAndStudentEntityToIndividualLessonScheduleTest {
-
     @Test
     public void shouldTransformCorrectly() {
         //given
@@ -30,7 +29,7 @@ public class LessonScheduleAndStudentEntityToIndividualLessonScheduleTest {
         assertEquals(scheduleStub.getAllLessonsDurationInMinutes(), schedule.getAllLessonsDurationInMinutes());
         assertEquals(scheduleStub.getDaysOfWeekWithTimes(), schedule.getDaysOfWeekWithTimes());
         assertEquals(scheduleStub.getTitles(), schedule.getTitles());
-        assertEquals(scheduleStub.getOrganizationEntity(), schedule.getOrganizationEntity());
+        assertEquals(scheduleStub.getSubdomainEntity(), schedule.getSubdomainEntity());
         assertEquals(scheduleStub.getTutorEntity(), schedule.getTutorEntity());
         assertEquals(studentStub, schedule.getStudentEntity());
     }

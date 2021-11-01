@@ -5,7 +5,6 @@ import com.github.sankowskiwojciech.coursescorelib.model.account.AccountType;
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.QIndividualLessonEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequestParams;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
-import com.github.sankowskiwojciech.coursescorelib.model.subdomain.SubdomainType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -38,10 +37,7 @@ public class AccountInfoAndIndividualLessonRequestParamsToBooleanExpression impl
         if (subdomain == null) {
             return null;
         }
-        if (SubdomainType.ORGANIZATION.equals(subdomain.getSubdomainType())) {
-            return individualLessonEntity.organizationEntity.emailAddress.eq(subdomain.getEmailAddress());
-        }
-        return individualLessonEntity.organizationEntity.isNull();
+        return individualLessonEntity.subdomainEntity.subdomainId.eq(subdomain.getAlias());
     }
 
     private BooleanExpression fromDateTimeQuery(QIndividualLessonEntity individualLessonEntity, LocalDateTime fromDateTime) {

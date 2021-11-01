@@ -19,7 +19,7 @@ public class GroupLessonToGroupLessonEntity implements Function<GroupLesson, Gro
         entity.setStartDate(lesson.getStartDate());
         entity.setEndDate(lesson.getEndDate());
         entity.setDescription(lesson.getDescription());
-        entity.setOrganizationEntity(lesson.getOrganizationEntity());
+        entity.setSubdomainEntity(lesson.getSubdomainEntity());
         entity.setTutorEntity(lesson.getTutorEntity());
         entity.setGroupEntity(lesson.getGroupEntity());
         entity.setCreationDateTime(LocalDateTime.now());

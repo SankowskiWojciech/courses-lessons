@@ -15,7 +15,7 @@ public class LessonRequestValidator {
     }
 
     private static void validateIfMandatoryFieldsAreNotMissing(LessonRequest request) {
-        if (request == null || request.getStartDate() == null || request.getEndDate() == null || StringUtils.isAnyBlank(request.getTitle(), request.getSubdomainAlias(), request.getTutorId())) {
+        if (request == null || request.getStartDate() == null || request.getEndDate() == null || StringUtils.isAnyBlank(request.getTitle(), request.getSubdomainAlias())) {
             throw new InvalidRequestBodyException();
         }
     }
