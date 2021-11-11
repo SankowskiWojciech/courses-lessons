@@ -4,8 +4,8 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileWithoutCont
 import com.github.sankowskiwojciech.coursescorelib.model.db.grouplesson.GroupLessonEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLessonResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
-import com.github.sankowskiwojciech.courseslessons.stub.GroupLessonEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonFileWithoutContentStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.GroupLessonEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileWithoutContentStub;
 import org.junit.Test;
 
 import java.util.Collections;

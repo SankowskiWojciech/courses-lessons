@@ -4,9 +4,9 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.subdomain.SubdomainE
 import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonsScheduleRequest;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonsScheduleRequestStub;
-import com.github.sankowskiwojciech.courseslessons.stub.SubdomainEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.LessonsScheduleRequestStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.SubdomainEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.TutorEntityStub;
 import org.junit.Test;
 
 import java.time.LocalDate;

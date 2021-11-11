@@ -3,7 +3,7 @@ package com.github.sankowskiwojciech.courseslessons.controller.individuallesson.
 import com.github.sankowskiwojciech.coursescorelib.model.exception.InvalidRequestBodyException;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.lesson.InvalidLessonDatesException;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonRequest;
-import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonRequestStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.IndividualLessonRequestStub;
 import org.junit.Test;
 
 import java.time.LocalDateTime;

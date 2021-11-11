@@ -3,7 +3,7 @@ package com.github.sankowskiwojciech.courseslessons.controller.grouplesson.valid
 import com.github.sankowskiwojciech.coursescorelib.model.exception.InvalidRequestBodyException;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.lesson.InvalidLessonDatesException;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.request.GroupLessonRequest;
-import com.github.sankowskiwojciech.courseslessons.stub.GroupLessonRequestStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.GroupLessonRequestStub;
 import org.junit.Test;
 
 import java.time.LocalDateTime;

@@ -6,8 +6,8 @@ import com.github.sankowskiwojciech.coursescorelib.model.exception.lesson.Invali
 import com.github.sankowskiwojciech.coursescorelib.model.exception.lesson.InvalidLessonsDurationException;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.request.IndividualLessonsScheduleRequest;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.DayOfWeekWithTimes;
-import com.github.sankowskiwojciech.courseslessons.stub.DayOfWeekWithTimesStub;
-import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonsScheduleRequestStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.DayOfWeekWithTimesStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.IndividualLessonsScheduleRequestStub;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 

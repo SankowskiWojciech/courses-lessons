@@ -3,7 +3,7 @@ package com.github.sankowskiwojciech.courseslessons.service.tokenvalidation;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.TokenRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.db.token.TokenEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.InvalidTokenException;
-import com.github.sankowskiwojciech.courseslessons.stub.TokenEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.TokenEntityStub;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.TOKEN_VALUE_STUB;
+import static com.github.sankowskiwojciech.coursestestlib.DefaultTestValues.TOKEN_VALUE_STUB;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

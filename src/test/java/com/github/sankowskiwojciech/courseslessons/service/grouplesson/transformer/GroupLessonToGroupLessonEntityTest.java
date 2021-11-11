@@ -5,10 +5,10 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.grouplesson.GroupLes
 import com.github.sankowskiwojciech.coursescorelib.model.db.subdomain.SubdomainEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLesson;
-import com.github.sankowskiwojciech.courseslessons.stub.GroupEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.GroupLessonStub;
-import com.github.sankowskiwojciech.courseslessons.stub.SubdomainEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.GroupEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.GroupLessonStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.SubdomainEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.TutorEntityStub;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

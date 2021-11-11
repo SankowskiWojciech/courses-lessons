@@ -2,7 +2,7 @@ package com.github.sankowskiwojciech.courseslessons.service.lesson.transformer;
 
 import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonFileWithoutContentStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileWithoutContentStub;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

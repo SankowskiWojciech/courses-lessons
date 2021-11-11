@@ -2,7 +2,7 @@ package com.github.sankowskiwojciech.courseslessons.service.lesson.date;
 
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.DayOfWeekWithTimes;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonDates;
-import com.github.sankowskiwojciech.courseslessons.stub.DayOfWeekWithTimesStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.DayOfWeekWithTimesStub;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 

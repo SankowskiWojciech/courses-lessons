@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
 
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILE_ID_STUB;
+import static com.github.sankowskiwojciech.coursestestlib.DefaultTestValues.FILE_ID_STUB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;

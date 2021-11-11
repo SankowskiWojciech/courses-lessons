@@ -5,9 +5,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILE_CONTENT_STUB;
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILE_CONTENT_TYPE_STUB;
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILE_NAME_STUB;
+import static com.github.sankowskiwojciech.coursestestlib.DefaultTestValues.FILE_CONTENT_STUB;
+import static com.github.sankowskiwojciech.coursestestlib.DefaultTestValues.FILE_CONTENT_TYPE_STUB;
+import static com.github.sankowskiwojciech.coursestestlib.DefaultTestValues.FILE_NAME_STUB;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MultipartFileStub {

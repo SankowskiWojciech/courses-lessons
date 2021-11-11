@@ -3,11 +3,11 @@ package com.github.sankowskiwojciech.courseslessons.service.individuallesson.tra
 import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
-import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonFileWithoutContentStub;
-import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.SubdomainEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.IndividualLessonEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileWithoutContentStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.StudentEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.SubdomainEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.TutorEntityStub;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 

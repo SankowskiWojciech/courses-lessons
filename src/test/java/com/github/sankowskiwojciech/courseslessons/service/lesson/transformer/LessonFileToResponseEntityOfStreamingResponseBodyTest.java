@@ -1,7 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.transformer;
 
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonFileStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileStub;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

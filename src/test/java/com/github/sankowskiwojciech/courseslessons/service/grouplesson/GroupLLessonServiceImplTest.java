@@ -9,10 +9,10 @@ import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLesson
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLessonResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileService;
-import com.github.sankowskiwojciech.courseslessons.stub.GroupLessonEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.GroupLessonStub;
-import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonFileEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonFileWithoutContentStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.GroupLessonEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.GroupLessonStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.IndividualLessonFileEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileWithoutContentStub;
 import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.FILES_IDS_STUB;
+import static com.github.sankowskiwojciech.coursestestlib.DefaultTestValues.FILES_IDS_STUB;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;

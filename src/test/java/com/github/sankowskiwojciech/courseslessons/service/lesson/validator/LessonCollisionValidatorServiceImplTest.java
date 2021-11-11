@@ -6,9 +6,9 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.grouplesson.GroupLes
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.exception.lesson.NewLessonCollidesWithExistingOnesException;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonDates;
-import com.github.sankowskiwojciech.courseslessons.stub.GroupLessonEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonDatesStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.GroupLessonEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.IndividualLessonEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.LessonDatesStub;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.TUTOR_EMAIL_ADDRESS_STUB;
+import static com.github.sankowskiwojciech.coursestestlib.DefaultTestValues.TUTOR_EMAIL_ADDRESS_STUB;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;

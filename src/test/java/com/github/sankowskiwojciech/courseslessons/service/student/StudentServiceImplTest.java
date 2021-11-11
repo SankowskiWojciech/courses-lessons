@@ -5,8 +5,8 @@ import com.github.sankowskiwojciech.coursescorelib.backend.repository.SubdomainU
 import com.github.sankowskiwojciech.coursescorelib.model.db.student.StudentEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.subdomain.SubdomainUserAccessEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.student.StudentResponse;
-import com.github.sankowskiwojciech.courseslessons.stub.StudentEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.SubdomainUserAccessEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.StudentEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.SubdomainUserAccessEntityStub;
 import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,8 +15,8 @@ import org.mockito.Mockito;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.ORGANIZATION_ALIAS_STUB;
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.TUTOR_EMAIL_ADDRESS_STUB;
+import static com.github.sankowskiwojciech.coursestestlib.DefaultTestValues.ORGANIZATION_ALIAS_STUB;
+import static com.github.sankowskiwojciech.coursestestlib.DefaultTestValues.TUTOR_EMAIL_ADDRESS_STUB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyList;

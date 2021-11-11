@@ -19,10 +19,10 @@ import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainSe
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileAccessPermissionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
-import com.github.sankowskiwojciech.courseslessons.stub.GroupLessonRequestStub;
-import com.github.sankowskiwojciech.courseslessons.stub.StudentsGroupEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.SubdomainEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.GroupLessonRequestStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.StudentsGroupEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.SubdomainEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.TutorEntityStub;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

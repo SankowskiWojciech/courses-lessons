@@ -2,10 +2,10 @@ package com.github.sankowskiwojciech.courseslessons.service.lesson.transformer;
 
 import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonFileStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileStub;
 import org.junit.Test;
 
-import static com.github.sankowskiwojciech.courseslessons.DefaultTestValues.TUTOR_EMAIL_ADDRESS_STUB;
+import static com.github.sankowskiwojciech.coursestestlib.DefaultTestValues.TUTOR_EMAIL_ADDRESS_STUB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 

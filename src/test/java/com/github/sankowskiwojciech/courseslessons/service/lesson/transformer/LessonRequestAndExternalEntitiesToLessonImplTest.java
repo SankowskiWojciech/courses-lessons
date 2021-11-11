@@ -4,9 +4,9 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.subdomain.SubdomainE
 import com.github.sankowskiwojciech.coursescorelib.model.db.tutor.TutorEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.Lesson;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequest;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonRequestStub;
-import com.github.sankowskiwojciech.courseslessons.stub.SubdomainEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.TutorEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.LessonRequestStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.SubdomainEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.TutorEntityStub;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

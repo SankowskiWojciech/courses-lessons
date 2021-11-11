@@ -3,8 +3,8 @@ package com.github.sankowskiwojciech.courseslessons.service.individuallesson.tra
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonDates;
-import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonsScheduleStub;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonDatesStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.IndividualLessonsScheduleStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.LessonDatesStub;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 

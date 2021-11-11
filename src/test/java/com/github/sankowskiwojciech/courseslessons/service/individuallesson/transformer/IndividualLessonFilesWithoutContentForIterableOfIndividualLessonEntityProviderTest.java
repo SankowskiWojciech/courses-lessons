@@ -5,9 +5,9 @@ import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFile
 import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAccessEntity;
-import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.IndividualLessonFileEntityStub;
-import com.github.sankowskiwojciech.courseslessons.stub.LessonFileWithoutContentStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.IndividualLessonEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.IndividualLessonFileEntityStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileWithoutContentStub;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
