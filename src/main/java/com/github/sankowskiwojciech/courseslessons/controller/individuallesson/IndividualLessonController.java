@@ -60,7 +60,11 @@ public class IndividualLessonController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
-    public List<IndividualLessonResponse> readIndividualLessons(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam(value = "subdomainAlias", required = false) String subdomainAlias, @RequestParam(value = "fromDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fromDate, @RequestParam(value = "toDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime toDate) {
+    public List<IndividualLessonResponse> readIndividualLessons(
+            @RequestHeader(value = "Authorization") String authorizationHeaderValue,
+            @RequestParam(value = "subdomainAlias", required = false) String subdomainAlias,
+            @RequestParam(value = "fromDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fromDate,
+            @RequestParam(value = "toDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime toDate) {
         TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
         Subdomain subdomain = subdomainService.validateIfUserHasAccessToSubdomain(subdomainAlias, token.getUserEmailAddress());
         AccountInfo accountInfo = new AccountInfo(token.getUserEmailAddress(), token.getAccountType());
