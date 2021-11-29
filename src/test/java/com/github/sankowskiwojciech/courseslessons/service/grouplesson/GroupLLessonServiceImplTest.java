@@ -2,22 +2,30 @@ package com.github.sankowskiwojciech.courseslessons.service.grouplesson;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.GroupLessonRepository;
+import com.github.sankowskiwojciech.coursescorelib.model.account.AccountInfo;
 import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.db.grouplesson.GroupLessonEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAccessEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLessonResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
+import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequestParams;
+import com.github.sankowskiwojciech.courseslessons.service.grouplesson.transformer.GroupLessonsQueryProvider;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonsIdsAndListOfFilesWithoutContentProvider;
+import com.github.sankowskiwojciech.coursestestlib.stub.AccountInfoStub;
 import com.github.sankowskiwojciech.coursestestlib.stub.GroupLessonEntityStub;
 import com.github.sankowskiwojciech.coursestestlib.stub.GroupLessonStub;
 import com.github.sankowskiwojciech.coursestestlib.stub.IndividualLessonFileEntityStub;
 import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileWithoutContentStub;
+import com.github.sankowskiwojciech.coursestestlib.stub.LessonRequestParamsStub;
 import com.google.common.collect.Lists;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -37,15 +45,17 @@ public class GroupLLessonServiceImplTest {
     private final LessonFileService lessonFileServiceMock = mock(LessonFileService.class);
     private final FileRepository fileRepositoryMock = mock(FileRepository.class);
     private final GroupLessonRepository groupLessonRepositoryMock = mock(GroupLessonRepository.class);
-    private final GroupLessonService testee = new GroupLessonServiceImpl(groupLessonRepositoryMock, fileRepositoryMock, lessonFileServiceMock);
+    private final LessonsIdsAndListOfFilesWithoutContentProvider lessonsIdsAndListOfFilesWithoutContentProviderMock = mock(LessonsIdsAndListOfFilesWithoutContentProvider.class);
+    private final GroupLessonsQueryProvider groupLessonsQueryProviderMock = mock(GroupLessonsQueryProvider.class);
+    private final GroupLessonService testee = new GroupLessonServiceImpl(groupLessonRepositoryMock, fileRepositoryMock, lessonFileServiceMock, lessonsIdsAndListOfFilesWithoutContentProviderMock, groupLessonsQueryProviderMock);
 
     @Before
     public void reset() {
-        Mockito.reset(groupLessonRepositoryMock, lessonFileServiceMock, fileRepositoryMock);
+        Mockito.reset(groupLessonRepositoryMock, fileRepositoryMock, lessonFileServiceMock, lessonsIdsAndListOfFilesWithoutContentProviderMock, groupLessonsQueryProviderMock);
     }
 
     @Test
-    public void shouldCreateIndividualLessonWithFilesCorrectly() {
+    public void shouldCreateGroupLessonWithFilesCorrectly() {
         //given
         GroupLesson lessonStub = GroupLessonStub.createWithFilesIds(FILES_IDS_STUB);
         GroupLessonEntity entityStub = GroupLessonEntityStub.create();
@@ -71,7 +81,7 @@ public class GroupLLessonServiceImplTest {
     }
 
     @Test
-    public void shouldCreateIndividualLessonWithoutFilesCorrectly() {
+    public void shouldCreateGroupLessonWithoutFilesCorrectly() {
         //given
         GroupLesson lessonStub = GroupLessonStub.createWithFilesIds(null);
         GroupLessonEntity entityStub = GroupLessonEntityStub.create();
@@ -88,6 +98,41 @@ public class GroupLLessonServiceImplTest {
         verifyNoInteractions(fileRepositoryMock);
         assertGroupLessonResponse(entityStub.getId(), lessonStub, response);
         assertNotNull(response.getFilesInformation());
+        assertTrue(response.getFilesInformation().isEmpty());
+    }
+
+    @Test
+    public void shouldReadGroupLessonsCorrectly() {
+        //given
+        BooleanExpression booleanExpressionMock = mock(BooleanExpression.class);
+        AccountInfo accountInfoStub = AccountInfoStub.create();
+        LessonRequestParams requestParamsStub = LessonRequestParamsStub.create();
+        List<GroupLessonEntity> entitiesStub = Lists.newArrayList(GroupLessonEntityStub.createWithDatesOfLesson(LocalDateTime.now().minusHours(1), LocalDateTime.now().plusHours(1)));
+        List<String> idsStub = Lists.newArrayList(entitiesStub.get(0).getId());
+
+        when(groupLessonsQueryProviderMock.apply(accountInfoStub, requestParamsStub)).thenReturn(booleanExpressionMock);
+        when(groupLessonRepositoryMock.findAll(booleanExpressionMock)).thenReturn(entitiesStub);
+        when(lessonsIdsAndListOfFilesWithoutContentProviderMock.apply(idsStub)).thenReturn(Collections.emptyMap());
+
+        //when
+        List<GroupLessonResponse> responseList = testee.readGroupLessons(accountInfoStub, requestParamsStub);
+
+        //then
+        verify(groupLessonRepositoryMock).findAll(booleanExpressionMock);
+        verify(lessonsIdsAndListOfFilesWithoutContentProviderMock).apply(idsStub);
+
+        assertNotNull(responseList);
+        assertEquals(1, responseList.size());
+        GroupLessonResponse response = responseList.stream().findFirst().get();
+        GroupLessonEntity entity = entitiesStub.get(0);
+        assertEquals(entity.getTitle(), response.getTitle());
+        assertEquals(entity.getStartDate(), response.getStartDate());
+        assertEquals(entity.getEndDate(), response.getEndDate());
+        assertEquals(entity.getDescription(), response.getDescription());
+        assertEquals(entity.getSubdomainEntity().getSubdomainId(), response.getSubdomainAlias());
+        assertEquals(entity.getTutorEntity().getEmailAddress(), response.getTutorEmailAddress());
+        assertNotNull(response.getGroupName());
+        assertEquals(entity.getGroupEntity().getName(), response.getGroupName());
         assertTrue(response.getFilesInformation().isEmpty());
     }
 
