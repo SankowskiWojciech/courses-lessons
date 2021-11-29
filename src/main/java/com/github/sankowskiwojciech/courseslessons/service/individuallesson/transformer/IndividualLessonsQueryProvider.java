@@ -13,9 +13,8 @@ import java.time.LocalDateTime;
 import java.util.function.BiFunction;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class AccountInfoAndIndividualLessonRequestParamsToBooleanExpression implements BiFunction<AccountInfo, LessonRequestParams, BooleanExpression> {
-
-    private static final AccountInfoAndIndividualLessonRequestParamsToBooleanExpression INSTANCE = new AccountInfoAndIndividualLessonRequestParamsToBooleanExpression();
+public class IndividualLessonsQueryProvider implements BiFunction<AccountInfo, LessonRequestParams, BooleanExpression> {
+    private static final IndividualLessonsQueryProvider INSTANCE = new IndividualLessonsQueryProvider();
 
     @Override
     public BooleanExpression apply(AccountInfo accountInfo, LessonRequestParams lessonRequestParams) {
@@ -54,7 +53,7 @@ public class AccountInfoAndIndividualLessonRequestParamsToBooleanExpression impl
         return null;
     }
 
-    public static AccountInfoAndIndividualLessonRequestParamsToBooleanExpression getInstance() {
+    public static IndividualLessonsQueryProvider getInstance() {
         return INSTANCE;
     }
 }

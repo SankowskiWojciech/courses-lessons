@@ -1,6 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.service;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.GroupLessonRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileAccessRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.OrganizationRepository;
@@ -8,11 +9,14 @@ import com.github.sankowskiwojciech.coursescorelib.backend.repository.SubdomainR
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.TutorRepository;
 import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
 import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainServiceImpl;
+import com.github.sankowskiwojciech.courseslessons.service.grouplesson.GroupLessonService;
+import com.github.sankowskiwojciech.courseslessons.service.grouplesson.GroupLessonServiceImpl;
+import com.github.sankowskiwojciech.courseslessons.service.grouplesson.transformer.GroupLessonsQueryProvider;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonService;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonServiceImpl;
-import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileServiceImpl;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonsIdsAndListOfFilesWithoutContentProvider;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorServiceImpl;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.ValidFileMIMETypes;
@@ -21,6 +25,9 @@ import org.apache.tika.detect.Detector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Configuration
 public class ServiceConfig {
@@ -40,11 +47,22 @@ public class ServiceConfig {
     private IndividualLessonRepository individualLessonRepository;
 
     @Autowired
+    private GroupLessonRepository groupLessonRepository;
+
+    @Autowired
     private LessonFileAccessRepository lessonFileAccessRepository;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Bean
-    public IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider() {
-        return new IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider(lessonFileAccessRepository, fileRepository);
+    public GroupLessonsQueryProvider groupLessonsQueryProvider() {
+        return new GroupLessonsQueryProvider(entityManager);
+    }
+
+    @Bean
+    public LessonsIdsAndListOfFilesWithoutContentProvider lessonsIdsAndListOfFilesWithoutContentProvider() {
+        return new LessonsIdsAndListOfFilesWithoutContentProvider(lessonFileAccessRepository, fileRepository);
     }
 
     @Bean
@@ -54,7 +72,12 @@ public class ServiceConfig {
 
     @Bean
     public IndividualLessonService individualLessonService() {
-        return new IndividualLessonServiceImpl(individualLessonRepository, lessonFileService(), fileRepository, individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider());
+        return new IndividualLessonServiceImpl(individualLessonRepository, lessonFileService(), fileRepository, lessonsIdsAndListOfFilesWithoutContentProvider());
+    }
+
+    @Bean
+    public GroupLessonService groupLessonService() {
+        return new GroupLessonServiceImpl(groupLessonRepository, fileRepository, lessonFileService(), lessonsIdsAndListOfFilesWithoutContentProvider(), groupLessonsQueryProvider());
     }
 
     @Bean

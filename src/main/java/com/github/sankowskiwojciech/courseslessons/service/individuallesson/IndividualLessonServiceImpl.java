@@ -9,11 +9,11 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAcc
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequestParams;
-import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.AccountInfoAndIndividualLessonRequestParamsToBooleanExpression;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse;
-import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonToIndividualLessonEntity;
+import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonsQueryProvider;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonsIdsAndListOfFilesWithoutContentProvider;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class IndividualLessonServiceImpl implements IndividualLessonService {
     private final IndividualLessonRepository individualLessonRepository;
     private final LessonFileService lessonFileService;
     private final FileRepository fileRepository;
-    private final IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider;
+    private final LessonsIdsAndListOfFilesWithoutContentProvider lessonsIdsAndListOfFilesWithoutContentProvider;
 
     @Transactional
     @Override
@@ -47,11 +47,14 @@ public class IndividualLessonServiceImpl implements IndividualLessonService {
 
     @Override
     public List<IndividualLessonResponse> readIndividualLessons(AccountInfo accountInfo, LessonRequestParams requestParams) {
-        BooleanExpression queryBooleanExpression = AccountInfoAndIndividualLessonRequestParamsToBooleanExpression.getInstance().apply(accountInfo, requestParams);
+        BooleanExpression queryBooleanExpression = IndividualLessonsQueryProvider.getInstance().apply(accountInfo, requestParams);
         Iterable<IndividualLessonEntity> lessons = individualLessonRepository.findAll(queryBooleanExpression);
-        Map<String, List<FileWithoutContent>> individualLessonFilesWithoutContent = individualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider.apply(lessons);
+        List<String> lessonsIds = StreamSupport.stream(lessons.spliterator(), false)
+                .map(IndividualLessonEntity::getId)
+                .collect(Collectors.toList());
+        Map<String, List<FileWithoutContent>> lessonFilesWithoutContent = lessonsIdsAndListOfFilesWithoutContentProvider.apply(lessonsIds);
         return StreamSupport.stream(lessons.spliterator(), false)
-                .map(lesson -> IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse.getInstance().apply(lesson, individualLessonFilesWithoutContent.getOrDefault(lesson.getId(), Collections.emptyList())))
+                .map(lesson -> IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse.getInstance().apply(lesson, lessonFilesWithoutContent.getOrDefault(lesson.getId(), Collections.emptyList())))
                 .collect(Collectors.toList());
     }
 }

@@ -1,11 +1,9 @@
-package com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer;
+package com.github.sankowskiwojciech.courseslessons.service.lesson.transformer;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileAccessRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileWithoutContent;
-import com.github.sankowskiwojciech.coursescorelib.model.db.individuallesson.IndividualLessonEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAccessEntity;
-import com.github.sankowskiwojciech.coursestestlib.stub.IndividualLessonEntityStub;
 import com.github.sankowskiwojciech.coursestestlib.stub.IndividualLessonFileEntityStub;
 import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileWithoutContentStub;
 import org.assertj.core.util.Lists;
@@ -28,8 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-public class IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProviderTest {
-
+public class LessonsIdsAndListOfFilesWithoutContentProviderTest {
     private static final String FIRST_INDIVIDUAL_LESSON_ENTITY_STUB = UUID.randomUUID().toString();
     private static final String SECOND_INDIVIDUAL_LESSON_ENTITY_STUB = UUID.randomUUID().toString();
     private static final int EXPECTED_SIZE_OF_FIRST_LIST_OF_INDIVIDUAL_LESSON_FILE_ENTITY = 1;
@@ -37,7 +34,7 @@ public class IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEnt
 
     private final LessonFileAccessRepository lessonFileAccessRepositoryMock = mock(LessonFileAccessRepository.class);
     private final FileRepository fileRepositoryMock = mock(FileRepository.class);
-    private final IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider testee = new IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEntityProvider(lessonFileAccessRepositoryMock, fileRepositoryMock);
+    private final LessonsIdsAndListOfFilesWithoutContentProvider testee = new LessonsIdsAndListOfFilesWithoutContentProvider(lessonFileAccessRepositoryMock, fileRepositoryMock);
 
     @Before
     public void reset() {
@@ -47,10 +44,10 @@ public class IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEnt
     @Test
     public void shouldTransformCorrectlyWhenIndividualLessonEntityIterableIsEmpty() {
         //given
-        Iterable<IndividualLessonEntity> individualLessonEntitiesStub = Lists.newArrayList();
+        List<String> lessonsIdsStub = Lists.newArrayList();
 
         //when
-        Map<String, List<FileWithoutContent>> individualLessonFilesWithoutContent = testee.apply(individualLessonEntitiesStub);
+        Map<String, List<FileWithoutContent>> individualLessonFilesWithoutContent = testee.apply(lessonsIdsStub);
 
         //then
         verifyNoInteractions(lessonFileAccessRepositoryMock);
@@ -62,7 +59,7 @@ public class IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEnt
     @Test
     public void shouldTransformCorrectly() {
         //given
-        Iterable<IndividualLessonEntity> individualLessonEntitiesStub = Lists.newArrayList(IndividualLessonEntityStub.create(FIRST_INDIVIDUAL_LESSON_ENTITY_STUB), IndividualLessonEntityStub.create(SECOND_INDIVIDUAL_LESSON_ENTITY_STUB));
+        List<String> lessonsIdsStub = Lists.newArrayList(FIRST_INDIVIDUAL_LESSON_ENTITY_STUB, SECOND_INDIVIDUAL_LESSON_ENTITY_STUB);
         List<LessonFileAccessEntity> individualLessonFileEntitiesStub = Lists.newArrayList(
                 IndividualLessonFileEntityStub.create(FIRST_INDIVIDUAL_LESSON_ENTITY_STUB, UUID.randomUUID().toString()),
                 IndividualLessonFileEntityStub.create(SECOND_INDIVIDUAL_LESSON_ENTITY_STUB, UUID.randomUUID().toString())
@@ -76,7 +73,7 @@ public class IndividualLessonFilesWithoutContentForIterableOfIndividualLessonEnt
         when(fileRepositoryMock.findAllByIdIn(anySet())).thenReturn(lessonFilesWithoutContentStub);
 
         //when
-        Map<String, List<FileWithoutContent>> individualLessonFilesWithoutContent = testee.apply(individualLessonEntitiesStub);
+        Map<String, List<FileWithoutContent>> individualLessonFilesWithoutContent = testee.apply(lessonsIdsStub);
 
         //then
         verify(lessonFileAccessRepositoryMock).findAllByLessonIdIn(anyList());
