@@ -7,7 +7,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class LessonScheduleAndStudentEntityToIndividualLessonSchedule {
+public class LessonsScheduleAndStudentEntityToIndividualLessonsSchedule {
     public static IndividualLessonsSchedule transform(LessonsSchedule schedule, StudentEntity student) {
         return new IndividualLessonsSchedule(schedule.getBeginningDate(), schedule.getEndDate(), schedule.getScheduleType(), schedule.getAllLessonsDurationInMinutes(), schedule.getDaysOfWeekWithTimes(), schedule.getTitles(), schedule.getSubdomainEntity(), schedule.getTutorEntity(), student);
     }

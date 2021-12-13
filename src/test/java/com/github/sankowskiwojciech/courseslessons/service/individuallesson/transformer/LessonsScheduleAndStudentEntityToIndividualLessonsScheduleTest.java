@@ -11,7 +11,7 @@ import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class LessonScheduleAndStudentEntityToIndividualLessonScheduleTest {
+public class LessonsScheduleAndStudentEntityToIndividualLessonsScheduleTest {
     @Test
     public void shouldTransformCorrectly() {
         //given
@@ -19,7 +19,7 @@ public class LessonScheduleAndStudentEntityToIndividualLessonScheduleTest {
         StudentEntity studentStub = StudentEntityStub.create();
 
         //when
-        IndividualLessonsSchedule schedule = LessonScheduleAndStudentEntityToIndividualLessonSchedule.transform(scheduleStub, studentStub);
+        IndividualLessonsSchedule schedule = LessonsScheduleAndStudentEntityToIndividualLessonsSchedule.transform(scheduleStub, studentStub);
 
         //then
         assertNotNull(schedule);

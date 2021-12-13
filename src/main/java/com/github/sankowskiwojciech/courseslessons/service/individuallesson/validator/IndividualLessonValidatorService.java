@@ -11,8 +11,8 @@ import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.reques
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.Lesson;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
-import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsSchedule;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.LessonAndStudentEntityToIndividualLesson;
+import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.LessonsScheduleAndStudentEntityToIndividualLessonsSchedule;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileAccessPermissionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
@@ -39,7 +39,7 @@ public class IndividualLessonValidatorService extends LessonValidatorService {
     public IndividualLessonsSchedule validateIndividualLessonsScheduleRequest(IndividualLessonsScheduleRequest request, String userId) {
         LessonsSchedule schedule = super.validateLessonsScheduleRequest(request, userId);
         StudentEntity student = readStudentAndValidateStudentAndTutorAccessToSubdomain(request.getSubdomainAlias(), userId, request.getStudentId());
-        return IndividualLessonsScheduleRequestAndExternalEntitiesToIndividualLessonsSchedule.transform(request, schedule.getSubdomainEntity(), schedule.getTutorEntity(), student);
+        return LessonsScheduleAndStudentEntityToIndividualLessonsSchedule.transform(schedule, student);
     }
 
     private StudentEntity readStudentAndValidateStudentAndTutorAccessToSubdomain(String subdomainAlias, String tutorId, String studentId) {
