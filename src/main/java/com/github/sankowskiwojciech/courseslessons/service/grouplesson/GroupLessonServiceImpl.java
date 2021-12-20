@@ -17,6 +17,7 @@ import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.Le
 import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,6 +35,7 @@ public class GroupLessonServiceImpl implements GroupLessonService {
     private final LessonsIdsAndListOfFilesWithoutContentProvider lessonsIdsAndListOfFilesWithoutContentProvider;
     private final GroupLessonsQueryProvider groupLessonsQueryProvider;
 
+    @Transactional
     @Override
     public GroupLessonResponse createGroupLesson(GroupLesson lesson) {
         GroupLessonEntity lessonEntity = GroupLessonToGroupLessonEntity.getInstance().apply(lesson);
