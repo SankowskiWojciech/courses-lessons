@@ -29,8 +29,8 @@ public class LessonsScheduleAndGroupEntityToGroupLessonsScheduleTest {
         assertEquals(scheduleStub.getAllLessonsDurationInMinutes(), schedule.getAllLessonsDurationInMinutes());
         assertEquals(scheduleStub.getDaysOfWeekWithTimes(), schedule.getDaysOfWeekWithTimes());
         assertEquals(scheduleStub.getTitles(), schedule.getTitles());
-        assertEquals(scheduleStub.getSubdomainEntity(), schedule.getSubdomainEntity());
-        assertEquals(scheduleStub.getTutorEntity(), schedule.getTutorEntity());
+        assertEquals(scheduleStub.getSubdomainEntity(), groupStub.getSubdomainEntity());
+        assertEquals(scheduleStub.getTutorEntity(), groupStub.getTutorEntity());
         assertEquals(groupStub, schedule.getGroupEntity());
     }
 }
