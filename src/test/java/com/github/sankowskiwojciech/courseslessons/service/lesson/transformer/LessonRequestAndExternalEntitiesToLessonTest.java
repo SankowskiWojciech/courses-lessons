@@ -12,7 +12,7 @@ import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class LessonRequestAndExternalEntitiesToLessonImplTest {
+public class LessonRequestAndExternalEntitiesToLessonTest {
     @Test
     public void shouldTransformCorrectly() {
         //given
@@ -21,7 +21,7 @@ public class LessonRequestAndExternalEntitiesToLessonImplTest {
         TutorEntity tutorStub = TutorEntityStub.create();
 
         //when
-        Lesson lesson = LessonRequestAndExternalEntitiesToLessonImpl.transform(requestStub, subdomainStub, tutorStub);
+        Lesson lesson = LessonRequestAndExternalEntitiesToLesson.transform(requestStub, subdomainStub, tutorStub);
 
         //then
         assertNotNull(lesson);

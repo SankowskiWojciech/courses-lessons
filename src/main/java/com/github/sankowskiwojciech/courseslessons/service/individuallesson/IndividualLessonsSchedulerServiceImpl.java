@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class IndividualLessonsSchedulerServiceImpl implements IndividualLessonsSchedulerService {
-
     private static final long MAX_LESSONS_DURATION_IN_YEARS = 1;
 
     private final IndividualLessonRepository individualLessonRepository;

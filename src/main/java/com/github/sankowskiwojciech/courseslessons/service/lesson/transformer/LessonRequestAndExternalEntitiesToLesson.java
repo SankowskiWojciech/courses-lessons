@@ -8,7 +8,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class LessonRequestAndExternalEntitiesToLessonImpl {
+public class LessonRequestAndExternalEntitiesToLesson {
     public static Lesson transform(LessonRequest request, SubdomainEntity subdomain, TutorEntity tutor) {
         return new Lesson(request.getTitle(), request.getStartDate(), request.getEndDate(), request.getDescription(), subdomain, tutor, request.getFilesIds());
     }

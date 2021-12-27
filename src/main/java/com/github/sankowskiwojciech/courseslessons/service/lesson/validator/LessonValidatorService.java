@@ -9,7 +9,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequest;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonsScheduleRequest;
 import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
-import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonRequestAndExternalEntitiesToLessonImpl;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonRequestAndExternalEntitiesToLesson;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonsScheduleRequestAndExternalEntitiesToLessonsSchedule;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -30,7 +30,7 @@ public abstract class LessonValidatorService {
         TutorEntity tutor = readTutor(userId);
         lessonCollisionValidatorService.validateIfNewLessonDoesNotCollideWithExistingOnes(request.getStartDate(), request.getEndDate(), tutor.getEmailAddress());
         validateFilesIds(request.getFilesIds(), tutor.getEmailAddress());
-        return LessonRequestAndExternalEntitiesToLessonImpl.transform(request, subdomain, tutor);
+        return LessonRequestAndExternalEntitiesToLesson.transform(request, subdomain, tutor);
     }
 
     public LessonsSchedule validateLessonsScheduleRequest(LessonsScheduleRequest request, String userId) {
