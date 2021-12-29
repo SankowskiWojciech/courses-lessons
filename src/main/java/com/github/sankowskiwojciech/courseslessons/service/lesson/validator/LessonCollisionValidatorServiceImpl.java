@@ -34,13 +34,18 @@ public class LessonCollisionValidatorServiceImpl implements LessonCollisionValid
     public void validateIfScheduledLessonsDoesNotCollideWithExistingOnes(List<LessonDates> generatedDates, String tutorEmailAddress) {
         LocalDateTime startDate = generatedDates.get(0).getStartDate().toLocalDate().atStartOfDay();
         LocalDateTime endDate = generatedDates.get(generatedDates.size() - 1).getStartDate().toLocalDate().atStartOfDay().plusDays(1);
-        List<IndividualLessonEntity> lessonsWhichCanCollideWithNewLessons = individualLessonRepository.findAllLessonsInRangeForTutor(startDate, endDate, tutorEmailAddress);
-        generatedDates.forEach(dates ->
-                lessonsWhichCanCollideWithNewLessons.forEach(lesson -> {
-                    if (dates.getStartDate().isBefore(lesson.getEndDate()) && dates.getEndDate().isAfter(lesson.getStartDate())) {
-                        throw new NewLessonCollidesWithExistingOnesException();
-                    }
-                })
+        List<IndividualLessonEntity> individualLessonsWhichCanCollideWithNewLessons = individualLessonRepository.findAllLessonsInRangeForTutor(startDate, endDate, tutorEmailAddress);
+        List<GroupLessonEntity> groupLessonsWhichCanCollideWithNewLessons = groupLessonRepository.findAllLessonsInRangeForTutor(startDate, endDate, tutorEmailAddress);
+        generatedDates.forEach(generatedDate -> {
+                    individualLessonsWhichCanCollideWithNewLessons.forEach(individualLesson -> checkIfGeneratedDateDoesNotCollideWithExistingLesson(generatedDate, individualLesson.getStartDate(), individualLesson.getEndDate()));
+                    groupLessonsWhichCanCollideWithNewLessons.forEach(groupLesson -> checkIfGeneratedDateDoesNotCollideWithExistingLesson(generatedDate, groupLesson.getStartDate(), groupLesson.getEndDate()));
+                }
         );
+    }
+
+    private void checkIfGeneratedDateDoesNotCollideWithExistingLesson(LessonDates generatedDate, LocalDateTime startDateOfExistingLesson, LocalDateTime endDateOfExistingLesson) {
+        if (generatedDate.getStartDate().isBefore(endDateOfExistingLesson) && generatedDate.getEndDate().isAfter(startDateOfExistingLesson)) {
+            throw new NewLessonCollidesWithExistingOnesException();
+        }
     }
 }

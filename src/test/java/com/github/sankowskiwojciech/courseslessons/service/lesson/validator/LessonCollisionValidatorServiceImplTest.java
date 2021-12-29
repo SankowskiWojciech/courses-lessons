@@ -104,7 +104,7 @@ public class LessonCollisionValidatorServiceImplTest {
     }
 
     @Test(expected = NewLessonCollidesWithExistingOnesException.class)
-    public void shouldThrowNewLessonCollidesWithExistingOnesExceptionWhenScheduledLessonsCollideWithExistingOnes() {
+    public void shouldThrowNewLessonCollidesWithExistingOnesExceptionWhenScheduledLessonsCollideWithIndividualLessons() {
         //given
         final LocalDateTime currentDateTime = LocalDateTime.now();
         IndividualLessonEntity individualLessonEntityWhichCollidesWithNewOne = IndividualLessonEntityStub.createWithDatesOfLesson(currentDateTime.minusHours(2), currentDateTime.plusHours(2));
@@ -116,6 +116,7 @@ public class LessonCollisionValidatorServiceImplTest {
         String tutorEmailAddressStub = TUTOR_EMAIL_ADDRESS_STUB;
 
         when(individualLessonRepositoryMock.findAllLessonsInRangeForTutor(isA(LocalDateTime.class), isA(LocalDateTime.class), eq(tutorEmailAddressStub))).thenReturn(existingIndividualLessonEntitiesStub);
+        when(groupLessonRepositoryMock.findAllLessonsInRangeForTutor(isA(LocalDateTime.class), isA(LocalDateTime.class), eq(tutorEmailAddressStub))).thenReturn(Collections.emptyList());
 
         //when
         try {
@@ -124,6 +125,34 @@ public class LessonCollisionValidatorServiceImplTest {
 
             //then exception is thrown
             verify(individualLessonRepositoryMock).findAllLessonsInRangeForTutor(isA(LocalDateTime.class), isA(LocalDateTime.class), eq(tutorEmailAddressStub));
+            verify(groupLessonRepositoryMock).findAllLessonsInRangeForTutor(isA(LocalDateTime.class), isA(LocalDateTime.class), eq(tutorEmailAddressStub));
+            throw e;
+        }
+    }
+
+    @Test(expected = NewLessonCollidesWithExistingOnesException.class)
+    public void shouldThrowNewLessonCollidesWithExistingOnesExceptionWhenScheduledLessonsCollideWithGroupLessons() {
+        //given
+        final LocalDateTime currentDateTime = LocalDateTime.now();
+        GroupLessonEntity groupLessonEntityWhichCollidesWithNewOne = GroupLessonEntityStub.createWithDatesOfLesson(currentDateTime.minusHours(2), currentDateTime.plusHours(2));
+        GroupLessonEntity groupLessonEntityWhichDoesNotCollideWithNewOne = GroupLessonEntityStub.createWithDatesOfLesson(currentDateTime.plusDays(2), currentDateTime.plusDays(2).plusHours(2));
+        List<GroupLessonEntity> existingGroupLessonEntitiesStub = Lists.newArrayList(groupLessonEntityWhichCollidesWithNewOne, groupLessonEntityWhichDoesNotCollideWithNewOne);
+        LessonDates lessonDatesWhichCollidesWithExistingOne = LessonDatesStub.createWithDates(currentDateTime.minusHours(1), currentDateTime.plusHours(3));
+        LessonDates lessonDatesWhichDoesNotCollideWithExistingOne = LessonDatesStub.createWithDates(currentDateTime.plusMonths(1), currentDateTime.plusMonths(1).plusHours(1));
+        List<LessonDates> generatedDatesStub = Lists.newArrayList(lessonDatesWhichCollidesWithExistingOne, lessonDatesWhichDoesNotCollideWithExistingOne);
+        String tutorEmailAddressStub = TUTOR_EMAIL_ADDRESS_STUB;
+
+        when(individualLessonRepositoryMock.findAllLessonsInRangeForTutor(isA(LocalDateTime.class), isA(LocalDateTime.class), eq(tutorEmailAddressStub))).thenReturn(Collections.emptyList());
+        when(groupLessonRepositoryMock.findAllLessonsInRangeForTutor(isA(LocalDateTime.class), isA(LocalDateTime.class), eq(tutorEmailAddressStub))).thenReturn(existingGroupLessonEntitiesStub);
+
+        //when
+        try {
+            testee.validateIfScheduledLessonsDoesNotCollideWithExistingOnes(generatedDatesStub, tutorEmailAddressStub);
+        } catch (NewLessonCollidesWithExistingOnesException e) {
+
+            //then exception is thrown
+            verify(individualLessonRepositoryMock).findAllLessonsInRangeForTutor(isA(LocalDateTime.class), isA(LocalDateTime.class), eq(tutorEmailAddressStub));
+            verify(groupLessonRepositoryMock).findAllLessonsInRangeForTutor(isA(LocalDateTime.class), isA(LocalDateTime.class), eq(tutorEmailAddressStub));
             throw e;
         }
     }
@@ -143,11 +172,13 @@ public class LessonCollisionValidatorServiceImplTest {
         String tutorEmailAddressStub = TUTOR_EMAIL_ADDRESS_STUB;
 
         when(individualLessonRepositoryMock.findAllLessonsInRangeForTutor(isA(LocalDateTime.class), isA(LocalDateTime.class), eq(tutorEmailAddressStub))).thenReturn(existingIndividualLessonEntitiesStub);
+        when(groupLessonRepositoryMock.findAllLessonsInRangeForTutor(isA(LocalDateTime.class), isA(LocalDateTime.class), eq(tutorEmailAddressStub))).thenReturn(Collections.emptyList());
 
         //when
         testee.validateIfScheduledLessonsDoesNotCollideWithExistingOnes(generatedDatesStub, tutorEmailAddressStub);
 
         //then nothing happens
         verify(individualLessonRepositoryMock).findAllLessonsInRangeForTutor(isA(LocalDateTime.class), isA(LocalDateTime.class), eq(tutorEmailAddressStub));
+        verify(groupLessonRepositoryMock).findAllLessonsInRangeForTutor(isA(LocalDateTime.class), isA(LocalDateTime.class), eq(tutorEmailAddressStub));
     }
 }
