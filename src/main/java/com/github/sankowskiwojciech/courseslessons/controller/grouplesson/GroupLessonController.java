@@ -4,12 +4,16 @@ import com.github.sankowskiwojciech.coursescorelib.model.account.AccountInfo;
 import com.github.sankowskiwojciech.coursescorelib.model.db.token.TokenEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLessonResponse;
+import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.request.GroupLessonRequest;
+import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.request.GroupLessonsScheduleRequest;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequestParams;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
 import com.github.sankowskiwojciech.courseslessons.controller.grouplesson.validator.GroupLessonRequestValidator;
+import com.github.sankowskiwojciech.courseslessons.controller.grouplesson.validator.GroupLessonsScheduleRequestValidator;
 import com.github.sankowskiwojciech.courseslessons.service.grouplesson.GroupLessonService;
+import com.github.sankowskiwojciech.courseslessons.service.grouplesson.GroupLessonsSchedulerService;
 import com.github.sankowskiwojciech.courseslessons.service.grouplesson.validator.GroupLessonValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.tokenvalidation.TokenValidationService;
 import lombok.AllArgsConstructor;
@@ -34,6 +38,7 @@ public class GroupLessonController {
     private final SubdomainService subdomainService;
     private final GroupLessonValidatorService groupLessonValidatorService;
     private final GroupLessonService groupLessonService;
+    private final GroupLessonsSchedulerService groupLessonsSchedulerService;
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping
@@ -56,5 +61,14 @@ public class GroupLessonController {
         AccountInfo accountInfo = new AccountInfo(token.getUserEmailAddress(), token.getAccountType());
         LessonRequestParams requestParams = new LessonRequestParams(subdomain, fromDate, toDate);
         return groupLessonService.readGroupLessons(accountInfo, requestParams);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/schedule")
+    public List<GroupLessonResponse> scheduleGroupLessons(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestBody GroupLessonsScheduleRequest request) {
+        GroupLessonsScheduleRequestValidator.validateGroupLessonsScheduleRequest(request);
+        TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
+        GroupLessonsSchedule schedule = groupLessonValidatorService.validateGroupLessonsScheduleRequest(request, token.getUserEmailAddress());
+        return groupLessonsSchedulerService.scheduleGroupLessons(schedule);
     }
 }

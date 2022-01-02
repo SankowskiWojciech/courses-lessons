@@ -11,12 +11,20 @@ import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainSe
 import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainServiceImpl;
 import com.github.sankowskiwojciech.courseslessons.service.grouplesson.GroupLessonService;
 import com.github.sankowskiwojciech.courseslessons.service.grouplesson.GroupLessonServiceImpl;
+import com.github.sankowskiwojciech.courseslessons.service.grouplesson.GroupLessonsSchedulerService;
+import com.github.sankowskiwojciech.courseslessons.service.grouplesson.GroupLessonsSchedulerServiceImpl;
 import com.github.sankowskiwojciech.courseslessons.service.grouplesson.transformer.GroupLessonsQueryProvider;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonService;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonServiceImpl;
+import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonsSchedulerService;
+import com.github.sankowskiwojciech.courseslessons.service.individuallesson.IndividualLessonsSchedulerServiceImpl;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.date.LessonsDatesGeneratorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.date.LessonsDatesGeneratorServiceImpl;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileServiceImpl;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonsIdsAndListOfFilesWithoutContentProvider;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorServiceImpl;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorServiceImpl;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.ValidFileMIMETypes;
@@ -78,6 +86,26 @@ public class ServiceConfig {
     @Bean
     public GroupLessonService groupLessonService() {
         return new GroupLessonServiceImpl(groupLessonRepository, fileRepository, lessonFileService(), lessonsIdsAndListOfFilesWithoutContentProvider(), groupLessonsQueryProvider());
+    }
+
+    @Bean
+    public LessonsDatesGeneratorService lessonsDatesGeneratorService() {
+        return new LessonsDatesGeneratorServiceImpl();
+    }
+
+    @Bean
+    public LessonCollisionValidatorService lessonCollisionValidatorService() {
+        return new LessonCollisionValidatorServiceImpl(individualLessonRepository, groupLessonRepository);
+    }
+
+    @Bean
+    public IndividualLessonsSchedulerService individualLessonsSchedulerService() {
+        return new IndividualLessonsSchedulerServiceImpl(individualLessonRepository, lessonsDatesGeneratorService(), lessonCollisionValidatorService());
+    }
+
+    @Bean
+    public GroupLessonsSchedulerService groupLessonsSchedulerService() {
+        return new GroupLessonsSchedulerServiceImpl(groupLessonRepository, lessonsDatesGeneratorService(), lessonCollisionValidatorService());
     }
 
     @Bean
