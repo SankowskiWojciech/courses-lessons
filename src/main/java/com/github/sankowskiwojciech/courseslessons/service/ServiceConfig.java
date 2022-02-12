@@ -1,6 +1,7 @@
 package com.github.sankowskiwojciech.courseslessons.service;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileUserPermissionsRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.GroupLessonRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.IndividualLessonRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileAccessRepository;
@@ -60,6 +61,9 @@ public class ServiceConfig {
     @Autowired
     private LessonFileAccessRepository lessonFileAccessRepository;
 
+    @Autowired
+    private FileUserPermissionsRepository fileUserPermissionsRepository;
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -110,7 +114,7 @@ public class ServiceConfig {
 
     @Bean
     public LessonFileService lessonFileService() {
-        return new LessonFileServiceImpl(fileRepository, lessonFileAccessRepository);
+        return new LessonFileServiceImpl(fileRepository, lessonFileAccessRepository, fileUserPermissionsRepository);
     }
 
     @Bean

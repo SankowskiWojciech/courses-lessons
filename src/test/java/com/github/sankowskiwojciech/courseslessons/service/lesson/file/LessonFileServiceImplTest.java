@@ -1,8 +1,10 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.file;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileUserPermissionsRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileAccessRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileUserPermissionsEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAccessEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
@@ -39,7 +41,8 @@ public class LessonFileServiceImplTest {
 
     private final FileRepository fileRepositoryMock = mock(FileRepository.class);
     private final LessonFileAccessRepository lessonFileAccessRepositoryMock = mock(LessonFileAccessRepository.class);
-    private final LessonFileService testee = new LessonFileServiceImpl(fileRepositoryMock, lessonFileAccessRepositoryMock);
+    private final FileUserPermissionsRepository fileUserPermissionsRepositoryMock = mock(FileUserPermissionsRepository.class);
+    private final LessonFileService testee = new LessonFileServiceImpl(fileRepositoryMock, lessonFileAccessRepositoryMock, fileUserPermissionsRepositoryMock);
 
     @Before
     public void reset() {
@@ -60,6 +63,7 @@ public class LessonFileServiceImplTest {
 
         //then
         verify(fileRepositoryMock).save(any(FileEntity.class));
+        verify(fileUserPermissionsRepositoryMock).save(any(FileUserPermissionsEntity.class));
 
         assertNotNull(response);
         assertEquals(entityStub.getId(), response.getId());

@@ -1,13 +1,16 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.file;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileRepository;
+import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileUserPermissionsRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileAccessRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileEntity;
+import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileUserPermissionsEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAccessEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.LessonIdAndFilesIdsToIndividualLessonFileAccessList;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.FileIdAndUserIdToFileUserPermissionsEntity;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonFileAndUserIdToLessonFileEntity;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonFileEntityToLessonFile;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonFileEntityToLessonFileResponse;
@@ -26,12 +29,15 @@ import java.util.stream.Collectors;
 public class LessonFileServiceImpl implements LessonFileService {
     private final FileRepository fileRepository;
     private final LessonFileAccessRepository lessonFileAccessRepository;
+    private final FileUserPermissionsRepository fileUserPermissionsRepository;
 
     @Transactional
     @Override
     public LessonFileResponse createLessonFile(LessonFile file, String userId) {
         FileEntity entity = LessonFileAndUserIdToLessonFileEntity.getInstance().apply(file, userId);
         FileEntity savedEntity = fileRepository.save(entity);
+        FileUserPermissionsEntity fileUserPermissionsEntity = FileIdAndUserIdToFileUserPermissionsEntity.getInstance().apply(savedEntity.getId(), userId);
+        fileUserPermissionsRepository.save(fileUserPermissionsEntity);
         return LessonFileEntityToLessonFileResponse.getInstance().apply(savedEntity);
     }
 
