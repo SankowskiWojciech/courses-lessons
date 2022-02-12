@@ -5,7 +5,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonFileToResponseEntityOfStreamingResponseBody;
-import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileAccessPermissionValidatorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileUserPermissionsValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.tokenvalidation.TokenValidationService;
 import lombok.AllArgsConstructor;
@@ -28,7 +28,7 @@ import java.util.List;
 @RequestMapping("/lessons/files")
 public class LessonFileController {
     private final TokenValidationService tokenValidationService;
-    private final FileAccessPermissionValidatorService fileAccessPermissionValidatorService;
+    private final FileUserPermissionsValidatorService fileUserPermissionsValidatorService;
     private final LessonFileValidatorService lessonFileValidatorService;
     private final LessonFileService lessonFileService;
 
@@ -36,7 +36,7 @@ public class LessonFileController {
     @PostMapping
     public LessonFileResponse createFile(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam("file") MultipartFile file) {
         TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
-        fileAccessPermissionValidatorService.validateIfUserIsAllowedToCreateFile(token.getUserEmailAddress());
+        fileUserPermissionsValidatorService.validateIfUserIsAllowedToCreateFile(token.getUserEmailAddress());
         LessonFile lessonFile = lessonFileValidatorService.validateUploadedFile(file);
         return lessonFileService.createLessonFile(lessonFile, token.getUserEmailAddress());
     }
@@ -53,7 +53,7 @@ public class LessonFileController {
     public ResponseEntity<StreamingResponseBody> readFile(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @PathVariable String fileId) {
         TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
         lessonFileValidatorService.validateIfFileExists(fileId);
-        fileAccessPermissionValidatorService.validateIfUserIsAllowedToAccessFile(token.getUserEmailAddress(), fileId);
+        fileUserPermissionsValidatorService.validateIfUserIsAllowedToAccessFile(token.getUserEmailAddress(), fileId);
         LessonFile lessonFile = lessonFileService.readLessonFile(fileId);
         return LessonFileToResponseEntityOfStreamingResponseBody.getInstance().apply(lessonFile);
     }

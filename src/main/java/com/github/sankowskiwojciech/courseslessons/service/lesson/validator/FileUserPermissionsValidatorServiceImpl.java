@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class FileAccessPermissionValidatorServiceImpl implements FileAccessPermissionValidatorService {
+public class FileUserPermissionsValidatorServiceImpl implements FileUserPermissionsValidatorService {
 
     private final TutorRepository tutorRepository;
     private final StudentRepository studentRepository;

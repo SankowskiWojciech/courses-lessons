@@ -32,14 +32,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-public class FileAccessPermissionValidatorServiceImplTest {
+public class FileUserPermissionsValidatorServiceImplTest {
 
     private final TutorRepository tutorRepositoryMock = mock(TutorRepository.class);
     private final StudentRepository studentRepositoryMock = mock(StudentRepository.class);
     private final LessonFileAccessRepository lessonFileAccessRepositoryMock = mock(LessonFileAccessRepository.class);
     private final IndividualLessonRepository individualLessonRepositoryMock = mock(IndividualLessonRepository.class);
     private final FileRepository fileRepositoryMock = mock(FileRepository.class);
-    private final FileAccessPermissionValidatorService testee = new FileAccessPermissionValidatorServiceImpl(tutorRepositoryMock, studentRepositoryMock, lessonFileAccessRepositoryMock, individualLessonRepositoryMock, fileRepositoryMock);
+    private final FileUserPermissionsValidatorService testee = new FileUserPermissionsValidatorServiceImpl(tutorRepositoryMock, studentRepositoryMock, lessonFileAccessRepositoryMock, individualLessonRepositoryMock, fileRepositoryMock);
 
     @Before
     public void reset() {

@@ -18,7 +18,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLesson
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.request.GroupLessonRequest;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.request.GroupLessonsScheduleRequest;
 import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
-import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileAccessPermissionValidatorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileUserPermissionsValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
 import com.github.sankowskiwojciech.coursestestlib.stub.GroupEntityStub;
@@ -46,13 +46,13 @@ public class GroupLessonValidatorServiceTest {
     private final SubdomainService subdomainServiceMock = mock(SubdomainService.class);
     private final LessonCollisionValidatorService lessonCollisionValidatorServiceMock = mock(LessonCollisionValidatorService.class);
     private final LessonFileValidatorService lessonFileValidatorServiceMock = mock(LessonFileValidatorService.class);
-    private final FileAccessPermissionValidatorService fileAccessPermissionValidatorServiceMock = mock(FileAccessPermissionValidatorService.class);
+    private final FileUserPermissionsValidatorService fileUserPermissionsValidatorServiceMock = mock(FileUserPermissionsValidatorService.class);
     private final GroupRepository groupRepositoryMock = mock(GroupRepository.class);
-    private final GroupLessonValidatorService testee = new GroupLessonValidatorService(tutorRepositoryMock, subdomainServiceMock, lessonCollisionValidatorServiceMock, lessonFileValidatorServiceMock, fileAccessPermissionValidatorServiceMock, groupRepositoryMock);
+    private final GroupLessonValidatorService testee = new GroupLessonValidatorService(tutorRepositoryMock, subdomainServiceMock, lessonCollisionValidatorServiceMock, lessonFileValidatorServiceMock, fileUserPermissionsValidatorServiceMock, groupRepositoryMock);
 
     @Before
     public void reset() {
-        Mockito.reset(tutorRepositoryMock, studentRepositoryMock, subdomainServiceMock, lessonCollisionValidatorServiceMock, lessonFileValidatorServiceMock, fileAccessPermissionValidatorServiceMock, groupRepositoryMock);
+        Mockito.reset(tutorRepositoryMock, studentRepositoryMock, subdomainServiceMock, lessonCollisionValidatorServiceMock, lessonFileValidatorServiceMock, fileUserPermissionsValidatorServiceMock, groupRepositoryMock);
     }
 
     @Test(expected = SubdomainNotFoundException.class)
@@ -159,7 +159,7 @@ public class GroupLessonValidatorServiceTest {
 
         when(subdomainServiceMock.readSubdomain(requestStub.getSubdomainAlias())).thenReturn(subdomainStub);
         when(tutorRepositoryMock.findById(userId)).thenReturn(Optional.of(tutorStub));
-        doThrow(UserNotAllowedToAccessFileException.class).when(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(userId, requestStub.getFilesIds().get(0));
+        doThrow(UserNotAllowedToAccessFileException.class).when(fileUserPermissionsValidatorServiceMock).validateIfUserIsAllowedToAccessFile(userId, requestStub.getFilesIds().get(0));
 
         //when
         try {
@@ -171,7 +171,7 @@ public class GroupLessonValidatorServiceTest {
             verify(tutorRepositoryMock).findById(userId);
             verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), userId);
             verify(lessonFileValidatorServiceMock).validateIfFileExists(requestStub.getFilesIds().get(0));
-            verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(userId, requestStub.getFilesIds().get(0));
+            verify(fileUserPermissionsValidatorServiceMock).validateIfUserIsAllowedToAccessFile(userId, requestStub.getFilesIds().get(0));
             throw e;
         }
     }
@@ -198,7 +198,7 @@ public class GroupLessonValidatorServiceTest {
             verify(tutorRepositoryMock).findById(userId);
             verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), userId);
             verify(lessonFileValidatorServiceMock).validateIfFileExists(requestStub.getFilesIds().get(0));
-            verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(userId, requestStub.getFilesIds().get(0));
+            verify(fileUserPermissionsValidatorServiceMock).validateIfUserIsAllowedToAccessFile(userId, requestStub.getFilesIds().get(0));
             verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(requestStub.getSubdomainAlias(), userId);
             verify(groupRepositoryMock).findById(requestStub.getGroupId());
             throw e;
@@ -227,7 +227,7 @@ public class GroupLessonValidatorServiceTest {
             verify(tutorRepositoryMock).findById(userId);
             verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), userId);
             verify(lessonFileValidatorServiceMock).validateIfFileExists(requestStub.getFilesIds().get(0));
-            verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(userId, requestStub.getFilesIds().get(0));
+            verify(fileUserPermissionsValidatorServiceMock).validateIfUserIsAllowedToAccessFile(userId, requestStub.getFilesIds().get(0));
             verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(requestStub.getSubdomainAlias(), userId);
             throw e;
         }
@@ -257,7 +257,7 @@ public class GroupLessonValidatorServiceTest {
             verify(tutorRepositoryMock).findById(userId);
             verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), userId);
             verify(lessonFileValidatorServiceMock).validateIfFileExists(requestStub.getFilesIds().get(0));
-            verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(userId, requestStub.getFilesIds().get(0));
+            verify(fileUserPermissionsValidatorServiceMock).validateIfUserIsAllowedToAccessFile(userId, requestStub.getFilesIds().get(0));
             verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(requestStub.getSubdomainAlias(), userId);
             verify(groupRepositoryMock).findById(requestStub.getGroupId());
 
@@ -286,7 +286,7 @@ public class GroupLessonValidatorServiceTest {
         verify(tutorRepositoryMock).findById(userId);
         verify(lessonCollisionValidatorServiceMock).validateIfNewLessonDoesNotCollideWithExistingOnes(requestStub.getStartDate(), requestStub.getEndDate(), userId);
         verify(lessonFileValidatorServiceMock).validateIfFileExists(requestStub.getFilesIds().get(0));
-        verify(fileAccessPermissionValidatorServiceMock).validateIfUserIsAllowedToAccessFile(userId, requestStub.getFilesIds().get(0));
+        verify(fileUserPermissionsValidatorServiceMock).validateIfUserIsAllowedToAccessFile(userId, requestStub.getFilesIds().get(0));
         verify(subdomainServiceMock).validateIfUserHasAccessToSubdomain(requestStub.getSubdomainAlias(), userId);
         verify(groupRepositoryMock).findById(requestStub.getGroupId());
         assertGroupLesson(lesson, requestStub, subdomainStub, tutorStub, groupStub);

@@ -13,7 +13,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.LessonAndStudentEntityToIndividualLesson;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.LessonsScheduleAndStudentEntityToIndividualLessonsSchedule;
-import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileAccessPermissionValidatorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileUserPermissionsValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonValidatorService;
@@ -25,8 +25,8 @@ import java.util.Optional;
 public class IndividualLessonValidatorService extends LessonValidatorService {
     private final StudentRepository studentRepository;
 
-    public IndividualLessonValidatorService(TutorRepository tutorRepository, SubdomainService subdomainService, LessonCollisionValidatorService lessonCollisionValidatorService, LessonFileValidatorService lessonFileValidatorService, FileAccessPermissionValidatorService fileAccessPermissionValidatorService, StudentRepository studentRepository) {
-        super(tutorRepository, lessonCollisionValidatorService, lessonFileValidatorService, fileAccessPermissionValidatorService, subdomainService);
+    public IndividualLessonValidatorService(TutorRepository tutorRepository, SubdomainService subdomainService, LessonCollisionValidatorService lessonCollisionValidatorService, LessonFileValidatorService lessonFileValidatorService, FileUserPermissionsValidatorService fileUserPermissionsValidatorService, StudentRepository studentRepository) {
+        super(tutorRepository, lessonCollisionValidatorService, lessonFileValidatorService, fileUserPermissionsValidatorService, subdomainService);
         this.studentRepository = studentRepository;
     }
 

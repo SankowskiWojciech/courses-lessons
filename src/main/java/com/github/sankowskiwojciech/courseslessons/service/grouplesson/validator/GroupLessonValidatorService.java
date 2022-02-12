@@ -16,7 +16,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonsSchedule;
 import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
 import com.github.sankowskiwojciech.courseslessons.service.grouplesson.transformer.LessonAndGroupEntityToGroupLesson;
 import com.github.sankowskiwojciech.courseslessons.service.grouplesson.transformer.LessonsScheduleAndGroupEntityToGroupLessonsSchedule;
-import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileAccessPermissionValidatorService;
+import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.FileUserPermissionsValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonFileValidatorService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonValidatorService;
@@ -26,8 +26,8 @@ import org.springframework.stereotype.Service;
 public class GroupLessonValidatorService extends LessonValidatorService {
     private final GroupRepository groupRepository;
 
-    public GroupLessonValidatorService(TutorRepository tutorRepository, SubdomainService subdomainService, LessonCollisionValidatorService lessonCollisionValidatorService, LessonFileValidatorService lessonFileValidatorService, FileAccessPermissionValidatorService fileAccessPermissionValidatorService, GroupRepository groupRepository) {
-        super(tutorRepository, lessonCollisionValidatorService, lessonFileValidatorService, fileAccessPermissionValidatorService, subdomainService);
+    public GroupLessonValidatorService(TutorRepository tutorRepository, SubdomainService subdomainService, LessonCollisionValidatorService lessonCollisionValidatorService, LessonFileValidatorService lessonFileValidatorService, FileUserPermissionsValidatorService fileUserPermissionsValidatorService, GroupRepository groupRepository) {
+        super(tutorRepository, lessonCollisionValidatorService, lessonFileValidatorService, fileUserPermissionsValidatorService, subdomainService);
         this.groupRepository = groupRepository;
     }
 

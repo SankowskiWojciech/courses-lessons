@@ -22,7 +22,7 @@ public abstract class LessonValidatorService {
     private final TutorRepository tutorRepository;
     private final LessonCollisionValidatorService lessonCollisionValidatorService;
     private final LessonFileValidatorService lessonFileValidatorService;
-    private final FileAccessPermissionValidatorService fileAccessPermissionValidatorService;
+    private final FileUserPermissionsValidatorService fileUserPermissionsValidatorService;
     protected final SubdomainService subdomainService;
 
     public Lesson validateCreateLessonRequest(LessonRequest request, String userId) {
@@ -48,7 +48,7 @@ public abstract class LessonValidatorService {
         if (CollectionUtils.isNotEmpty(filesIds)) {
             filesIds.forEach(fileId -> {
                 lessonFileValidatorService.validateIfFileExists(fileId);
-                fileAccessPermissionValidatorService.validateIfUserIsAllowedToAccessFile(tutorId, fileId);
+                fileUserPermissionsValidatorService.validateIfUserIsAllowedToAccessFile(tutorId, fileId);
             });
         }
     }
