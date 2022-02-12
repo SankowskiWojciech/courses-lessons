@@ -11,6 +11,7 @@ import com.github.sankowskiwojciech.courseslessons.service.lesson.date.LessonsDa
 import com.github.sankowskiwojciech.courseslessons.service.lesson.validator.LessonCollisionValidatorService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -26,6 +27,7 @@ public class GroupLessonsSchedulerServiceImpl implements GroupLessonsSchedulerSe
     private final LessonsDatesGeneratorService lessonsDatesGeneratorService;
     private final LessonCollisionValidatorService lessonCollisionValidatorService;
 
+    @Transactional
     @Override
     public List<GroupLessonResponse> scheduleGroupLessons(GroupLessonsSchedule schedule) {
         List<LessonDates> lessonDates;
