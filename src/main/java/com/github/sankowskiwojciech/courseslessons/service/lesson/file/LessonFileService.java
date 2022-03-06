@@ -11,7 +11,7 @@ public interface LessonFileService {
 
     LessonFile readLessonFile(String fileId);
 
-    List<LessonFileResponse> readFilesInformation(String fileOwnerId);
+    List<LessonFileResponse> readFilesInformation(String userId);
 
     List<LessonFileAccessEntity> attachFilesToLesson(String lessonId, List<String> filesIds);
 }

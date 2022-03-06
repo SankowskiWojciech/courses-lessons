@@ -9,6 +9,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileWithoutCont
 import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAccessEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
+import com.github.sankowskiwojciech.coursestestlib.stub.FileUserPermissionsEntityStub;
 import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileAccessEntityStub;
 import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileEntityStub;
 import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileStub;
@@ -18,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.mockito.Mockito;
+import org.mockito.internal.util.collections.Sets;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,6 +34,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -98,19 +101,24 @@ public class LessonFileServiceImplTest {
     @Test
     public void shouldReadFilesInformationCorrectly() {
         //given
-        String fileOwnerIdStub = TUTOR_EMAIL_ADDRESS_STUB;
-        List<FileWithoutContent> filesWithoutContentStub = Lists.newArrayList(LessonFileWithoutContentStub.create());
+        String userIdStub = TUTOR_EMAIL_ADDRESS_STUB;
+        String fileIdStub = FILE_ID_STUB;
+        List<FileWithoutContent> filesWithoutContentStub = Lists.newArrayList(LessonFileWithoutContentStub.createWithFileId(fileIdStub));
+        List<FileUserPermissionsEntity> fileUserPermissionsEntitiesStub = Lists.newArrayList(FileUserPermissionsEntityStub.createWithFullAccess(fileIdStub, userIdStub));
 
-        when(fileRepositoryMock.findAllByCreatedBy(eq(fileOwnerIdStub))).thenReturn(filesWithoutContentStub);
+        when(fileUserPermissionsRepositoryMock.findAllByFileUserPermissionsEntityIdUserIdAndCanReadIsTrue(userIdStub)).thenReturn(fileUserPermissionsEntitiesStub);
+        when(fileRepositoryMock.findAllByIdIn(Sets.newSet(fileIdStub))).thenReturn(filesWithoutContentStub);
 
         //when
-        List<LessonFileResponse> responses = testee.readFilesInformation(fileOwnerIdStub);
+        List<LessonFileResponse> responses = testee.readFilesInformation(userIdStub);
 
         //then
-        verify(fileRepositoryMock).findAllByCreatedBy(eq(fileOwnerIdStub));
+        verify(fileUserPermissionsRepositoryMock).findAllByFileUserPermissionsEntityIdUserIdAndCanReadIsTrue(userIdStub);
+        verify(fileRepositoryMock).findAllByIdIn(anySet());
 
         assertNotNull(responses);
         assertFalse(responses.isEmpty());
+        assertEquals(responses.get(0).getId(), fileIdStub);
     }
 
     @Test

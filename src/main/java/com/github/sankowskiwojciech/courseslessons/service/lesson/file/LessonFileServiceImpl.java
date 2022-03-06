@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,8 +49,14 @@ public class LessonFileServiceImpl implements LessonFileService {
     }
 
     @Override
-    public List<LessonFileResponse> readFilesInformation(String fileOwnerId) {
-        List<FileWithoutContent> filesWithoutContent = fileRepository.findAllByCreatedBy(fileOwnerId);
+    public List<LessonFileResponse> readFilesInformation(String userId) {
+        Set<String> filesIdsToWhichUserHasAccess = fileUserPermissionsRepository.findAllByFileUserPermissionsEntityIdUserIdAndCanReadIsTrue(userId).stream()
+                .map(entity -> entity.getFileUserPermissionsEntityId().getFileId())
+                .collect(Collectors.toSet());
+        if (filesIdsToWhichUserHasAccess.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<FileWithoutContent> filesWithoutContent = fileRepository.findAllByIdIn(filesIdsToWhichUserHasAccess);
         return filesWithoutContent.stream().map(fileWithoutContent -> LessonFileWithoutContentToLessonFileResponse.getInstance().apply(fileWithoutContent)).collect(Collectors.toList());
     }
 

@@ -7,6 +7,7 @@ import static com.github.sankowskiwojciech.coursestestlib.DefaultTestValues.FILE
 import static com.github.sankowskiwojciech.coursestestlib.DefaultTestValues.TUTOR_EMAIL_ADDRESS_STUB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FileIdAndUserIdToFileUserPermissionsEntityTest {
@@ -28,7 +29,7 @@ public class FileIdAndUserIdToFileUserPermissionsEntityTest {
         assertTrue(entity.canRead());
         assertTrue(entity.canModify());
         assertTrue(entity.canDelete());
-        assertNotNull(entity.getModificationDateTime());
-        assertNotNull(entity.getModifiedBy());
+        assertNull(entity.getModificationDateTime());
+        assertNull(entity.getModifiedBy());
     }
 }
