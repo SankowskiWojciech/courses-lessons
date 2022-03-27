@@ -1,15 +1,14 @@
 package com.github.sankowskiwojciech.courseslessons.service.lesson.file;
 
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileRepository;
-import com.github.sankowskiwojciech.coursescorelib.backend.repository.FileUserPermissionsRepository;
 import com.github.sankowskiwojciech.coursescorelib.backend.repository.LessonFileAccessRepository;
 import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileUserPermissionsEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileWithoutContent;
 import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAccessEntity;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFile;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
-import com.github.sankowskiwojciech.coursestestlib.stub.FileUserPermissionsEntityStub;
+import com.github.sankowskiwojciech.courseslessons.service.file.FilePermissionsService;
+import com.github.sankowskiwojciech.courseslessons.service.file.FilePermissionsServiceImpl;
 import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileAccessEntityStub;
 import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileEntityStub;
 import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileStub;
@@ -17,13 +16,14 @@ import com.github.sankowskiwojciech.coursestestlib.stub.LessonFileWithoutContent
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.mockito.Mockito;
 import org.mockito.internal.util.collections.Sets;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.github.sankowskiwojciech.coursestestlib.DefaultTestValues.FILES_IDS_STUB;
 import static com.github.sankowskiwojciech.coursestestlib.DefaultTestValues.FILE_ID_STUB;
@@ -44,12 +44,12 @@ public class LessonFileServiceImplTest {
 
     private final FileRepository fileRepositoryMock = mock(FileRepository.class);
     private final LessonFileAccessRepository lessonFileAccessRepositoryMock = mock(LessonFileAccessRepository.class);
-    private final FileUserPermissionsRepository fileUserPermissionsRepositoryMock = mock(FileUserPermissionsRepository.class);
-    private final LessonFileService testee = new LessonFileServiceImpl(fileRepositoryMock, lessonFileAccessRepositoryMock, fileUserPermissionsRepositoryMock);
+    private final FilePermissionsService filePermissionsServiceMock = mock(FilePermissionsServiceImpl.class);
+    private final LessonFileService testee = new LessonFileServiceImpl(fileRepositoryMock, lessonFileAccessRepositoryMock, filePermissionsServiceMock);
 
     @Before
     public void reset() {
-        Mockito.reset(fileRepositoryMock, lessonFileAccessRepositoryMock);
+        Mockito.reset(fileRepositoryMock, lessonFileAccessRepositoryMock, filePermissionsServiceMock);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class LessonFileServiceImplTest {
 
         //then
         verify(fileRepositoryMock).save(any(FileEntity.class));
-        verify(fileUserPermissionsRepositoryMock).save(any(FileUserPermissionsEntity.class));
+        verify(filePermissionsServiceMock).addUserPermissionsToFile(userIdStub, fileStub.getId());
 
         assertNotNull(response);
         assertEquals(entityStub.getId(), response.getId());
@@ -89,13 +89,14 @@ public class LessonFileServiceImplTest {
 
         //then
         verify(fileRepositoryMock).findById(eq(fileId));
-        Assertions.assertNotNull(file);
-        Assertions.assertEquals(entityStub.getId(), file.getId());
-        Assertions.assertEquals(entityStub.getName(), file.getName());
-        Assertions.assertEquals(entityStub.getExtension(), file.getExtension());
-        Assertions.assertEquals(entityStub.getContent(), file.getContent());
-        Assertions.assertEquals(entityStub.getCreatedBy(), file.getCreatedBy());
-        Assertions.assertEquals(entityStub.getCreationDateTime(), file.getCreationDateTime());
+
+        assertNotNull(file);
+        assertEquals(entityStub.getId(), file.getId());
+        assertEquals(entityStub.getName(), file.getName());
+        assertEquals(entityStub.getExtension(), file.getExtension());
+        assertEquals(entityStub.getContent(), file.getContent());
+        assertEquals(entityStub.getCreatedBy(), file.getCreatedBy());
+        assertEquals(entityStub.getCreationDateTime(), file.getCreationDateTime());
     }
 
     @Test
@@ -104,16 +105,16 @@ public class LessonFileServiceImplTest {
         String userIdStub = TUTOR_EMAIL_ADDRESS_STUB;
         String fileIdStub = FILE_ID_STUB;
         List<FileWithoutContent> filesWithoutContentStub = Lists.newArrayList(LessonFileWithoutContentStub.createWithFileId(fileIdStub));
-        List<FileUserPermissionsEntity> fileUserPermissionsEntitiesStub = Lists.newArrayList(FileUserPermissionsEntityStub.createWithFullAccess(fileIdStub, userIdStub));
+        Set<String> filesIdsToWhichUserHasAccessStub = new HashSet<>(FILES_IDS_STUB);
 
-        when(fileUserPermissionsRepositoryMock.findAllByFileUserPermissionsEntityIdUserIdAndCanReadIsTrue(userIdStub)).thenReturn(fileUserPermissionsEntitiesStub);
+        when(filePermissionsServiceMock.readIdsOfFilesToWhichUserHasAccess(userIdStub)).thenReturn(filesIdsToWhichUserHasAccessStub);
         when(fileRepositoryMock.findAllByIdIn(Sets.newSet(fileIdStub))).thenReturn(filesWithoutContentStub);
 
         //when
         List<LessonFileResponse> responses = testee.readFilesInformation(userIdStub);
 
         //then
-        verify(fileUserPermissionsRepositoryMock).findAllByFileUserPermissionsEntityIdUserIdAndCanReadIsTrue(userIdStub);
+        verify(filePermissionsServiceMock).readIdsOfFilesToWhichUserHasAccess(userIdStub);
         verify(fileRepositoryMock).findAllByIdIn(anySet());
 
         assertNotNull(responses);
