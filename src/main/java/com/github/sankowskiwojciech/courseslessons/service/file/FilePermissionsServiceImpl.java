@@ -6,7 +6,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.file.FileUserPermiss
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,7 +17,7 @@ public class FilePermissionsServiceImpl implements FilePermissionsService {
 
     @Override
     public void addUserPermissionsToFile(String userId, String fileId) {
-        FileUserPermissionsEntityId id = new FileUserPermissionsEntityId(userId, fileId);
+        FileUserPermissionsEntityId id = new FileUserPermissionsEntityId(fileId, userId);
         if (!fileUserPermissionsRepository.existsById(id)) {
             FileUserPermissionsEntity entity = new FileUserPermissionsEntity(id, true, true, true);
             fileUserPermissionsRepository.save(entity);
@@ -25,7 +25,7 @@ public class FilePermissionsServiceImpl implements FilePermissionsService {
     }
 
     @Override
-    public void addUserPermissionsToFiles(String userId, List<String> filesIds) {
+    public void addUserPermissionsToFiles(String userId, Collection<String> filesIds) {
         filesIds.forEach(fileId -> addUserPermissionsToFile(userId, fileId));
     }
 

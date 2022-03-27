@@ -9,6 +9,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAcc
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequestParams;
+import com.github.sankowskiwojciech.courseslessons.service.file.FilePermissionsService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonsIdsAndListOfFilesWithoutContentProvider;
 import com.github.sankowskiwojciech.coursestestlib.stub.AccountInfoStub;
@@ -36,7 +37,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.ArgumentMatchers.anySet;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -46,11 +49,12 @@ public class IndividualLessonServiceImplTest {
     private final LessonFileService lessonFileServiceMock = mock(LessonFileService.class);
     private final FileRepository fileRepositoryMock = mock(FileRepository.class);
     private final LessonsIdsAndListOfFilesWithoutContentProvider lessonsIdsAndListOfFilesWithoutContentProviderMock = mock(LessonsIdsAndListOfFilesWithoutContentProvider.class);
-    private final IndividualLessonService testee = new IndividualLessonServiceImpl(individualLessonRepositoryMock, lessonFileServiceMock, fileRepositoryMock, lessonsIdsAndListOfFilesWithoutContentProviderMock);
+    private final FilePermissionsService filePermissionsServiceMock = mock(FilePermissionsService.class);
+    private final IndividualLessonService testee = new IndividualLessonServiceImpl(individualLessonRepositoryMock, lessonFileServiceMock, fileRepositoryMock, lessonsIdsAndListOfFilesWithoutContentProviderMock, filePermissionsServiceMock);
 
     @Before
     public void reset() {
-        Mockito.reset(individualLessonRepositoryMock, lessonFileServiceMock, lessonsIdsAndListOfFilesWithoutContentProviderMock, fileRepositoryMock);
+        Mockito.reset(individualLessonRepositoryMock, lessonFileServiceMock, lessonsIdsAndListOfFilesWithoutContentProviderMock, fileRepositoryMock, filePermissionsServiceMock);
     }
 
     @Test
@@ -73,6 +77,7 @@ public class IndividualLessonServiceImplTest {
         //then
         verify(individualLessonRepositoryMock).save(any(IndividualLessonEntity.class));
         verify(lessonFileServiceMock).attachFilesToLesson(entityStub.getId(), lessonStub.getFilesIds());
+        verify(filePermissionsServiceMock).addUserPermissionsToFiles(anyString(), anyCollection());
         verify(fileRepositoryMock).findAllByIdIn(anySet());
 
         assertNotNull(response);

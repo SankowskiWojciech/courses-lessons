@@ -9,6 +9,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAcc
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.individuallesson.IndividualLessonResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequestParams;
+import com.github.sankowskiwojciech.courseslessons.service.file.FilePermissionsService;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonToIndividualLessonEntity;
 import com.github.sankowskiwojciech.courseslessons.service.individuallesson.transformer.IndividualLessonsQueryProvider;
@@ -33,6 +34,7 @@ public class IndividualLessonServiceImpl implements IndividualLessonService {
     private final LessonFileService lessonFileService;
     private final FileRepository fileRepository;
     private final LessonsIdsAndListOfFilesWithoutContentProvider lessonsIdsAndListOfFilesWithoutContentProvider;
+    private final FilePermissionsService filePermissionsService;
 
     @Transactional
     @Override
@@ -41,6 +43,7 @@ public class IndividualLessonServiceImpl implements IndividualLessonService {
         IndividualLessonEntity savedLessonEntity = individualLessonRepository.save(lessonEntity);
         List<LessonFileAccessEntity> savedLessonFileAccessEntities = lessonFileService.attachFilesToLesson(savedLessonEntity.getId(), lesson.getFilesIds());
         Set<String> filesIds = savedLessonFileAccessEntities.stream().map(LessonFileAccessEntity::getFileId).collect(Collectors.toSet());
+        filePermissionsService.addUserPermissionsToFiles(savedLessonEntity.getStudentEntity().getEmailAddress(), filesIds);
         List<FileWithoutContent> filesWithoutContent = filesIds.isEmpty() ? Collections.emptyList() : fileRepository.findAllByIdIn(filesIds);
         return IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse.getInstance().apply(lessonEntity, filesWithoutContent);
     }
