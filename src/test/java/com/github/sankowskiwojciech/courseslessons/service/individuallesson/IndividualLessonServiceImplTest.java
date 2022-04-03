@@ -81,14 +81,14 @@ public class IndividualLessonServiceImplTest {
         verify(fileRepositoryMock).findAllByIdIn(anySet());
 
         assertNotNull(response);
-        assertEquals(lessonStub.getTitle(), response.getTitle());
-        assertEquals(lessonStub.getStartDate(), response.getStartDate());
-        assertEquals(lessonStub.getEndDate(), response.getEndDate());
-        assertEquals(lessonStub.getDescription(), response.getDescription());
-        assertEquals(lessonStub.getSubdomainEntity().getSubdomainId(), response.getSubdomainAlias());
-        assertEquals(lessonStub.getTutorEntity().getEmailAddress(), response.getTutorEmailAddress());
+        assertEquals(entityStub.getTitle(), response.getTitle());
+        assertEquals(entityStub.getStartDate(), response.getStartDate());
+        assertEquals(entityStub.getEndDate(), response.getEndDate());
+        assertEquals(entityStub.getDescription(), response.getDescription());
+        assertEquals(entityStub.getSubdomainEntity().getSubdomainId(), response.getSubdomainAlias());
+        assertEquals(entityStub.getTutorEntity().getEmailAddress(), response.getTutorEmailAddress());
         assertNotNull(response.getStudentFullName());
-        assertEquals(lessonStub.getStudentEntity().getEmailAddress(), response.getStudentEmailAddress());
+        assertEquals(entityStub.getStudentEntity().getEmailAddress(), response.getStudentEmailAddress());
         assertEquals(lessonStub.getFilesIds().size(), response.getFilesInformation().size());
     }
 

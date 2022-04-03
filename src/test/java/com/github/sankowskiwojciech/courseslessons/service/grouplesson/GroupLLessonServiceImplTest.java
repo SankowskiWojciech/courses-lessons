@@ -10,6 +10,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLesson
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLessonResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.LessonFileResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequestParams;
+import com.github.sankowskiwojciech.courseslessons.service.file.FilePermissionsService;
 import com.github.sankowskiwojciech.courseslessons.service.grouplesson.transformer.GroupLessonsQueryProvider;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.file.LessonFileService;
 import com.github.sankowskiwojciech.courseslessons.service.lesson.transformer.LessonsIdsAndListOfFilesWithoutContentProvider;
@@ -35,7 +36,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.ArgumentMatchers.anySet;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -47,11 +50,12 @@ public class GroupLLessonServiceImplTest {
     private final GroupLessonRepository groupLessonRepositoryMock = mock(GroupLessonRepository.class);
     private final LessonsIdsAndListOfFilesWithoutContentProvider lessonsIdsAndListOfFilesWithoutContentProviderMock = mock(LessonsIdsAndListOfFilesWithoutContentProvider.class);
     private final GroupLessonsQueryProvider groupLessonsQueryProviderMock = mock(GroupLessonsQueryProvider.class);
-    private final GroupLessonService testee = new GroupLessonServiceImpl(groupLessonRepositoryMock, fileRepositoryMock, lessonFileServiceMock, lessonsIdsAndListOfFilesWithoutContentProviderMock, groupLessonsQueryProviderMock);
+    private final FilePermissionsService filePermissionsServiceMock = mock(FilePermissionsService.class);
+    private final GroupLessonService testee = new GroupLessonServiceImpl(groupLessonRepositoryMock, fileRepositoryMock, lessonFileServiceMock, lessonsIdsAndListOfFilesWithoutContentProviderMock, groupLessonsQueryProviderMock, filePermissionsServiceMock);
 
     @Before
     public void reset() {
-        Mockito.reset(groupLessonRepositoryMock, fileRepositoryMock, lessonFileServiceMock, lessonsIdsAndListOfFilesWithoutContentProviderMock, groupLessonsQueryProviderMock);
+        Mockito.reset(groupLessonRepositoryMock, fileRepositoryMock, lessonFileServiceMock, lessonsIdsAndListOfFilesWithoutContentProviderMock, groupLessonsQueryProviderMock, filePermissionsServiceMock);
     }
 
     @Test
@@ -74,9 +78,10 @@ public class GroupLLessonServiceImplTest {
         //then
         verify(groupLessonRepositoryMock).save(any(GroupLessonEntity.class));
         verify(lessonFileServiceMock).attachFilesToLesson(entityStub.getId(), lessonStub.getFilesIds());
+        verify(filePermissionsServiceMock).addUserPermissionsToFilesToStudentsFromGroup(anyString(), anyCollection());
         verify(fileRepositoryMock).findAllByIdIn(anySet());
 
-        assertGroupLessonResponse(entityStub.getId(), lessonStub, response);
+        assertGroupLessonResponse(entityStub, response);
         assertLessonFileResponses(filesWithoutContent, response.getFilesInformation());
     }
 
@@ -96,7 +101,7 @@ public class GroupLLessonServiceImplTest {
         verify(groupLessonRepositoryMock).save(any(GroupLessonEntity.class));
         verify(lessonFileServiceMock).attachFilesToLesson(entityStub.getId(), lessonStub.getFilesIds());
         verifyNoInteractions(fileRepositoryMock);
-        assertGroupLessonResponse(entityStub.getId(), lessonStub, response);
+        assertGroupLessonResponse(entityStub, response);
         assertNotNull(response.getFilesInformation());
         assertTrue(response.getFilesInformation().isEmpty());
     }
@@ -136,16 +141,16 @@ public class GroupLLessonServiceImplTest {
         assertTrue(response.getFilesInformation().isEmpty());
     }
 
-    private void assertGroupLessonResponse(String id, GroupLesson lessonStub, GroupLessonResponse response) {
+    private void assertGroupLessonResponse(GroupLessonEntity lessonEntityStub, GroupLessonResponse response) {
         assertNotNull(response);
-        assertEquals(id, response.getId());
-        assertEquals(lessonStub.getTitle(), response.getTitle());
-        assertEquals(lessonStub.getStartDate(), response.getStartDate());
-        assertEquals(lessonStub.getEndDate(), response.getEndDate());
-        assertEquals(lessonStub.getDescription(), response.getDescription());
-        assertEquals(lessonStub.getSubdomainEntity().getSubdomainId(), response.getSubdomainAlias());
-        assertEquals(lessonStub.getTutorEntity().getEmailAddress(), response.getTutorEmailAddress());
-        assertEquals(lessonStub.getGroupEntity().getName(), response.getGroupName());
+        assertEquals(lessonEntityStub.getId(), response.getId());
+        assertEquals(lessonEntityStub.getTitle(), response.getTitle());
+        assertEquals(lessonEntityStub.getStartDate(), response.getStartDate());
+        assertEquals(lessonEntityStub.getEndDate(), response.getEndDate());
+        assertEquals(lessonEntityStub.getDescription(), response.getDescription());
+        assertEquals(lessonEntityStub.getSubdomainEntity().getSubdomainId(), response.getSubdomainAlias());
+        assertEquals(lessonEntityStub.getTutorEntity().getEmailAddress(), response.getTutorEmailAddress());
+        assertEquals(lessonEntityStub.getGroupEntity().getName(), response.getGroupName());
     }
 
     private void assertLessonFileResponses(List<FileWithoutContent> filesWithoutContent, List<LessonFileResponse> lessonFilesResponse) {

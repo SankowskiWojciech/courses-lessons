@@ -45,7 +45,7 @@ public class IndividualLessonServiceImpl implements IndividualLessonService {
         Set<String> filesIds = savedLessonFileAccessEntities.stream().map(LessonFileAccessEntity::getFileId).collect(Collectors.toSet());
         filePermissionsService.addUserPermissionsToFiles(savedLessonEntity.getStudentEntity().getEmailAddress(), filesIds);
         List<FileWithoutContent> filesWithoutContent = filesIds.isEmpty() ? Collections.emptyList() : fileRepository.findAllByIdIn(filesIds);
-        return IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse.getInstance().apply(lessonEntity, filesWithoutContent);
+        return IndividualLessonEntityAndLessonFilesWithoutContentToIndividualLessonResponse.getInstance().apply(savedLessonEntity, filesWithoutContent);
     }
 
     @Override

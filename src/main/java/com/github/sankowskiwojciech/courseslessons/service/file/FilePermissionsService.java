@@ -8,5 +8,7 @@ public interface FilePermissionsService {
 
     void addUserPermissionsToFiles(String userId, Collection<String> filesIds);
 
+    void addUserPermissionsToFilesToStudentsFromGroup(String groupId, Collection<String> filesIds);
+
     Set<String> readIdsOfFilesToWhichUserHasAccess(String userId);
 }

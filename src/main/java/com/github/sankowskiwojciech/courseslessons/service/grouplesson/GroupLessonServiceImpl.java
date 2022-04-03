@@ -9,6 +9,7 @@ import com.github.sankowskiwojciech.coursescorelib.model.db.lesson.LessonFileAcc
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLesson;
 import com.github.sankowskiwojciech.coursescorelib.model.grouplesson.GroupLessonResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.lesson.request.LessonRequestParams;
+import com.github.sankowskiwojciech.courseslessons.service.file.FilePermissionsService;
 import com.github.sankowskiwojciech.courseslessons.service.grouplesson.transformer.GroupLessonEntityAndLessonFilesWithoutContentToGroupLessonResponse;
 import com.github.sankowskiwojciech.courseslessons.service.grouplesson.transformer.GroupLessonToGroupLessonEntity;
 import com.github.sankowskiwojciech.courseslessons.service.grouplesson.transformer.GroupLessonsQueryProvider;
@@ -34,6 +35,7 @@ public class GroupLessonServiceImpl implements GroupLessonService {
     private final LessonFileService lessonFileService;
     private final LessonsIdsAndListOfFilesWithoutContentProvider lessonsIdsAndListOfFilesWithoutContentProvider;
     private final GroupLessonsQueryProvider groupLessonsQueryProvider;
+    private final FilePermissionsService filePermissionsService;
 
     @Transactional
     @Override
@@ -42,8 +44,9 @@ public class GroupLessonServiceImpl implements GroupLessonService {
         GroupLessonEntity savedLessonEntity = groupLessonRepository.save(lessonEntity);
         List<LessonFileAccessEntity> savedLessonFileAccessEntities = lessonFileService.attachFilesToLesson(savedLessonEntity.getId(), lesson.getFilesIds());
         Set<String> filesIds = savedLessonFileAccessEntities.stream().map(LessonFileAccessEntity::getFileId).collect(Collectors.toSet());
+        filePermissionsService.addUserPermissionsToFilesToStudentsFromGroup(savedLessonEntity.getId(), filesIds);
         List<FileWithoutContent> filesWithoutContent = filesIds.isEmpty() ? Collections.emptyList() : fileRepository.findAllByIdIn(filesIds);
-        return GroupLessonEntityAndLessonFilesWithoutContentToGroupLessonResponse.getInstance().apply(lessonEntity, filesWithoutContent);
+        return GroupLessonEntityAndLessonFilesWithoutContentToGroupLessonResponse.getInstance().apply(savedLessonEntity, filesWithoutContent);
     }
 
     @Override
