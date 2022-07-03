@@ -1,12 +1,12 @@
-package com.github.sankowskiwojciech.courseslessons.controller.student;
+package com.github.sankowskiwojciech.courseslessons.controller.group;
 
 import com.github.sankowskiwojciech.coursescorelib.model.db.token.TokenEntity;
-import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToAccessStudentsInformationException;
-import com.github.sankowskiwojciech.coursescorelib.model.student.StudentResponse;
+import com.github.sankowskiwojciech.coursescorelib.model.exception.permission.UserNotAllowedToAccessGroupsInformationException;
+import com.github.sankowskiwojciech.coursescorelib.model.group.GroupResponse;
 import com.github.sankowskiwojciech.coursescorelib.model.subdomain.Subdomain;
 import com.github.sankowskiwojciech.coursescorelib.service.subdomain.SubdomainService;
 import com.github.sankowskiwojciech.courseslessons.controller.validator.AccountValidator;
-import com.github.sankowskiwojciech.courseslessons.service.student.StudentService;
+import com.github.sankowskiwojciech.courseslessons.service.group.GroupService;
 import com.github.sankowskiwojciech.courseslessons.service.tokenvalidation.TokenValidationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,20 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
 @AllArgsConstructor
-@RequestMapping("/students")
-public class StudentController {
+@RestController
+@RequestMapping("/groups")
+public class GroupController {
     private final TokenValidationService tokenValidationService;
     private final SubdomainService subdomainService;
-    private final StudentService studentService;
+    private final GroupService groupService;
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
-    public List<StudentResponse> readStudents(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam(value = "subdomainAlias") String subdomainAlias) {
+    public List<GroupResponse> readGroups(@RequestHeader(value = "Authorization") String authorizationHeaderValue, @RequestParam(value = "subdomainAlias") String subdomainAlias) {
         TokenEntity token = tokenValidationService.validateToken(authorizationHeaderValue);
-        AccountValidator.validateIfUserIsTutor(token, new UserNotAllowedToAccessStudentsInformationException());
+        AccountValidator.validateIfUserIsTutor(token, new UserNotAllowedToAccessGroupsInformationException());
         Subdomain subdomain = subdomainService.validateIfUserHasAccessToSubdomain(subdomainAlias, token.getUserEmailAddress());
-        return studentService.readStudents(subdomain.getAlias(), token.getUserEmailAddress());
+        return groupService.readGroups(subdomain.getAlias(), token.getUserEmailAddress());
     }
 }
